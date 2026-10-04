@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="theme-color" content="#f8fbff"><title>Application received | Karka AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="{{ url_for('static', filename='js/smooth.js') }}" defer></script></head>
+<body class="form-page form-page-light"><div class="form-bg" aria-hidden="true"><span></span><span></span><span></span></div>
+<main class="success-wrap"><div class="success-icon">✓</div><span class="form-eyebrow">APPLICATION RECEIVED</span><h1>Thank you, <span>{{ name }}.</span></h1><p>Your enrollment application has been saved. The Karka AI team can follow up using the contact details you provided.</p><a class="cta" href="{{ url_for('home') }}">Back to home <span>↗</span></a></main>
+{% include "_chatbot.html" %}
+</body></html>

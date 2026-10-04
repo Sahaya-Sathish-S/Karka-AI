@@ -1,0 +1,43 @@
+<!-- KARKA AI DOUBT BOT -->
+<div class="karka-bot-root" data-chat-endpoint="{{ url_for('karka_chat') }}">
+  <button class="karka-bot-launcher" id="karkaBotLauncher" type="button" aria-label="Ask Karka AI" aria-expanded="false">
+    <span class="karka-bot-launcher-ring"></span>
+    <span class="karka-bot-launcher-avatar"><img src="{{ url_for('static', filename='images/ai-robot.webp') }}" alt="Karka AI robot"></span>
+    <span class="karka-bot-question">?</span>
+    <span class="karka-bot-ping"></span>
+  </button>
+
+  <aside class="karka-bot-panel" id="karkaBotPanel" aria-hidden="true" aria-label="Karka AI doubt assistant">
+    <div class="karka-bot-backdrop" id="karkaBotBackdrop"></div>
+    <section class="karka-bot-window" role="dialog" aria-modal="true" aria-labelledby="karkaBotTitle">
+      <header class="karka-bot-head">
+        <div class="karka-bot-brand">
+          <div class="karka-bot-head-avatar"><img src="{{ url_for('static', filename='images/ai-robot.webp') }}" alt=""></div>
+          <div><span class="karka-bot-eyebrow">KARKA AI · DOUBT DESK</span><h2 id="karkaBotTitle">Ask anything. <span>We’ll figure it out.</span></h2><small><i></i> AI mentor online</small></div>
+        </div>
+        <button class="karka-bot-close" id="karkaBotClose" type="button" aria-label="Close Karka AI assistant">×</button>
+      </header>
+
+      <div class="karka-bot-toolbar">
+        <label><span>Language</span><select id="karkaBotLanguage" aria-label="Assistant language">
+          <option value="en-IN">English</option><option value="ta-IN">தமிழ் · Tamil</option><option value="hi-IN">हिन्दी · Hindi</option><option value="ml-IN">മലയാളം · Malayalam</option><option value="te-IN">తెలుగు · Telugu</option><option value="kn-IN">ಕನ್ನಡ · Kannada</option><option value="mr-IN">मराठी · Marathi</option><option value="bn-IN">বাংলা · Bengali</option>
+        </select></label>
+        <button class="karka-bot-mic" id="karkaBotMic" type="button" aria-pressed="false" aria-label="Record your question"><span class="mic-icon">●</span><span id="karkaBotMicText">Record</span></button>
+      </div>
+
+      <div class="karka-bot-voice-state" id="karkaBotVoiceState" hidden><span class="voice-bars"><i></i><i></i><i></i><i></i><i></i></span><b>Recording…</b><span>Speak now · tap Stop when finished</span></div>
+
+      <div class="karka-bot-messages" id="karkaBotMessages" aria-live="polite">
+        <div class="karka-bot-message bot"><div class="bot-mark">✦</div><div><p>Hi! I’m <strong>Karka AI</strong>. Ask me about courses, fees, placements, internships, projects, eligibility, mentors, career tracks or how to enroll.</p><small>Voice + chat · multilingual</small></div></div>
+        <div class="karka-bot-suggestions" id="karkaBotSuggestions"><button type="button">Which course is best for me?</button><button type="button">How does Pay After Placement work?</button><button type="button">Do I need coding experience?</button><button type="button">Tell me about internships.</button></div>
+      </div>
+
+      <form class="karka-bot-composer" id="karkaBotForm">
+        <div class="karka-bot-input-wrap"><textarea id="karkaBotInput" rows="1" maxlength="1200" placeholder="Ask your doubt…" aria-label="Ask Karka AI"></textarea><span id="karkaBotChars">0 / 1200</span></div>
+        <button class="karka-bot-send" id="karkaBotSend" type="submit" aria-label="Send message"><span>↗</span></button>
+      </form>
+      <footer class="karka-bot-foot"><span>🔒 Your API key stays on the server</span><span>Powered by OpenRouter</span></footer>
+    </section>
+  </aside>
+</div>
+<script src="{{ url_for('static', filename='js/chatbot.js') }}" defer></script>

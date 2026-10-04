@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Explore all Karka AI courses — school, college, professional and career-switcher pathways.">
+  <meta name="theme-color" content="#f8fbff">
+  <title>Explore All Courses | Karka AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="{{ url_for('static', filename='js/smooth.js') }}" defer></script>
+</head>
+<body class="all-courses-page">
+  <div class="all-courses-bg"><span></span><span></span><span></span></div>
+  <header class="all-courses-nav">
+    <a class="all-courses-brand" href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo.webp') }}" alt="Karka AI"><strong>KARKA <em>AI</em></strong></a>
+    <nav><a href="{{ url_for('home') }}">Home</a><a class="active" href="{{ url_for('courses_page') }}">All Courses</a><a href="{{ url_for('home') }}#voices">Success Stories</a><a href="{{ url_for('home') }}#career-call">Career Call</a></nav>
+    <a class="all-courses-nav-btn" href="{{ url_for('enroll') }}">Apply Now <span>↗</span></a>
+  </header>
+
+  <main>
+    <section class="courses-hub-hero">
+      <div class="hub-kicker"><i></i> KARKA ACADEMY · LEARN / BUILD / LEAD <i></i></div>
+      <h1>Find the <span>right path</span> for your future.</h1>
+      <p>Explore every learning pathway in one place. Filter by learner stage, search by skill, compare programs and move directly into course details or admission.</p>
+      <div class="hub-stats"><span><b>{{ courses|length }}+</b> learning pathways</span><span><b>4.8★</b> learner rating</span><span><b>AI</b> infused education</span></div>
+    </section>
+
+    <section class="courses-hub-tools" aria-label="Course search and categories">
+      <div class="hub-search"><span>⌕</span><input id="courseSearch" type="search" placeholder="Search Python, AI, React, design..." autocomplete="off"><kbd>⌘ K</kbd></div>
+      <div class="hub-filters" role="tablist" aria-label="Course categories">
+        <button class="hub-filter is-active" data-filter="all" role="tab" aria-selected="true">All</button>
+        <button class="hub-filter" data-filter="school" role="tab" aria-selected="false">School</button>
+        <button class="hub-filter" data-filter="college" role="tab" aria-selected="false">College</button>
+        <button class="hub-filter" data-filter="professional" role="tab" aria-selected="false">Professional</button>
+        <button class="hub-filter" data-filter="switcher" role="tab" aria-selected="false">Career Switchers</button>
+      </div>
+    </section>
+
+    <section class="courses-hub-grid" id="courseGrid" aria-live="polite">
+      {% for course in courses %}
+      {% set cats = {'python-for-kids':'school college','mern-full-stack':'college professional switcher','ai-data-science':'college professional switcher','ui-ux-design':'college professional switcher','advanced-mern':'professional switcher','generative-ai':'college professional switcher'}[course.slug] %}
+      <article class="hub-course-card" data-categories="{{ cats }}" data-search="{{ (course.title ~ ' ' ~ course.track ~ ' ' ~ course.tagline ~ ' ' ~ course.overview)|lower }}">
+        <div class="hub-card-top"><span class="hub-card-index">{{ '%02d'|format(loop.index) }}</span><span class="hub-card-stage">{{ 'School' if 'school' in cats else ('Professional' if 'professional' in cats and 'college' not in cats else 'College') }}</span></div>
+        <div class="hub-card-visual"><div class="hub-card-glow"></div><video muted loop playsinline preload="metadata" poster="{{ url_for('static', filename='images/hero-visual.png') }}"><source src="{{ url_for('static', filename='videos/' ~ course.video) }}" type="video/mp4"></video><div class="hub-video-shade"></div><span>COURSE PREVIEW</span></div>
+        <div class="hub-card-body"><div class="hub-tags"><span>{{ course.track }}</span><span>{{ course.duration }}</span></div><h2>{{ course.title }}</h2><p>{{ course.tagline }}</p><div class="hub-card-stats"><span><b>{{ course.enrollments }}</b> learners</span><span><b>{{ course.rating }} ★</b> rating</span></div><div class="hub-card-actions"><a href="{{ url_for('course_detail', slug=course.slug) }}" class="hub-btn hub-btn-light">Course Details <b>↗</b></a><a href="{{ url_for('enroll', track=course.track) }}" class="hub-btn hub-btn-glow">Enroll Now <b>→</b></a></div></div>
+      </article>
+      {% endfor %}
+      <div class="hub-empty" id="courseEmpty" hidden><div>⌁</div><h2>No matching course yet.</h2><p>Try a different keyword or category. Our mentors can also help you choose the right path.</p><a href="{{ url_for('home') }}#career-call">Talk to a mentor →</a></div>
+    </section>
+  </main>
+
+  <section class="hub-final-cta"><div><span>✦ YOUR NEXT MOVE</span><h2>Not sure which course fits you?</h2><p>Book a free career call and get a clear recommendation from our mentors.</p></div><a href="{{ url_for('home') }}#career-call">Get Free Guidance <b>↗</b></a></section>
+
+  <footer class="site-footer courses-page-footer" aria-label="Karka AI footer">
+    <div class="footer-glow footer-glow-a"></div><div class="footer-glow footer-glow-b"></div>
+    <div class="footer-shell">
+      <div class="footer-brand-col"><a class="footer-brand" href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo.webp') }}" alt="Karka AI"><span>KARKA <em>AI</em></span></a><p>Empowering the next generation of developers with GenAI Infused education and placement-focused mentorship.</p><div class="footer-socials"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Instagram">◎</a><a href="#" aria-label="LinkedIn">in</a></div></div>
+      <div class="footer-links-col"><h3>Our Programs</h3><a href="{{ url_for('home') }}">Home</a><a href="{{ url_for('courses_page') }}">All Courses</a><a href="{{ url_for('home') }}#job-ready-pillars">Placement</a><a href="{{ url_for('home') }}#career-call">Free Roadmap</a></div>
+      <div class="footer-links-col"><h3>Karka AI</h3><a href="{{ url_for('home') }}#about">About Us</a><a href="{{ url_for('home') }}#career-call">Our Mentors</a><a href="{{ url_for('home') }}#voices">Success Stories</a><a href="{{ url_for('home') }}#contact">Contact / Location</a></div>
+      <div class="footer-contact-col"><h3>Stay Updated</h3><form class="footer-newsletter" onsubmit="return false"><input type="email" placeholder="Enter your email" aria-label="Enter your email"><button type="submit" aria-label="Subscribe">→</button></form><div class="footer-contact"><div><span>Karka AI HQ</span><strong><a href="{{ maps_url }}" target="_blank" rel="noopener noreferrer">Nagercoil, Tamil Nadu, India ↗</a></strong></div><div><span>Phone</span><strong>+91 9487530243</strong></div></div></div>
+    </div><div class="footer-bottom"><span>© 2026 Karka AI. Built for the next generation.</span><span>Learn · Build · Lead</span></div>
+  </footer>
+
+<script>
+(() => {
+  const search = document.getElementById('courseSearch');
+  const filters = [...document.querySelectorAll('.hub-filter')];
+  const cards = [...document.querySelectorAll('.hub-course-card')];
+  const empty = document.getElementById('courseEmpty');
+  let filter = 'all';
+  const apply = () => {
+    const q = search.value.trim().toLowerCase(); let visible = 0;
+    cards.forEach(card => {
+      const okFilter = filter === 'all' || card.dataset.categories.split(' ').includes(filter);
+      const okSearch = !q || card.dataset.search.includes(q);
+      const show = okFilter && okSearch; card.hidden = !show; if(show) visible++;
+    });
+    empty.hidden = visible !== 0;
+  };
+  filters.forEach(btn => btn.addEventListener('click', () => { filter = btn.dataset.filter; filters.forEach(x => { x.classList.toggle('is-active', x===btn); x.setAttribute('aria-selected', x===btn ? 'true':'false'); }); apply(); }));
+  search.addEventListener('input', apply);
+  document.addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase()==='k') { e.preventDefault(); search.focus(); } });
+  cards.forEach(card => { const video = card.querySelector('video'); card.addEventListener('mouseenter',()=>video.play().catch(()=>{})); card.addEventListener('mouseleave',()=>{video.pause(); video.currentTime=0;}); });
+})();
+</script>
+{% include "_chatbot.html" %}
+</body>
+</html>

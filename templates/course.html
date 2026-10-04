@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="{{ course.title }} — {{ course.tagline }}">
+  <meta name="theme-color" content="#090812">
+  <title>{{ course.title }} | Karka AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="{{ url_for('static', filename='js/smooth.js') }}" defer></script>
+</head>
+<body class="course-page">
+  <div class="course-page-bg"></div>
+  <header class="course-nav">
+    <a href="{{ url_for('home') }}" class="course-brand">
+      <img src="{{ url_for('static', filename='images/logo.webp') }}" alt="Karka AI Logo">
+    </a>
+    <nav>
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('home') }}#courses" class="active">Courses</a>
+      <a href="{{ url_for('home') }}#voices">Learner Stories</a>
+    </nav>
+    <a class="nav-course-btn" href="{{ url_for('home') }}#courses">All Courses <span>↗</span></a>
+  </header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}
+  <div class="callback-success callback-error" role="alert"><span>!</span><div><strong>{{ message }}</strong></div><button type="button" onclick="this.parentElement.remove()">×</button></div>
+  {% endfor %}{% endwith %}
+  {% if request.args.get('callback') == 'success' %}
+  <div class="callback-success">
+    <span>✓</span>
+    <div><strong>Callback request received.</strong><small>Our academic team will contact you soon.</small></div>
+    <button type="button" onclick="this.parentElement.remove()">×</button>
+  </div>
+  {% endif %}
+
+  <main>
+    <section class="course-hero-new">
+      <div class="hero-new-copy">
+        <a class="back-courses" href="{{ url_for('home') }}#courses">← Back to courses</a>
+        <div class="course-breadcrumb"><span>COURSES</span><i>/</i><b>{{ course.title }}</b></div>
+        {% if course.slug == 'mern-full-stack' %}<span class="popular-chip">✦ MOST POPULAR CHOICE</span>{% endif %}
+        <span class="course-page-kicker">KARKA AI ACADEMY • {{ course.track|upper }}</span>
+        <h1>{{ course.title }}</h1>
+        <p class="hero-course-tagline">{{ course.tagline }}</p>
+        <div class="hero-stat-row">
+          <div><strong>{{ course.enrollments }}</strong><span>Students</span></div>
+          <div><strong>{{ course.rating }} <em>★★★★★</em></strong><span>{{ course.ratings }} ratings</span></div>
+          <div><strong>✓</strong><span>Certificate Included</span></div>
+        </div>
+        <div class="hero-course-actions">
+          <a class="course-main-btn" href="{{ url_for('enroll', track=course.track) }}">Enroll in {{ course.title }} <span>→</span></a>
+          <a class="course-outline-btn" href="#curriculum">View Syllabus <span>↓</span></a>
+        </div>
+      </div>
+      <div class="hero-new-media">
+        <div class="media-glow"></div>
+        <div class="course-video-large">
+          <div class="video-top"><span><i></i> COURSE PREVIEW</span><b>{{ course.duration }}</b></div>
+          <video autoplay muted loop playsinline controls preload="metadata" poster="{{ url_for('static', filename='images/hero-visual.png') }}">
+            <source src="{{ url_for('static', filename='videos/' ~ course.video) }}" type="video/mp4">
+          </video>
+          <div class="video-bottom">
+            <span>LEARN • BUILD • PROVE</span>
+            <span>{{ course.level }}</span>
+          </div>
+        </div>
+        <div class="floating-course-card card-one"><span>01</span><b>Practical</b><small>industry projects</small></div>
+        <div class="floating-course-card card-two"><span>02</span><b>Mentored</b><small>career-focused learning</small></div>
+      </div>
+    </section>
+
+    <section class="details-strip section-shell">
+      <div><span class="strip-icon">◷</span><small>Duration</small><strong>{{ course.duration }}</strong></div>
+      <div><span class="strip-icon">◎</span><small>Level</small><strong>{{ course.level }}</strong></div>
+      <div><span class="strip-icon">▦</span><small>Total Lessons</small><strong>{{ course.lessons }}</strong></div>
+      <div><span class="strip-icon">⌁</span><small>Training Mode</small><strong>{{ course.mode|join('  ·  ') }}</strong></div>
+    </section>
+
+    <section class="content-section section-shell overview-section">
+      <div class="section-heading">
+        <span class="section-number">01 / OVERVIEW</span>
+        <h2>Program <span>Overview</span></h2>
+      </div>
+      <div class="overview-grid">
+        <div class="overview-copy">
+          <p>{{ course.overview }}</p>
+          <div class="typing-banner"><span>✦</span><span id="courseTyping">Build skills that move you forward.</span><b>|</b></div>
+        </div>
+        <div class="overview-mini">
+          <div><strong>100%</strong><span>placement-focused journey</span></div>
+          <div><strong>AI</strong><span>infused practical learning</span></div>
+          <div><strong>01:01</strong><span>mentor-led project mindset</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section section-shell why-learn-section">
+      <div class="section-heading centered">
+        <span class="section-number">02 / WHY THIS COURSE</span>
+        <h2>Why learn <span>{{ course.title }}?</span></h2>
+        <p>{{ course.why_lead }}</p>
+      </div>
+      <div class="reason-grid">
+        {% for item in course.why %}
+        <article class="reason-card">
+          <div class="reason-top"><span>0{{ loop.index }}</span><i>↗</i></div>
+          <h3>{{ item[0] }}</h3>
+          <p>{{ item[1] }}</p>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="content-section section-shell curriculum-section" id="curriculum">
+      <div class="section-heading">
+        <span class="section-number">03 / CURRICULUM</span>
+        <h2>{{ course.title }} <span>Curriculum</span></h2>
+        <p>A structured path from foundations to practical, portfolio-ready skills.</p>
+      </div>
+      <div class="curriculum-grid">
+        {% for module in course.curriculum %}
+        <article class="module-card">
+          <div class="module-number">0{{ loop.index }}</div>
+          <div class="module-content">
+            <span>MODULE {{ loop.index }}</span>
+            <h3>{{ module[0] }}</h3>
+            <ul>{% for lesson in module[1] %}<li>{{ lesson }}</li>{% endfor %}</ul>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="why-karka-course section-shell">
+      <div class="course-section-image">
+        <img src="{{ url_for('static', filename='images/why-karka-background.png') }}" alt="" aria-hidden="true">
+        <div class="image-overlay">
+          <span>THE KARKA DIFFERENCE</span>
+          <strong>Job-ready,<br>not just<br>certificate-ready.</strong>
+        </div>
+      </div>
+      <div class="why-karka-course-copy">
+        <span class="section-number">04 / WHY CHOOSE KARKA</span>
+        <h2>Why choose Karka for <span>{{ course.title }}?</span></h2>
+        <p class="section-lead">Six reasons our students graduate job-ready, not just certificate-ready.</p>
+        <div class="karka-reasons">
+          <article><b>01</b><div><h3>Zero Upfront Fees</h3><p>Learn with a career-focused model where tuition is designed around your employment journey.</p></div></article>
+          <article><b>02</b><div><h3>AI-First Practical Curriculum</h3><p>Use modern generative AI workflows alongside the core skills of your chosen course.</p></div></article>
+          <article><b>03</b><div><h3>Real-World Agency Projects</h3><p>Build practical assets and production-style projects instead of relying only on textbook exercises.</p></div></article>
+          <article><b>04</b><div><h3>Guaranteed Internship Experience</h3><p>Get hands-on exposure through industry-style deliverables and supervised practical work.</p></div></article>
+          <article><b>05</b><div><h3>Multi-Skill Advantage</h3><p>Develop complementary skills that help you become more versatile and portfolio-ready.</p></div></article>
+          <article><b>06</b><div><h3>End-to-End Placement Support</h3><p>Get mentoring, ATS-focused resume support, mock interviews and hiring guidance.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="career-section section-shell">
+      <div class="career-heading">
+        <span class="section-number">05 / CAREER</span>
+        <h2>Your Career,<br><span>Our Responsibility.</span></h2>
+        <p>We don't just teach you; we prepare you for your next opportunity with structured career support.</p>
+      </div>
+      <div class="career-content">
+        <div class="career-points">
+          <div><span>01</span><strong>1-on-1 Career Mentoring</strong></div>
+          <div><span>02</span><strong>Unlimited Mock Interviews</strong></div>
+          <div><span>03</span><strong>Resume & Portfolio Building</strong></div>
+          <div><span>04</span><strong>Industry Networking</strong></div>
+        </div>
+        <div class="placement-card">
+          <div class="placement-ring"><strong>95%</strong><span>Placement Rate</span></div>
+          <p>Consistent track record of success</p>
+        </div>
+      </div>
+      <div class="course-testimonial">
+        <span class="quote-mark">“</span>
+        <blockquote>{{ course.testimonial }}</blockquote>
+        <small>— {{ course.title }} Graduate Review</small>
+      </div>
+    </section>
+
+    <section class="content-section section-shell admission-section">
+      <div class="section-heading centered">
+        <span class="section-number">06 / ADMISSION</span>
+        <h2>{{ course.title }} <span>Admission Process</span></h2>
+      </div>
+      <div class="admission-grid">
+        {% for step in course.admission %}
+        <article><div class="admission-number">0{{ loop.index }}</div><span>STEP {{ loop.index }}</span><h3>{{ step[0] }}</h3><p>{{ step[1] }}</p></article>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="comparison-section section-shell">
+      <div class="section-heading centered">
+        <span class="section-number">07 / THE DIFFERENCE</span>
+        <h2>How our {{ course.title }} <span>compares</span></h2>
+        <p>See how a practical, mentor-led journey is structured beside a standard course format.</p>
+      </div>
+      <div class="comparison-wrap">
+        <table>
+          <thead><tr><th>Feature</th><th>This Program</th><th>Standard Courses</th></tr></thead>
+          <tbody>
+            <tr><td>Curriculum</td><td><b>Industry-Aligned & Updated</b></td><td>Theoretical</td></tr>
+            <tr><td>Mentorship</td><td><b>1-on-1 with Experts</b></td><td>Group Sessions only</td></tr>
+            <tr><td>Placement</td><td><b>Dedicated Support</b></td><td>Limited / None</td></tr>
+            <tr><td>Projects</td><td><b>Live Industry Projects</b></td><td>Basic Exercises</td></tr>
+            <tr><td>Internship</td><td><b>Chance to work on Internship @AgileTribers</b></td><td>No Official Support</td></tr>
+            <tr><td>Community</td><td><b>Alumni Network Access</b></td><td>Limited Access</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="instructor-section section-shell">
+      <div class="section-heading">
+        <span class="section-number">08 / INSTRUCTORS</span>
+        <h2>Meet your {{ course.title }} <span>instructor</span></h2>
+      </div>
+      <div class="instructor-card">
+        <div class="instructor-avatar">{{ course.instructor[0][:1] }}</div>
+        <div class="instructor-info"><span>INDUSTRY MENTOR</span><h3>{{ course.instructor[0] }}</h3><p>{{ course.instructor[1] }} · {{ course.instructor[2] }}</p><strong>{{ course.instructor[3] }}</strong></div>
+        <div class="instructor-side"><span>01</span><p>Practical guidance<br>through every stage.</p></div>
+      </div>
+    </section>
+
+    <section class="faq-section section-shell">
+      <div class="section-heading centered">
+        <span class="section-number">09 / FAQ</span>
+        <h2>{{ course.title }} <span>FAQs</span></h2>
+      </div>
+      <div class="faq-list">
+        {% for faq in course.faqs %}
+        <details>
+          <summary><span>{{ "%02d"|format(loop.index) }}</span>{{ faq[0] }}<b>+</b></summary>
+          <div class="faq-answer"><p>{{ faq[1] }}</p></div>
+        </details>
+        {% endfor %}
+      </div>
+    </section>
+
+    <section class="questions-section section-shell">
+      <div>
+        <span class="section-number">10 / TALK TO US</span>
+        <h2>Still have <span>questions?</span></h2>
+        <p>Our academic counselors are here to help you make the right choice for your learning and career journey.</p>
+      </div>
+      <div class="question-actions">
+        <button type="button" class="callback-btn" id="callbackOpen">Request a Callback <span>↗</span></button>
+        <a class="whatsapp-btn" href="https://wa.me/919487530243?text=Hi%20Karka%20AI%2C%20I%20have%20a%20question%20about%20{{ course.title|urlencode }}." target="_blank" rel="noopener">Chat on WhatsApp <span>↗</span></a>
+      </div>
+    </section>
+
+    <section class="final-cta">
+      <div class="final-cta-glow"></div>
+      <span>READY FOR THE NEXT STEP?</span>
+      <h2>Future-proof your <em>career.</em></h2>
+      <p>Join Karka AI and start your journey with practical learning and industry mentors.</p>
+      <div><a class="course-main-btn" href="{{ url_for('enroll', track=course.track) }}">Apply for Admission <span>→</span></a><a class="course-outline-btn" href="{{ url_for('home') }}#courses">Explore Courses <span>↗</span></a></div>
+    </section>
+  </main>
+
+  <footer class="course-footer">
+    <div class="footer-main">
+      <div class="footer-brand"><img src="{{ url_for('static', filename='images/logo.webp') }}" alt="Karka AI Logo"><p>Empowering the next generation of developers with GenAI-infused education and placement-focused mentorship.</p><div class="social-links"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Instagram">ig</a><a href="#" aria-label="LinkedIn">in</a></div></div>
+      <div><h4>Our Programs</h4><a href="{{ url_for('home') }}">Home</a><a href="{{ url_for('home') }}#courses">All Courses</a><a href="{{ url_for('home') }}#job-ready-pillars">Placement</a><a href="{{ url_for('home') }}#career-call">Free Roadmap</a></div>
+      <div><h4>Karka AI</h4><a href="{{ url_for('home') }}#about">About Us</a><a href="{{ url_for('home') }}#career-call">Our Mentors</a><a href="{{ url_for('home') }}#voices">Success Stories</a><a href="#">Hire From Us</a><a href="{{ url_for('home') }}#contact">Contact / Location</a></div>
+      <div class="footer-contact"><h4>Stay Updated</h4><div class="footer-email"><input type="email" placeholder="Enter your email"><button>→</button></div><span>Karka AI HQ</span><strong><a href="{{ maps_url }}" target="_blank" rel="noopener noreferrer">Nagercoil, Tamil Nadu, India ↗</a></strong><span>Phone</span><strong>+91 9487530243</strong></div>
+    </div>
+    <div class="footer-bottom"><span>© 2026 Karka AI. All rights reserved.</span><span>Privacy Policy · Terms of Service</span><b>Built with Passion by Karka</b></div>
+  </footer>
+
+  <div class="callback-modal" id="callbackModal" aria-hidden="true">
+    <div class="modal-backdrop" id="callbackClose"></div>
+    <div class="callback-card" role="dialog" aria-modal="true" aria-labelledby="callbackTitle">
+      <button class="modal-x" id="callbackX" type="button" aria-label="Close">×</button>
+      <span class="section-number">ACADEMIC COUNSELOR</span>
+      <h2 id="callbackTitle">Request a <span>callback.</span></h2>
+      <p>Leave your details and our team will contact you about {{ course.title }}.</p>
+      <form method="post" action="{{ url_for('request_callback') }}">
+        <input type="hidden" name="course" value="{{ course.slug }}">
+        <label>Full name<input name="name" required maxlength="100" placeholder="Your name"></label>
+        <label>WhatsApp number<input name="whatsapp" required placeholder="+91 98765 43210"></label>
+        <label>Preferred time<select name="preferred_time"><option>Anytime</option><option>Morning</option><option>Afternoon</option><option>Evening</option></select></label>
+        <button type="submit" class="course-main-btn">Request Callback <span>→</span></button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+  (() => {
+    const typing = document.getElementById('courseTyping');
+    if (typing && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      const lines = [
+        'Build skills that move you forward.',
+        'Learn. Build. Prove your ability.',
+        'Turn practical learning into career confidence.',
+        'Create work you are proud to show.'
+      ];
+      let li=0, ci=0, del=false;
+      const tick=()=>{
+        const t=lines[li];
+        typing.textContent=t.slice(0,ci);
+        if(!del){ci++; if(ci>t.length){del=true;return setTimeout(tick,1500)}}
+        else {ci--; if(ci<0){ci=0;del=false;li=(li+1)%lines.length}}
+        setTimeout(tick,del?28:48);
+      };
+      tick();
+    }
+    const modal=document.getElementById('callbackModal');
+    const open=document.getElementById('callbackOpen');
+    const close=()=>{modal.classList.remove('show');modal.setAttribute('aria-hidden','true');document.body.classList.remove('modal-open')};
+    open?.addEventListener('click',()=>{modal.classList.add('show');modal.setAttribute('aria-hidden','false');document.body.classList.add('modal-open');modal.querySelector('input[name="name"]')?.focus()});
+    document.getElementById('callbackClose')?.addEventListener('click',close);
+    document.getElementById('callbackX')?.addEventListener('click',close);
+    document.addEventListener('keydown',e=>{if(e.key==='Escape')close()});
+    document.querySelectorAll('.faq-list details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)document.querySelectorAll('.faq-list details').forEach(x=>{if(x!==d)x.open=false})}));
+  })();
+  </script>
+{% include "_chatbot.html" %}
+</body>
+</html>

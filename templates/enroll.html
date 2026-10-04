@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f8fbff">
+  <title>Apply for Enrollment | Karka AI</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="{{ url_for('static', filename='js/smooth.js') }}" defer></script>
+</head>
+<body class="form-page form-page-light">
+  <div class="form-bg" aria-hidden="true"><span></span><span></span><span></span></div>
+  <header class="form-nav"><a href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo.webp') }}" alt="Karka AI" width="160" height="41"></a><a class="back-link" href="{{ url_for('home') }}">← Back to home</a></header>
+  <main class="enroll-wrap">
+    <section class="enroll-card">
+      <div class="form-intro">
+        <span class="form-eyebrow"><span class="live-dot"></span> ADMISSIONS OPEN</span>
+        <h1>Apply for <span>enrollment.</span></h1>
+        <p>Take the first step toward your next opportunity. Share your details and choose the career track that interests you.</p>
+      </div>
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}<div class="alert {{ category }}">{{ message }}</div>{% endfor %}
+        {% endif %}
+      {% endwith %}
+      <form method="post" action="{{ url_for('enroll') }}" class="enroll-form">
+        <label for="name">Full name</label>
+        <input id="name" name="name" type="text" placeholder="Enter your full name" maxlength="100" required autocomplete="name" value="{{ form.get('name', '') }}">
+        <div class="form-row">
+          <div><label for="whatsapp">WhatsApp number</label><input id="whatsapp" name="whatsapp" type="tel" placeholder="+91 98765 43210" required autocomplete="tel" value="{{ form.get('whatsapp', '') }}"></div>
+          <div><label for="email">Gmail / Email ID</label><input id="email" name="email" type="email" placeholder="you@example.com" required autocomplete="email" value="{{ form.get('email', '') }}"></div>
+        </div>
+        <label for="track">Select your career track</label>
+        <div class="select-wrap"><select id="track" name="track" required>
+          <option value="" disabled {% if not selected_track %}selected{% endif %}>Choose a learning path</option>
+          {% for track in tracks %}<option value="{{ track }}" {% if selected_track == track %}selected{% endif %}>{{ track }}</option>{% endfor %}
+        </select><span class="select-arrow">⌄</span></div>
+        <button class="cta submit-cta" type="submit">Apply for enrollment <span>↗</span></button>
+        <p class="form-note"><span>✦</span> Your details will be used only to contact you about enrollment.</p>
+      </form>
+    </section>
+    <div class="form-side-note"><span class="side-orb"></span><p>Learn with purpose.<br><b>Build without limits.</b></p><small>KARKA AI · NAGERCOIL</small><a class="side-map-link" href="{{ maps_url }}" target="_blank" rel="noopener noreferrer">📍 View our location ↗</a></div>
+  </main>
+{% include "_chatbot.html" %}
+</body>
+</html>

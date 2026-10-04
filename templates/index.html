@@ -1,0 +1,1439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0924">
+  <meta name="description" content="Karka AI — AI-driven software learning and career transformation in Nagercoil.">
+  <title>Karka AI | Build your future</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+  <script>document.documentElement.classList.add('js')</script>
+  <script src="{{ url_for('static', filename='js/smooth.js') }}" defer></script>
+
+  <style>
+    /* Hero: keep the original video as the ONLY background. */
+    .hero { position:relative; overflow:hidden; background:transparent !important; }
+    .hero::before { display:none !important; }
+    .hero-video { display:block !important; position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-3; opacity:1; }
+    .video-shade { display:block !important; position:absolute; inset:0; z-index:-2; background:transparent !important; pointer-events:none; }
+    .hero-grid { display:none !important; }
+
+    /* Partners: light, glowing, logo-based marquee. */
+    .partners-section { position:relative; overflow:hidden; min-height:320px; padding:72px 0 82px; isolation:isolate; background:radial-gradient(circle at 8% 45%,rgba(91,226,255,.28),transparent 28%),radial-gradient(circle at 92% 58%,rgba(170,111,255,.24),transparent 30%),linear-gradient(135deg,#f8fbff 0%,#eef5ff 46%,#fbf8ff 100%); color:#15152d; border-top:1px solid rgba(129,145,185,.18); border-bottom:1px solid rgba(129,145,185,.18); }
+    .partners-section::before { content:""; position:absolute; inset:0; background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.92),transparent 62%); z-index:-1; pointer-events:none; }
+    .partners-inner { position:relative; z-index:2; width:min(1320px,100%); margin:0 auto; }
+    .partners-heading { padding:0 6.5%; margin-bottom:32px; }
+    .partners-eyebrow { display:inline-flex; align-items:center; gap:9px; font:700 10px/1 "Space Grotesk",sans-serif; letter-spacing:.22em; color:#66718c; }
+    .partners-eyebrow span { width:7px; height:7px; border-radius:50%; display:inline-block; background:#67dff6; box-shadow:0 0 15px rgba(74,207,242,.75); }
+    .partners-heading h2 { margin:12px 0 0; max-width:650px; font:600 clamp(30px,4vw,52px)/1.05 "Space Grotesk",sans-serif; letter-spacing:-.045em; color:#17182f; }
+    .partners-heading h2 span { background:linear-gradient(100deg,#8a4cff,#25b9e7); -webkit-background-clip:text; background-clip:text; color:transparent; }
+    .partners-marquee { position:relative; overflow:hidden; width:100%; padding:14px 0 18px; cursor:grab; touch-action:pan-y; user-select:none; -webkit-user-select:none; }
+    .partners-marquee::before,.partners-marquee::after { content:""; position:absolute; top:0; bottom:0; width:12%; z-index:3; pointer-events:none; }
+    .partners-marquee::before { left:0; background:linear-gradient(90deg,#f8fbff,rgba(248,251,255,0)); }
+    .partners-marquee::after { right:0; background:linear-gradient(270deg,#fbf8ff,rgba(251,248,255,0)); }
+    .partners-track { --gap:20px; display:flex; align-items:center; gap:var(--gap); width:max-content; animation:partners-flow 34s linear infinite; will-change:transform; }
+    .partners-marquee.is-paused { cursor:grabbing; }
+    .partners-marquee.is-paused .partners-track { animation-play-state:paused; }
+    .partner-card { flex:0 0 auto; width:190px; height:88px; padding:14px 22px; display:flex; align-items:center; justify-content:center; border:1px solid rgba(133,150,192,.24); border-radius:20px; background:rgba(255,255,255,.72); box-shadow:0 12px 32px rgba(77,98,145,.10),inset 0 1px 0 rgba(255,255,255,.98); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); transition:transform .3s var(--ease), box-shadow .3s var(--ease), border-color .3s var(--ease); }
+    .partner-card:hover { transform:translateY(-3px); border-color:rgba(110,143,221,.45); box-shadow:0 16px 36px rgba(73,101,163,.15),0 0 24px rgba(92,221,255,.12); }
+    .partner-logo { width:100%; max-width:150px; max-height:50px; height:auto; display:block; object-fit:contain; user-select:none; -webkit-user-drag:none; pointer-events:none; }
+    .partner-card:nth-child(2n) .partner-logo { max-width:154px; }
+    .partner-card:nth-child(4n) .partner-logo { max-width:138px; }
+    .partner-logo.narrow { max-width:150px; }
+    .partner-logo.tall { max-height:52px; }
+    @keyframes partners-flow { from { transform:translate3d(calc(-50% - var(--gap) / 2),0,0); } to { transform:translate3d(0,0,0); } }
+    @media (max-width:760px) {
+      .partners-section { min-height:285px; padding:58px 0 66px; }
+      .partners-heading { padding:0 22px; margin-bottom:24px; }
+      .partners-heading h2 { font-size:32px; }
+      .partner-card { width:145px; height:68px; padding:10px 16px; border-radius:16px; }
+      .partner-logo { max-width:112px; max-height:39px; }
+      .partner-logo.narrow { max-width:122px; }
+      .partners-track { --gap:12px; animation-duration:28s; }
+    }
+    @media (prefers-reduced-motion:reduce) { .partners-track { animation:none; transform:translateX(0); } }
+
+
+    /* =========================================================
+       WHY KARKA AI — responsive visual story section
+       ========================================================= */
+    .why-karka-section{
+      position:relative;
+      isolation:isolate;
+      overflow:hidden;
+      padding:clamp(72px,8vw,112px) 0 clamp(82px,9vw,120px);
+      color:#12162f;
+      background:#eef3ff url("{{ url_for('static', filename='images/why-karka-background.png') }}") center center / cover no-repeat;
+      border-top:1px solid rgba(80,98,170,.16);
+      border-bottom:1px solid rgba(80,98,170,.16);
+    }
+    .why-karka-section::before{
+      content:"";position:absolute;inset:0;z-index:-2;pointer-events:none;
+      background:linear-gradient(180deg,rgba(255,255,255,.18),rgba(255,255,255,.04) 45%,rgba(244,247,255,.22));
+    }
+    .why-karka-section::after{
+      content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:.34;
+      background-image:radial-gradient(circle at 1px 1px,rgba(74,73,160,.18) 1px,transparent 1.5px);
+      background-size:28px 28px;
+      mask-image:linear-gradient(to bottom,transparent 0%,black 18%,black 82%,transparent 100%);
+    }
+    .why-karka-shell{
+      position:relative;z-index:1;width:min(1280px,91%);margin:0 auto;
+      display:grid;grid-template-columns:minmax(300px,.76fr) minmax(0,1.44fr);
+      gap:clamp(34px,5vw,76px);align-items:center;
+    }
+    .why-karka-visual{
+      position:relative;min-height:460px;display:grid;place-items:center;
+    }
+    .why-karka-visual::before{
+      content:"";position:absolute;width:min(390px,90vw);height:min(390px,90vw);border-radius:50%;
+      background:radial-gradient(circle,rgba(43,210,255,.30),rgba(119,74,255,.17) 43%,rgba(255,78,187,.08) 60%,transparent 73%);
+      filter:blur(16px);animation:why-pulse 4.5s ease-in-out infinite;
+    }
+    .why-karka-visual::after{
+      content:"✦  AI  ✦  SKILLS  ✦  CAREER  ✦";
+      position:absolute;bottom:4%;left:50%;transform:translateX(-50%);
+      width:max-content;padding:8px 15px;border-radius:999px;
+      border:1px solid rgba(91,111,205,.24);background:rgba(255,255,255,.62);
+      box-shadow:0 10px 30px rgba(54,72,140,.12),0 0 24px rgba(82,210,255,.13);
+      backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+      color:#56618e;font:700 9px/1 "Space Grotesk",sans-serif;letter-spacing:.16em;
+      white-space:nowrap;
+    }
+    @keyframes why-pulse{0%,100%{transform:scale(.94);opacity:.72}50%{transform:scale(1.05);opacity:1}}
+    .why-karka-learner{
+      position:relative;z-index:2;width:min(440px,100%);max-height:430px;object-fit:contain;
+      filter:drop-shadow(0 28px 30px rgba(44,50,103,.22));
+      animation:why-float 5.5s ease-in-out infinite;
+    }
+    .why-karka-badge{
+      position:absolute;z-index:4;top:3%;left:0;width:165px;height:auto;
+      filter:drop-shadow(0 14px 20px rgba(255,166,38,.22));
+      transform:rotate(-7deg);animation:why-badge-float 4.2s ease-in-out infinite;
+      transition:transform .3s var(--ease), filter .3s var(--ease);
+    }
+    .why-karka-visual:hover .why-karka-badge{transform:rotate(-2deg) scale(1.06);filter:drop-shadow(0 18px 30px rgba(255,120,220,.34));}
+    @keyframes why-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+    @keyframes why-badge-float{0%,100%{translate:0 0}50%{translate:0 -8px}}
+
+    .why-karka-copy{min-width:0}
+    .why-eyebrow{
+      display:inline-flex;align-items:center;gap:9px;padding:8px 12px;border-radius:999px;
+      border:1px solid rgba(78,116,205,.20);background:rgba(255,255,255,.56);
+      box-shadow:0 8px 24px rgba(56,79,150,.09),0 0 22px rgba(69,215,255,.12);
+      backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+      color:#4d5e9a;font:800 10px/1 "Space Grotesk",sans-serif;letter-spacing:.22em;
+    }
+    .why-eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:#35d9ff;box-shadow:0 0 13px rgba(35,216,255,.85),0 0 24px rgba(147,84,255,.5);animation:why-dot 1.6s ease-in-out infinite;}
+    @keyframes why-dot{0%,100%{opacity:.5;transform:scale(.8)}50%{opacity:1;transform:scale(1.15)}}
+    .why-karka-copy h2{
+      margin:16px 0 11px;font:700 clamp(35px,4.3vw,60px)/1.02 "Space Grotesk",sans-serif;
+      letter-spacing:-.055em;color:#151934;text-wrap:balance;
+    }
+    .why-karka-copy h2 span{
+      background:linear-gradient(100deg,#005eea,#8b3dff 48%,#f22bb6);-webkit-background-clip:text;background-clip:text;color:transparent;
+    }
+    .why-karka-lead{margin:0 0 24px;max-width:700px;color:#56607f;font:500 14px/1.75 "DM Sans",sans-serif;}
+    .why-typing-line{
+      min-height:25px;margin:0 0 18px;color:#334a9b;font:700 12px/1.6 "Space Grotesk",sans-serif;letter-spacing:.03em;
+    }
+    .why-typing-line::after{content:"|";margin-left:2px;color:#2dd7ff;animation:why-caret .75s steps(1,end) infinite;}
+    @keyframes why-caret{50%{opacity:0}}
+    .why-points{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px;}
+    .why-point{
+      position:relative;min-height:103px;padding:16px 16px 15px 58px;border-radius:18px;
+      border:1px solid rgba(91,112,180,.20);background:rgba(255,255,255,.68);
+      box-shadow:inset 0 1px 0 rgba(255,255,255,.92),0 13px 30px rgba(51,70,137,.10),0 0 0 rgba(0,0,0,0);
+      backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+      transition:transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);
+      overflow:hidden;
+    }
+    .why-point::before{
+      content:"";position:absolute;left:-35%;top:-90%;width:70%;height:280%;transform:rotate(24deg);
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.65),transparent);opacity:0;transition:opacity .3s var(--ease), left .55s var(--ease);
+    }
+    .why-point:nth-child(1){--why-accent:#ff9d2e;--why-glow:rgba(255,157,46,.28)}
+    .why-point:nth-child(2){--why-accent:#7d5cff;--why-glow:rgba(125,92,255,.28)}
+    .why-point:nth-child(3){--why-accent:#13c9e8;--why-glow:rgba(19,201,232,.28)}
+    .why-point:nth-child(4){--why-accent:#ff3fb5;--why-glow:rgba(255,63,181,.25)}
+    .why-point:nth-child(5){--why-accent:#31b86c;--why-glow:rgba(49,184,108,.25)}
+    .why-point:nth-child(6){--why-accent:#ff4d5e;--why-glow:rgba(255,77,94,.25)}
+    .why-point:hover{transform:translateY(-5px);border-color:color-mix(in srgb,var(--why-accent) 48%,white);background:rgba(255,255,255,.82);box-shadow:0 20px 38px rgba(43,60,125,.15),0 0 30px var(--why-glow);}
+    .why-point:hover::before{opacity:1;left:125%;}
+    .why-point-icon{
+      position:absolute;left:15px;top:16px;width:32px;height:32px;border-radius:11px;display:grid;place-items:center;
+      color:#fff;background:linear-gradient(135deg,var(--why-accent),#6f56ff);font:800 14px/1 "Space Grotesk",sans-serif;
+      box-shadow:0 8px 18px var(--why-glow),0 0 18px var(--why-glow);
+    }
+    .why-point-number{position:absolute;right:13px;top:13px;font:800 8px/1 "Space Grotesk",sans-serif;letter-spacing:.12em;color:#8b94b3;}
+    .why-point h3{margin:0 25px 5px 0;font:700 13px/1.3 "Space Grotesk",sans-serif;color:#1b2040;}
+    .why-point p{margin:0;color:#69718c;font:500 10.5px/1.48 "DM Sans",sans-serif;}
+    .why-bottom{
+      margin-top:16px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:13px 16px;
+      border-radius:15px;border:1px solid rgba(71,111,203,.20);background:rgba(255,255,255,.58);
+      box-shadow:0 10px 26px rgba(53,72,135,.09),0 0 24px rgba(88,214,255,.09);
+      backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+    }
+    .why-bottom strong{font:800 10px/1.3 "Space Grotesk",sans-serif;letter-spacing:.13em;color:#3c58a1;}
+    .why-bottom span{font:500 10px/1.4 "DM Sans",sans-serif;color:#747c98;text-align:right;}
+
+    @media(max-width:1000px){
+      .why-karka-shell{grid-template-columns:1fr;gap:36px;width:min(920px,90%);}
+      .why-karka-visual{min-height:350px;order:2;}
+      .why-karka-copy{order:1;}
+      .why-karka-learner{width:min(370px,78vw);max-height:360px;}
+      .why-karka-badge{top:0;left:calc(50% - 190px);width:140px;}
+    }
+    @media(max-width:650px){
+      .why-karka-section{padding:66px 0 78px;background-position:center center;}
+      .why-karka-shell{width:92%;gap:29px;}
+      .why-karka-copy h2{font-size:36px;}
+      .why-karka-lead{font-size:13px;line-height:1.7;margin-bottom:16px;}
+      .why-typing-line{font-size:11px;min-height:24px;margin-bottom:16px;}
+      .why-points{grid-template-columns:1fr;gap:10px;}
+      .why-point{min-height:84px;padding:15px 15px 14px 56px;}
+      .why-point-icon{left:14px;top:14px;}
+      .why-point h3{font-size:13px;}
+      .why-point p{font-size:10.5px;}
+      .why-bottom{align-items:flex-start;flex-direction:column;gap:7px;}
+      .why-bottom span{text-align:left;}
+      .why-karka-visual{min-height:280px;}
+      .why-karka-learner{width:min(330px,86vw);max-height:310px;}
+      .why-karka-badge{left:2%;top:1%;width:112px;}
+      .why-karka-visual::after{bottom:0;font-size:7px;letter-spacing:.12em;}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .why-karka-learner,.why-karka-badge,.why-karka-visual::before,.why-eyebrow::before{animation:none;}
+      .why-point::before{display:none;}
+    }
+  
+
+    /* =========================================================
+       VOICES OF OUR LEARNERS — colorful professional video story
+       ========================================================= */
+    .voices-section{position:relative;isolation:isolate;overflow:hidden;padding:clamp(76px,9vw,118px) 0 92px;background:linear-gradient(135deg,#fbfcff 0%,#eef5ff 35%,#fff4fb 67%,#fffaf0 100%);border-top:1px solid rgba(87,102,177,.14);color:#171a35}
+    .voices-section::before{content:"";position:absolute;inset:0;z-index:-3;background:radial-gradient(circle at 8% 16%,rgba(0,185,255,.20),transparent 25%),radial-gradient(circle at 92% 20%,rgba(255,67,180,.17),transparent 25%),radial-gradient(circle at 48% 100%,rgba(255,205,62,.18),transparent 28%);pointer-events:none}
+    .voices-section::after{content:"";position:absolute;inset:-20%;z-index:-2;background:conic-gradient(from 190deg at 50% 50%,transparent 0 24%,rgba(75,109,255,.055) 29%,transparent 36% 54%,rgba(255,73,190,.05) 60%,transparent 69% 100%);animation:voices-bg-spin 22s linear infinite;pointer-events:none}
+    @keyframes voices-bg-spin{to{transform:rotate(360deg)}}
+    .voices-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(.2px);opacity:.78;z-index:-1;animation:voice-orb-float 7s ease-in-out infinite}
+    .voices-orb-a{width:180px;height:180px;left:-80px;top:18%;background:radial-gradient(circle at 35% 30%,#58eaff,#4d66ff 45%,rgba(120,65,255,0) 72%);box-shadow:0 0 80px rgba(38,186,255,.24)}
+    .voices-orb-b{width:135px;height:135px;right:-55px;top:45%;background:radial-gradient(circle at 35% 30%,#ffe16b,#ff5cbf 48%,rgba(255,77,173,0) 72%);animation-delay:-2.5s}
+    .voices-orb-c{width:90px;height:90px;right:14%;bottom:6%;background:radial-gradient(circle at 35% 30%,#9b72ff,#19d9ff 45%,rgba(19,217,255,0) 72%);animation-delay:-4s}
+    @keyframes voice-orb-float{0%,100%{transform:translate3d(0,0,0)}50%{transform:translate3d(0,-16px,0)}}
+    .voices-grid-lines{position:absolute;inset:0;z-index:-1;opacity:.32;pointer-events:none;background-image:linear-gradient(rgba(92,108,179,.065) 1px,transparent 1px),linear-gradient(90deg,rgba(92,108,179,.065) 1px,transparent 1px);background-size:52px 52px;mask-image:radial-gradient(ellipse at center,#000 0%,transparent 76%)}
+    .voices-shell{width:min(1240px,92%);margin:0 auto;position:relative;z-index:1}
+    .voices-heading{text-align:center;max-width:780px;margin:0 auto 34px}
+    .voices-eyebrow{display:inline-flex;align-items:center;gap:9px;padding:8px 13px;border:1px solid rgba(72,103,199,.18);border-radius:999px;background:rgba(255,255,255,.67);box-shadow:0 9px 26px rgba(61,80,145,.09),0 0 25px rgba(52,215,255,.12);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);color:#4b5b98;font:800 10px/1 "Space Grotesk",sans-serif;letter-spacing:.20em}
+    .voices-live-dot{width:7px;height:7px;border-radius:50%;background:#20d7ff;box-shadow:0 0 12px #20d7ff,0 0 25px rgba(255,54,186,.55);animation:voice-live 1.4s ease-in-out infinite}
+    @keyframes voice-live{50%{transform:scale(1.5);opacity:.7}}
+    .voices-heading h2{margin:15px 0 10px;font:700 clamp(36px,5vw,62px)/1.02 "Space Grotesk",sans-serif;letter-spacing:-.055em;color:#151934}
+    .voices-heading h2 span{background:linear-gradient(100deg,#096cf4,#854cff 48%,#f02da7);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .voices-heading p{margin:0 auto;color:#66708d;font:500 14px/1.75 "DM Sans",sans-serif;max-width:690px}
+    .voices-player{display:grid;grid-template-columns:minmax(0,1.18fr) minmax(330px,.82fr);gap:22px;align-items:stretch}
+    .voices-video-card,.voice-story-card{position:relative;border:1px solid rgba(86,105,181,.18);background:rgba(255,255,255,.72);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 24px 65px rgba(53,67,133,.14),0 0 35px rgba(50,194,255,.08);overflow:hidden}
+    .voices-video-card{border-radius:28px;padding:12px}
+    .voices-video-topbar{height:40px;display:flex;align-items:center;justify-content:space-between;padding:0 8px 0 9px}
+    .now-playing{display:inline-flex;align-items:center;gap:8px;color:#334b92;font:800 10px/1 "Space Grotesk",sans-serif;letter-spacing:.16em}
+    .now-playing i{display:block;width:7px;height:7px;border-radius:50%;background:#ff3fae;box-shadow:0 0 10px rgba(255,63,174,.8);animation:voice-live 1.2s ease-in-out infinite}
+    .story-count{padding:7px 10px;border-radius:999px;background:rgba(237,242,255,.9);color:#65709a;font:800 9px/1 "Space Grotesk",sans-serif;letter-spacing:.12em}
+    .voices-video-wrap{position:relative;overflow:hidden;border-radius:21px;background:#10152e;min-height:520px;display:grid;place-items:center}
+    .voices-video-wrap::before{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(0,211,255,.16),transparent 35%,rgba(255,49,179,.12) 72%,rgba(255,207,58,.10));pointer-events:none;z-index:1}
+    .video-corner-glow{position:absolute;left:-10%;bottom:-25%;width:50%;height:55%;border-radius:50%;background:#1fe4ff;filter:blur(65px);opacity:.20;z-index:1}
+    .voice-video{display:block;width:100%;height:min(620px,62vw);min-height:520px;object-fit:cover;background:#11152c}
+    .voice-play-overlay{position:absolute;z-index:3;width:74px;height:74px;border-radius:50%;border:1px solid rgba(255,255,255,.55);background:linear-gradient(135deg,rgba(13,116,255,.94),rgba(183,64,255,.94) 55%,rgba(255,66,177,.92));color:white;box-shadow:0 0 0 9px rgba(255,255,255,.10),0 12px 38px rgba(60,65,170,.38),0 0 40px rgba(47,213,255,.25);cursor:pointer;transition:transform .3s var(--ease), box-shadow .3s var(--ease);display:grid;place-items:center}
+    .voice-play-overlay span{font-size:22px;margin-left:3px}
+    .voice-play-overlay:hover{transform:scale(1.08);box-shadow:0 0 0 12px rgba(255,255,255,.12),0 16px 45px rgba(60,65,170,.42),0 0 55px rgba(255,64,181,.25)}
+    .voice-play-overlay.is-hidden{opacity:0;pointer-events:none;transform:scale(.85)}
+    .voices-video-footer{display:flex;align-items:center;gap:14px;padding:12px 7px 3px}
+    .voice-progress{height:4px;flex:1;border-radius:999px;background:#e7ebf8;overflow:hidden}
+    .voice-progress span{display:block;width:0;height:100%;border-radius:inherit;background:linear-gradient(90deg,#16cfff,#6d5cff,#ff43ae,#ffc73d);transition:width .15s linear}
+    .voice-next{border:0;border-radius:12px;padding:11px 14px;background:linear-gradient(135deg,#0d72f5,#7955ff 55%,#ef42ad);color:#fff;font:800 10px/1 "Space Grotesk",sans-serif;letter-spacing:.04em;box-shadow:0 10px 22px rgba(72,79,205,.22),0 0 20px rgba(63,211,255,.12);cursor:pointer;transition:transform .3s var(--ease), box-shadow .3s var(--ease)}
+    .voice-next:hover{transform:translateY(-2px);box-shadow:0 14px 28px rgba(72,79,205,.28),0 0 26px rgba(255,69,180,.18)}
+    .voice-next span{font-size:15px;margin-left:5px}
+    .voice-story-card{border-radius:28px;padding:34px 32px 28px;display:flex;flex-direction:column;justify-content:center;min-height:620px}
+    .voice-story-card::before{content:"";position:absolute;top:-40px;right:-40px;width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,#52dcff 0%,rgba(82,220,255,.2) 38%,transparent 72%);filter:blur(4px);opacity:.8}
+    .voice-story-card::after{content:"";position:absolute;bottom:-65px;left:-65px;width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,#ff55bd 0%,rgba(255,85,189,.13) 40%,transparent 72%);filter:blur(5px)}
+    .voice-story-glow{position:absolute;inset:1px;border-radius:27px;pointer-events:none;border:1px solid rgba(255,255,255,.48);mask-image:linear-gradient(135deg,#000,transparent 42%,#000 82%)}
+    .voice-story-label{position:relative;z-index:2;display:inline-flex;width:max-content;padding:7px 10px;border-radius:999px;background:rgba(242,246,255,.88);border:1px solid rgba(84,106,196,.16);color:#4c5d98;font:800 9px/1 "Space Grotesk",sans-serif;letter-spacing:.14em}
+    .voice-avatar{position:relative;z-index:2;width:58px;height:58px;margin:21px 0 13px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,#0dd7ff,#5f58ff 52%,#ff4bb0);color:#fff;font:800 16px/1 "Space Grotesk",sans-serif;box-shadow:0 13px 27px rgba(75,88,196,.23),0 0 30px rgba(48,211,255,.15);animation:voice-avatar 3.8s ease-in-out infinite}
+    @keyframes voice-avatar{50%{transform:translateY(-4px) rotate(2deg)}}
+    .voice-story-card h3{position:relative;z-index:2;margin:0;color:#171b38;font:700 clamp(25px,3vw,38px)/1.05 "Space Grotesk",sans-serif;letter-spacing:-.035em}
+    .voice-role{position:relative;z-index:2;margin-top:7px;color:#5870ad;font:800 11px/1.2 "Space Grotesk",sans-serif;letter-spacing:.12em;text-transform:uppercase}
+    .voice-quote-mark{position:absolute;z-index:1;right:27px;top:92px;color:rgba(110,91,255,.12);font:900 150px/.7 Georgia,serif;pointer-events:none}
+    .voice-story-card blockquote{position:relative;z-index:2;margin:29px 0 24px;padding-left:18px;border-left:3px solid transparent;border-image:linear-gradient(#16cfff,#8b56ff,#ff42af,#ffc43d) 1;color:#535d7a;font:500 15px/1.8 "DM Sans",sans-serif}
+    .voice-meta{position:relative;z-index:2;margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:12px;color:#8991aa;font:600 9px/1.3 "Space Grotesk",sans-serif;letter-spacing:.05em;text-transform:uppercase}
+    .voice-sound{display:inline-flex;align-items:center;gap:6px;color:#5369a0}
+    .voice-sound span{width:6px;height:6px;border-radius:50%;background:#25d6ff;box-shadow:0 0 9px rgba(37,214,255,.8)}
+    .voices-selector{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:18px 0 0}
+    .voice-dot{position:relative;border:1px solid rgba(87,107,183,.16);border-radius:16px;padding:13px 10px;background:rgba(255,255,255,.62);color:#6d7691;box-shadow:0 10px 24px rgba(53,70,132,.07);cursor:pointer;transition:transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease), background .3s var(--ease);display:flex;align-items:center;gap:9px;text-align:left}
+    .voice-dot span{width:29px;height:29px;border-radius:10px;display:grid;place-items:center;background:#edf2ff;color:#68759c;font:800 8px/1 "Space Grotesk",sans-serif}
+    .voice-dot b{font:800 11px/1.2 "Space Grotesk",sans-serif}
+    .voice-dot:hover{transform:translateY(-3px);border-color:rgba(79,122,239,.35);box-shadow:0 16px 30px rgba(53,70,132,.12)}
+    .voice-dot.active{background:linear-gradient(135deg,rgba(236,249,255,.95),rgba(248,240,255,.95));border-color:rgba(74,111,232,.38);box-shadow:0 14px 30px rgba(72,83,179,.13),0 0 25px rgba(50,210,255,.12)}
+    .voice-dot.active span{color:#fff;background:linear-gradient(135deg,#08cfff,#6d58ff 55%,#ff47ae);box-shadow:0 0 18px rgba(82,90,255,.22)}
+    .voices-bottom-note{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:22px;color:#7c849c;font:600 10px/1.4 "DM Sans",sans-serif;text-align:center}
+    .note-spark{color:#ffb72f;text-shadow:0 0 12px rgba(255,183,47,.55)}
+    @media(max-width:980px){.voices-player{grid-template-columns:1fr}.voice-story-card{min-height:0}.voice-video{height:min(680px,82vw);min-height:500px}.voice-story-card{padding:29px 28px 25px}.voices-selector{grid-template-columns:repeat(5,minmax(110px,1fr));overflow-x:auto;padding-bottom:4px}.voice-dot{min-width:110px}}
+    @media(max-width:650px){.voices-section{padding:66px 0 76px}.voices-shell{width:92%}.voices-heading{margin-bottom:24px}.voices-heading h2{font-size:39px}.voices-heading p{font-size:13px;line-height:1.7}.voices-video-card,.voice-story-card{border-radius:22px}.voices-video-wrap{border-radius:16px;min-height:440px}.voice-video{height:118vw;min-height:440px;max-height:600px}.voice-play-overlay{width:64px;height:64px}.voice-play-overlay span{font-size:19px}.voice-story-card{padding:25px 22px 23px}.voice-story-card blockquote{font-size:13px;line-height:1.7;margin-top:24px}.voice-quote-mark{font-size:115px;top:88px;right:17px}.voices-selector{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}.voices-selector::-webkit-scrollbar{display:none}.voice-dot{flex:0 0 auto;min-width:118px;padding:10px 9px}.voices-bottom-note{font-size:9px}.voice-meta{align-items:flex-start;flex-direction:column}.voice-next{padding:10px 12px}}
+    @media(prefers-reduced-motion:reduce){.voices-section::after,.voices-orb,.voices-live-dot,.voice-avatar{animation:none}.voice-play-overlay,.voice-next,.voice-dot{transition:none}}
+
+  
+    /* =========================================================
+       PAY AFTER YOU GET HIRED — premium career-first section
+       ========================================================= */
+    .pay-after-section{
+      position:relative;
+      isolation:isolate;
+      overflow:hidden;
+      padding:clamp(72px,8vw,112px) 0;
+      color:#171934;
+      background:
+        radial-gradient(circle at 10% 20%,rgba(32,205,255,.18),transparent 28%),
+        radial-gradient(circle at 90% 25%,rgba(176,83,255,.18),transparent 30%),
+        linear-gradient(135deg,#f8fbff 0%,#eef4ff 45%,#fff4fb 100%);
+      border-top:1px solid rgba(83,103,181,.15);
+      border-bottom:1px solid rgba(83,103,181,.15);
+    }
+    .pay-after-section::before{
+      content:"";
+      position:absolute;inset:0;z-index:-2;pointer-events:none;
+      background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.9),transparent 66%);
+    }
+    .pay-after-grid-lines{
+      position:absolute;inset:0;z-index:-1;opacity:.22;pointer-events:none;
+      background-image:linear-gradient(rgba(82,103,177,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(82,103,177,.08) 1px,transparent 1px);
+      background-size:48px 48px;
+      mask-image:radial-gradient(ellipse at center,#000 0%,transparent 78%);
+    }
+    .pay-after-orb{position:absolute;border-radius:50%;pointer-events:none;filter:blur(2px);opacity:.7;z-index:-1;animation:pay-float 7s ease-in-out infinite}
+    .pay-after-orb-a{width:190px;height:190px;left:-80px;bottom:12%;background:radial-gradient(circle at 35% 30%,#4ce7ff,#665cff 48%,transparent 72%);box-shadow:0 0 90px rgba(57,196,255,.22)}
+    .pay-after-orb-b{width:145px;height:145px;right:-55px;top:17%;background:radial-gradient(circle at 35% 30%,#ffd85b,#ff53bd 48%,transparent 72%);animation-delay:-3s}
+    @keyframes pay-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+
+    .pay-after-shell{width:min(1240px,92%);margin:0 auto;position:relative;z-index:1}
+    .pay-after-heading{text-align:center;max-width:820px;margin:0 auto 40px}
+    .pay-after-eyebrow{
+      display:inline-flex;align-items:center;gap:9px;padding:8px 13px;border-radius:999px;
+      border:1px solid rgba(72,103,199,.18);background:rgba(255,255,255,.72);
+      box-shadow:0 9px 26px rgba(61,80,145,.09),0 0 25px rgba(52,215,255,.11);
+      backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+      color:#4b5b98;font:800 10px/1 "Space Grotesk",sans-serif;letter-spacing:.20em
+    }
+    .pay-after-eyebrow span{width:7px;height:7px;border-radius:50%;background:#19d5ff;box-shadow:0 0 13px rgba(25,213,255,.9)}
+    .pay-after-heading h2{margin:16px 0 12px;font:700 clamp(38px,5vw,66px)/1 "Space Grotesk",sans-serif;letter-spacing:-.055em;color:#151934}
+    .pay-after-heading h2 span{background:linear-gradient(100deg,#0a72f4,#7953ff 48%,#ef36a9);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .pay-after-heading p{max-width:700px;margin:0 auto;color:#66708d;font:500 14px/1.75 "DM Sans",sans-serif}
+
+    .pay-after-layout{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:22px;align-items:stretch}
+    .pay-after-points{display:grid;gap:13px}
+    .pay-point{
+      position:relative;display:grid;grid-template-columns:58px 1fr;gap:16px;align-items:start;
+      padding:21px 22px;border:1px solid rgba(83,106,186,.18);border-radius:22px;
+      background:rgba(255,255,255,.72);box-shadow:0 18px 45px rgba(53,67,133,.10),inset 0 1px 0 rgba(255,255,255,.95);
+      backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
+      overflow:hidden;transition:transform .3s var(--ease), border-color .3s var(--ease), box-shadow .3s var(--ease)}
+    .pay-point::after{
+      content:"";position:absolute;left:-30%;top:-100%;width:55%;height:300%;transform:rotate(22deg);
+      background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);opacity:0;transition:left .55s var(--ease), opacity .3s var(--ease)}
+    .pay-point:hover{transform:translateY(-4px);border-color:rgba(83,112,231,.35);box-shadow:0 23px 50px rgba(53,67,133,.14),0 0 28px rgba(45,205,255,.09)}
+    .pay-point:hover::after{left:120%;opacity:1}
+    .pay-point-number{
+      width:48px;height:48px;border-radius:15px;display:grid;place-items:center;
+      color:#fff;background:linear-gradient(135deg,#0bd6ff,#6a58ff 55%,#f342ae);
+      box-shadow:0 10px 24px rgba(74,84,200,.22),0 0 22px rgba(39,211,255,.13);
+      font:800 11px/1 "Space Grotesk",sans-serif;letter-spacing:.08em
+    }
+    .pay-point:nth-child(2) .pay-point-number{background:linear-gradient(135deg,#7d5cff,#ee46af)}
+    .pay-point:nth-child(3) .pay-point-number{background:linear-gradient(135deg,#ffb52e,#ff4d91)}
+    .pay-point h3{margin:2px 0 6px;font:700 20px/1.15 "Space Grotesk",sans-serif;color:#171b38}
+    .pay-point p{margin:0;color:#69728e;font:500 12px/1.65 "DM Sans",sans-serif}
+
+    .pay-after-stats{
+      display:flex;flex-direction:column;justify-content:center;gap:13px;padding:24px;
+      border-radius:26px;border:1px solid rgba(86,105,181,.18);
+      background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(246,240,255,.73));
+      box-shadow:0 24px 65px rgba(53,67,133,.13),0 0 35px rgba(50,194,255,.08);
+      backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+    }
+    .pay-stat{padding:20px 19px;border-radius:18px;background:rgba(255,255,255,.68);border:1px solid rgba(91,111,190,.13);box-shadow:0 12px 28px rgba(53,70,132,.07)}
+    .pay-stat strong{display:block;font:800 clamp(28px,3.2vw,40px)/1 "Space Grotesk",sans-serif;letter-spacing:-.04em;background:linear-gradient(100deg,#086ff5,#8452ff,#ef3aaa);-webkit-background-clip:text;background-clip:text;color:transparent}
+    .pay-stat strong em{font-style:normal;font-size:.42em;letter-spacing:.03em;vertical-align:middle}
+    .pay-stat span{display:block;margin-top:7px;color:#707995;font:700 10px/1.3 "Space Grotesk",sans-serif;letter-spacing:.08em;text-transform:uppercase}
+    .pay-after-cta{margin-top:3px;padding:8px 3px 0;display:flex;align-items:center;justify-content:space-between;gap:12px}
+    .pay-after-cta span{color:#69739a;font:800 9px/1 "Space Grotesk",sans-serif;letter-spacing:.16em}
+    .pay-after-cta a{display:inline-flex;align-items:center;gap:10px;padding:12px 15px;border-radius:13px;background:linear-gradient(135deg,#0b72f5,#7656ff 55%,#ed42aa);color:#fff;text-decoration:none;font:800 10px/1 "Space Grotesk",sans-serif;box-shadow:0 12px 25px rgba(70,79,202,.22);transition:transform .3s var(--ease), box-shadow .3s var(--ease)}
+    .pay-after-cta a:hover{transform:translateY(-2px);box-shadow:0 16px 30px rgba(70,79,202,.28)}
+    .pay-after-cta b{font-size:15px}
+
+    /* Learner video hardening: prevent horizontal overflow and keep every story stable. */
+    html{overflow-x:hidden}
+    body{overflow-x:hidden}
+    .voices-section,.voices-shell,.voices-player,.voices-video-card,.voices-video-wrap,.voices-selector{min-width:0;max-width:100%}
+    .voices-player{width:100%}
+    .voices-video-wrap{width:100%;aspect-ratio:16/9;min-height:0;max-height:none}
+    .voice-video{width:100%;height:100%;min-height:0;max-height:none;object-fit:contain;object-position:center;background:#10152e}
+    .voices-selector{overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scroll-behavior:smooth}
+    .voice-dot{min-width:0;max-width:100%}
+    @media(max-width:980px){
+      .voices-video-wrap{aspect-ratio:16/9}
+      .voice-video{min-height:0}
+      .voices-selector{display:flex;gap:10px}
+      .voice-dot{flex:0 0 148px}
+      .pay-after-layout{grid-template-columns:1fr}
+      .pay-after-stats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}
+      .pay-after-cta{grid-column:1/-1}
+    }
+    @media(max-width:650px){
+      .voices-video-wrap{aspect-ratio:9/16;min-height:420px;max-height:680px}
+      .voice-video{object-fit:contain}
+      .voices-selector{margin-right:0;padding:2px 2px 10px}
+      .voice-dot{flex:0 0 132px}
+      .pay-after-section{padding:66px 0 78px}
+      .pay-after-shell{width:92%}
+      .pay-after-heading h2{font-size:39px}
+      .pay-after-heading p{font-size:13px;line-height:1.7}
+      .pay-after-layout{gap:14px}
+      .pay-point{grid-template-columns:48px 1fr;padding:17px 15px;gap:12px;border-radius:18px}
+      .pay-point-number{width:42px;height:42px;border-radius:13px}
+      .pay-point h3{font-size:16px}
+      .pay-point p{font-size:11px}
+      .pay-after-stats{grid-template-columns:1fr;padding:17px;border-radius:21px}
+      .pay-stat{padding:17px}
+      .pay-after-cta{align-items:flex-start;flex-direction:column}
+      .pay-after-cta a{width:100%;justify-content:center}
+    }
+    @media(prefers-reduced-motion:reduce){
+      .pay-after-orb,.pay-after-section::after{animation:none}
+      .pay-point,.pay-after-cta a{transition:none}
+    }
+</style>
+</head>
+<body>
+  <div class="site-shell">
+    <header class="navbar">
+      <a class="brand" href="{{ url_for('home') }}" aria-label="Karka AI home">
+        <img src="{{ url_for('static', filename='images/logo.webp') }}" alt="Karka AI">
+      </a>
+      <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-drawer" id="navDrawer" aria-label="Main navigation">
+        <div class="drawer-head">
+          <span>Explore Karka AI</span>
+          <button class="drawer-close" id="drawerClose" aria-label="Close navigation">×</button>
+        </div>
+        <a href="{{ url_for('home') }}#courses">Explore Courses</a>
+        <a href="{{ url_for('enroll') }}">School Student</a>
+        <a href="{{ url_for('enroll') }}">College Student</a>
+        <a href="{{ url_for('enroll') }}">Graduates</a>
+        <a href="{{ url_for('enroll') }}">Professionals</a>
+        <a class="nav-enroll" href="{{ url_for('enroll') }}">Enroll now <span>↗</span></a>
+      </nav>
+      <div class="nav-scrim" id="navScrim"></div>
+    </header>
+
+    <main>
+      <section class="hero" aria-label="Karka AI introduction">
+        <video class="hero-video" autoplay muted loop playsinline preload="auto" poster="{{ url_for('static', filename='images/hero-visual.png') }}" aria-hidden="true">
+          <source src="{{ url_for('static', filename='videos/hero-background.mp4') }}" type="video/mp4">
+        </video>
+<div class="video-shade"></div>
+        <div class="hero-grid"></div>
+
+        <!-- Large desktop hero artwork: kept separate from the text so both stay easy to see. -->
+        <div class="hero-art" aria-hidden="true">
+          <div class="hero-art-glow"></div>
+          <img class="hero-art-image active" data-art="0"
+               src="{{ url_for('static', filename='images/learner-study.png') }}"
+               alt="">
+          <img class="hero-art-image" data-art="1"
+               src="{{ url_for('static', filename='images/ai-robot.webp') }}"
+               alt="">
+          <img class="hero-art-image" data-art="2"
+               src="{{ url_for('static', filename='images/learner-coding.webp') }}"
+               alt="">
+        </div>
+
+        <div class="hero-content">
+          <div class="eyebrow"><span class="live-dot"></span> LEARN • BUILD • LAUNCH</div>
+          <div class="slides" id="slides" aria-live="polite">
+            <article class="slide active" data-slide="0">
+              <p class="kicker">YOUR NEXT CHAPTER STARTS HERE</p>
+              <h1>The one and only exclusive <span>AI learning center</span> in Nagercoil.</h1>
+              <p class="subline">AI Driven <i></i> Software Developers</p>
+              <a class="cta" href="{{ url_for('enroll') }}">Start your Transformation <span>↗</span></a>
+              <div class="impact">
+                <div class="impact-copy"><span class="impact-line"></span><span>Where our learners<br><b>are making an impact</b></span></div>
+                <div class="impact-images one">
+                  <img src="{{ url_for('static', filename='images/learner-study.png') }}" alt="Learner studying and building skills">
+                </div>
+              </div>
+            </article>
+            <article class="slide" data-slide="1">
+              <p class="kicker">MAKE YOUR AMBITION REAL</p>
+              <h1>Your future, <span>powered by AI.</span></h1>
+              <p class="description">Build the future with AI in Nagercoil and transform your career today.</p>
+              <a class="cta" href="{{ url_for('enroll') }}">Join the AI revolution <span>↗</span></a>
+              <div class="impact">
+                <div class="impact-copy"><span class="impact-line"></span><span>Where our learners<br><b>are making an impact</b></span></div>
+                <div class="impact-images two">
+                  <img src="{{ url_for('static', filename='images/ai-robot.webp') }}" alt="AI robot illustration">
+                </div>
+              </div>
+            </article>
+            <article class="slide" data-slide="2">
+              <p class="kicker">SKILLS THAT MOVE YOU FORWARD</p>
+              <h1>Skills that build <span>the future.</span></h1>
+              <p class="description">Pay after you get hired.</p>
+              <a class="cta" href="{{ url_for('enroll') }}">Start your journey <span>↗</span></a>
+              <div class="impact">
+                <div class="impact-copy"><span class="impact-line"></span><span>Where our learners<br><b>are making an impact</b></span></div>
+                <div class="impact-images one">
+                  <img src="{{ url_for('static', filename='images/learner-coding.webp') }}" alt="Learner working on a laptop">
+                </div>
+              </div>
+            </article>
+          </div>
+        </div>
+        <div class="hero-orbit orbit-a"></div><div class="hero-orbit orbit-b"></div>
+      </section>
+
+      <section class="partners-section" aria-labelledby="partners-title">
+        <div class="partners-glow partners-glow-one"></div>
+        <div class="partners-glow partners-glow-two"></div>
+        <div class="partners-inner">
+          <div class="partners-heading">
+            <span class="partners-eyebrow"><span></span> PARTNERS</span>
+            <h2 id="partners-title">Where <span>opportunity</span> meets talent.</h2>
+          </div>
+          <div class="partners-marquee" id="partnersMarquee" aria-label="Partner companies. Press and hold to pause.">
+            <div class="partners-track" id="partnersTrack">
+              <div class="partner-card"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-amazon.png') }}" alt="Amazon" draggable="false"></div>
+              <div class="partner-card"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-tcs.png') }}" alt="Tata Consultancy Services" draggable="false"></div>
+              <div class="partner-card"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-hcltech.png') }}" alt="HCLTech" draggable="false"></div>
+              <div class="partner-card"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-matrimony.png') }}" alt="matrimony.com" draggable="false"></div>
+              <div class="partner-card"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-novac.jpg') }}" alt="Novac Technology Solutions" draggable="false"></div>
+              <div class="partner-card"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-cape.png') }}" alt="Cape" draggable="false"></div>
+              <div class="partner-card"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-flow-tech.jpg') }}" alt="Flow Tech" draggable="false"></div>
+              <div class="partner-card"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-sodisys.jpg') }}" alt="Sodisys" draggable="false"></div>
+              <div class="partner-card" aria-hidden="true"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-amazon.png') }}" alt="" draggable="false"></div>
+              <div class="partner-card" aria-hidden="true"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-tcs.png') }}" alt="" draggable="false"></div>
+              <div class="partner-card" aria-hidden="true"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-hcltech.png') }}" alt="" draggable="false"></div>
+              <div class="partner-card" aria-hidden="true"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-matrimony.png') }}" alt="" draggable="false"></div>
+              <div class="partner-card" aria-hidden="true"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-novac.jpg') }}" alt="" draggable="false"></div>
+              <div class="partner-card" aria-hidden="true"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-cape.png') }}" alt="" draggable="false"></div>
+              <div class="partner-card" aria-hidden="true"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-flow-tech.jpg') }}" alt="" draggable="false"></div>
+              <div class="partner-card" aria-hidden="true"><img class="partner-logo" src="{{ url_for('static', filename='images/partner-sodisys.jpg') }}" alt="" draggable="false"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      
+      <!-- =====================================================
+           EXPLORE OUR COURSES — automatic course showcase
+           ===================================================== -->
+      <section class="courses-section" id="courses" aria-labelledby="courses-title">
+        <div class="courses-bg-orb courses-bg-orb-a"></div>
+        <div class="courses-bg-orb courses-bg-orb-b"></div>
+        <div class="courses-shell">
+          <div class="courses-heading">
+            <div>
+              <span class="courses-eyebrow"><i></i> LEARN • BUILD • LEAD</span>
+              <h2 id="courses-title">Explore our <span>courses.</span></h2>
+              <p>Industry-focused bootcamps. Practical skills. Career-ready confidence.</p>
+            </div>
+            <a class="courses-view-all" href="#courses" aria-label="View all courses">ALL COURSES <span>↗</span></a>
+          </div>
+
+          <div class="courses-marquee" aria-label="Course showcase">
+            <div class="courses-track">
+              {% for copy in [0, 1] %}
+                {% for course in courses %}
+                <article class="course-card" {% if copy == 1 %}aria-hidden="true"{% endif %}>
+                  <div class="course-card-head">
+                    <span class="course-index">0{{ loop.index }}</span>
+                    <span class="course-type">{{ course.track }}</span>
+                  </div>
+                  <h3>{{ course.title }}</h3>
+
+                  <div class="course-video">
+                    <video data-lazy-play muted loop playsinline preload="{{ 'none' if copy == 1 else 'metadata' }}"
+                           poster="{{ url_for('static', filename='images/hero-visual.png') }}">
+                      <source src="{{ url_for('static', filename='videos/' ~ course.video) }}" type="video/mp4">
+                    </video>
+                    <div class="course-video-overlay"></div>
+                    <span class="course-video-badge"><i></i> COURSE PREVIEW</span>
+                  </div>
+
+                  <div class="course-stats">
+                    <div><strong>{{ course.enrollments }}</strong><span>Enrollments</span></div>
+                    <div class="course-rating">
+                      <strong>{{ course.rating }}</strong>
+                      <span class="stars" aria-label="{{ course.rating }} out of 5 stars">★★★★★</span>
+                      <small>({{ course.ratings }} ratings)</small>
+                    </div>
+                  </div>
+
+                  <p class="course-tagline">{{ course.tagline }}</p>
+
+                  <div class="course-actions">
+                    <a class="course-btn course-btn-ghost" href="{{ url_for('course_detail', slug=course.slug) }}">
+                      Explore {{ course.title }} <span>↗</span>
+                    </a>
+                    <a class="course-btn course-btn-solid" href="{{ url_for('enroll', track=course.track) }}">
+                      Enroll {{ course.title }} <span>→</span>
+                    </a>
+                  </div>
+                </article>
+                {% endfor %}
+              {% endfor %}
+            </div>
+          </div>
+
+          <div class="courses-bottom">
+            <span><b>4.8</b> <span class="stars">★★★★★</span> average learner rating</span>
+            <span class="course-flow"><i></i> Automatically showcasing our learning tracks</span>
+          </div>
+        </div>
+      </section>
+
+<section class="why-karka-section" id="about" aria-labelledby="why-karka-title">
+        <div class="why-karka-shell">
+          <div class="why-karka-visual" aria-label="Why Karka AI visual">
+            <img class="why-karka-badge" src="{{ url_for('static', filename='images/why-karka-ai.png') }}" alt="Why Karka AI?">
+            <img class="why-karka-learner" src="{{ url_for('static', filename='images/learner-study.jpg') }}" alt="Student learning and building skills">
+          </div>
+
+          <div class="why-karka-copy">
+            <div class="why-eyebrow">WHY KARKA AI?</div>
+            <h2 id="why-karka-title">More than learning. <span>Build your future.</span></h2>
+            <p class="why-karka-lead">A focused ecosystem for ambitious learners—combining AI, practical software development, industry exposure and career readiness.</p>
+            <p class="why-typing-line" id="whyTypingLine" aria-live="polite"></p>
+
+            <div class="why-points">
+              <article class="why-point">
+                <span class="why-point-icon" aria-hidden="true">₹</span><span class="why-point-number">01</span>
+                <h3>Pay after you get hired</h3>
+                <p>A career-focused model built around learning, readiness and employment.</p>
+              </article>
+              <article class="why-point">
+                <span class="why-point-icon" aria-hidden="true">AI</span><span class="why-point-number">02</span>
+                <h3>AI-first curriculum</h3>
+                <p>Modern AI and software skills designed for the changing tech landscape.</p>
+              </article>
+              <article class="why-point">
+                <span class="why-point-icon" aria-hidden="true">⚡</span><span class="why-point-number">03</span>
+                <h3>Live internships</h3>
+                <p>Turn classroom concepts into practical experience through real work exposure.</p>
+              </article>
+              <article class="why-point">
+                <span class="why-point-icon" aria-hidden="true">✦</span><span class="why-point-number">04</span>
+                <h3>Expert mentorship</h3>
+                <p>Continuous guidance to build projects, sharpen skills and improve confidently.</p>
+              </article>
+              <article class="why-point">
+                <span class="why-point-icon" aria-hidden="true">↗</span><span class="why-point-number">05</span>
+                <h3>Hiring pathways</h3>
+                <p>Career support that helps connect developed skills with hiring opportunities.</p>
+              </article>
+              <article class="why-point">
+                <span class="why-point-icon" aria-hidden="true">◆</span><span class="why-point-number">06</span>
+                <h3>4-pillar job readiness</h3>
+                <p>Technical skills, projects, communication and interview readiness in one journey.</p>
+              </article>
+            </div>
+
+            <div class="why-bottom">
+              <strong>LEARN • BUILD • PROVE • GET READY</strong>
+              <span>Skills → projects → confidence → career direction.</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           VOICES OF OUR LEARNERS — sequential video stories
+           ===================================================== -->
+      <section class="voices-section" id="voices" aria-labelledby="voices-title">
+        <div class="voices-orb voices-orb-a"></div>
+        <div class="voices-orb voices-orb-b"></div>
+        <div class="voices-orb voices-orb-c"></div>
+        <div class="voices-grid-lines" aria-hidden="true"></div>
+
+        <div class="voices-shell">
+          <div class="voices-heading">
+            <div class="voices-eyebrow"><span class="voices-live-dot"></span> REAL STORIES • REAL GROWTH</div>
+            <h2 id="voices-title">Voices of our <span>learners.</span></h2>
+            <p>Hear directly from our graduates about how Karka helped them build skills, confidence and career direction.</p>
+          </div>
+
+          <div class="voices-player" aria-live="polite">
+            <div class="voices-video-card">
+              <div class="voices-video-topbar">
+                <span class="now-playing"><i></i> NOW PLAYING</span>
+                <span class="story-count" id="voiceStoryCount">01 / 05</span>
+              </div>
+              <div class="voices-video-wrap">
+                <div class="video-corner-glow"></div>
+                <video id="voiceVideo" class="voice-video" playsinline preload="metadata" controls
+                       poster="{{ url_for('static', filename='images/voice-gabriel.jpg') }}">
+                  <source src="{{ url_for('static', filename='videos/learner-gabriel-samraj.mp4') }}" type="video/mp4">
+                  Your browser does not support HTML5 video.
+                </video>
+                <button class="voice-play-overlay" id="voicePlayOverlay" type="button" aria-label="Play current learner story">
+                  <span>▶</span>
+                </button>
+              </div>
+              <div class="voices-video-footer">
+                <div class="voice-progress" aria-hidden="true"><span id="voiceProgress"></span></div>
+                <button class="voice-next" id="voiceNext" type="button">Next story <span>→</span></button>
+              </div>
+            </div>
+
+            <article class="voice-story-card">
+              <div class="voice-story-glow"></div>
+              <div class="voice-story-label">KARKA LEARNER SUCCESS STORY</div>
+              <div class="voice-avatar" id="voiceAvatar" aria-hidden="true">GS</div>
+              <h3 id="voiceName">Gabriel Samraj</h3>
+              <div class="voice-role" id="voiceRole">Frontend Developer</div>
+              <div class="voice-quote-mark" aria-hidden="true">“</div>
+              <blockquote id="voiceQuote">Karka's UI/UX design course was a game-changer for me. The instructors are passionate and the curriculum is up-to-date with the latest design trends. I now feel confident in my ability to create stunning visuals that stand out.</blockquote>
+              <div class="voice-meta">
+                <span><b id="voiceMetaName">Gabriel</b> • Karka learner</span>
+                <span class="voice-sound"><span></span> Video story</span>
+              </div>
+            </article>
+          </div>
+
+          <div class="voices-selector" id="voicesSelector" aria-label="Learner stories">
+            <button class="voice-dot active" type="button" data-voice="0" aria-label="Show Gabriel Samraj story"><span>01</span><b>Gabriel</b></button>
+            <button class="voice-dot" type="button" data-voice="1" aria-label="Show Prabin Raj story"><span>02</span><b>Prabin</b></button>
+            <button class="voice-dot" type="button" data-voice="2" aria-label="Show Shiju Mon story"><span>03</span><b>Shiju Mon</b></button>
+            <button class="voice-dot" type="button" data-voice="3" aria-label="Show Kishore story"><span>04</span><b>Kishore</b></button>
+            <button class="voice-dot" type="button" data-voice="4" aria-label="Show Sridevi story"><span>05</span><b>Sridevi</b></button>
+          </div>
+
+          <div class="voices-bottom-note"><span class="note-spark">✦</span> Every journey is different. Every story starts with a decision to learn.</div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           PAY AFTER YOU GET HIRED — career-first enrollment section
+           ========================================================= -->
+      <section class="pay-after-section" id="pay-after" aria-labelledby="pay-after-title">
+        <div class="pay-after-orb pay-after-orb-a"></div>
+        <div class="pay-after-orb pay-after-orb-b"></div>
+        <div class="pay-after-grid-lines" aria-hidden="true"></div>
+
+        <div class="pay-after-shell">
+          <div class="pay-after-heading">
+            <div class="pay-after-eyebrow"><span></span> CAREER-FIRST LEARNING</div>
+            <h2 id="pay-after-title">Pay After You <span>Get Hired.</span></h2>
+            <p>Start your learning journey with a career-focused model designed to keep your attention on skills, projects and your next opportunity.</p>
+          </div>
+
+          <div class="pay-after-layout">
+            <div class="pay-after-points">
+              <article class="pay-point">
+                <div class="pay-point-number">01</div>
+                <div>
+                  <h3>Learn First</h3>
+                  <p>Build practical skills, complete real-world projects and grow with mentor guidance before your payment journey begins.</p>
+                </div>
+              </article>
+              <article class="pay-point">
+                <div class="pay-point-number">02</div>
+                <div>
+                  <h3>Get Career Ready</h3>
+                  <p>Strengthen your portfolio, resume and interview confidence with structured career and placement support.</p>
+                </div>
+              </article>
+              <article class="pay-point">
+                <div class="pay-point-number">03</div>
+                <div>
+                  <h3>Pay After You Get Hired</h3>
+                  <p>Our career-first model is designed around your employment journey, so you can focus on becoming job-ready.</p>
+                </div>
+              </article>
+            </div>
+
+            <div class="pay-after-stats">
+              <div class="pay-stat">
+                <strong>3,000+</strong>
+                <span>Total learner enrollments</span>
+              </div>
+              <div class="pay-stat">
+                <strong>4.8 <em>★★★★★</em></strong>
+                <span>Average learner rating</span>
+              </div>
+              <div class="pay-after-cta">
+                <span>READY TO START?</span>
+                <a href="{{ url_for('enroll', track='Full Stack Development') }}">Explore Enrollment <b>→</b></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           4 PILLARS OF A JOB-READY TECH CAREER
+           ========================================================= -->
+      <section class="pillars-section" id="job-ready-pillars" aria-labelledby="pillars-title">
+        <div class="pillars-floating-orb pillars-orb-a"></div>
+        <div class="pillars-floating-orb pillars-orb-b"></div>
+        <div class="pillars-shell">
+          <header class="pillars-heading">
+            <div class="pillars-eyebrow"><span></span> CAREER READINESS FRAMEWORK</div>
+            <h2 id="pillars-title">4 Pillars of a <span>Job-Ready Tech Career.</span></h2>
+            <p>A clear, practical pathway that helps learners turn knowledge into proof, confidence and professional readiness.</p>
+          </header>
+
+          <div class="pillars-stage">
+            <article class="pillar-card">
+              <div class="pillar-top"><span class="pillar-number">PILLAR 01</span><i class="pillar-status"></i></div>
+              <div class="pillar-icon" aria-hidden="true">&lt;/&gt;</div>
+              <h3>Technical Mastery</h3>
+              <p>Build strong foundations in coding, AI and modern technology through structured, hands-on learning.</p>
+              <span class="pillar-chip">KNOWLEDGE → CAPABILITY</span>
+            </article>
+
+            <article class="pillar-card">
+              <div class="pillar-top"><span class="pillar-number">PILLAR 02</span><i class="pillar-status"></i></div>
+              <div class="pillar-icon" aria-hidden="true">◆</div>
+              <h3>Real-World Projects</h3>
+              <p>Transform concepts into portfolio-ready work that demonstrates how you solve meaningful technology problems.</p>
+              <span class="pillar-chip">BUILD → PROVE</span>
+            </article>
+
+            <article class="pillar-card">
+              <div class="pillar-top"><span class="pillar-number">PILLAR 03</span><i class="pillar-status"></i></div>
+              <div class="pillar-icon" aria-hidden="true">✦</div>
+              <h3>Professional Skills</h3>
+              <p>Develop communication, teamwork, presentation and workplace habits that help your technical skills stand out.</p>
+              <span class="pillar-chip">SKILL → CONFIDENCE</span>
+            </article>
+
+            <article class="pillar-card">
+              <div class="pillar-top"><span class="pillar-number">PILLAR 04</span><i class="pillar-status"></i></div>
+              <div class="pillar-icon" aria-hidden="true">↗</div>
+              <h3>Interview & Career Readiness</h3>
+              <p>Prepare your resume, portfolio and interview approach so you can present your strengths with clarity.</p>
+              <span class="pillar-chip">READY → OPPORTUNITY</span>
+            </article>
+            <div class="pillar-beam" aria-hidden="true"></div>
+          </div>
+
+          <div class="pillars-trust" aria-label="Karka AI career learning principles">
+            <span><i></i> PRACTICAL LEARNING</span>
+            <span><i></i> PROJECT-LED GROWTH</span>
+            <span><i></i> MENTOR GUIDANCE</span>
+            <span><i></i> CAREER FOCUS</span>
+          </div>
+          <div class="pillars-cta"><a href="{{ url_for('enroll') }}">BUILD YOUR JOB-READY JOURNEY <b>→</b></a></div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           INTERNSHIP — EXPERIENCE BEFORE YOU GRADUATE
+           ========================================================= -->
+      <section class="internship-section" id="internship" aria-labelledby="internship-title">
+        <div class="internship-bg-orb internship-bg-orb-a"></div>
+        <div class="internship-bg-orb internship-bg-orb-b"></div>
+        <div class="internship-bg-grid"></div>
+        <div class="internship-shell">
+          <header class="internship-heading">
+            <div class="internship-eyebrow"><span></span> KARKA AI · CAREER EXPERIENCE</div>
+            <h2 id="internship-title">Experience Before You <span>Graduate.</span></h2>
+            <p>Stop worrying about “0 experience” on your resume. At Karka, every student works on real-time internship projects guided by industry mentors.</p>
+          </header>
+
+          <div class="internship-hero-grid">
+            <div class="internship-visual-card">
+              <div class="internship-visual-top">
+                <span class="internship-live"><i></i> LIVE PROJECT EXPERIENCE</span>
+                <span class="internship-visual-badge">KARKA AI</span>
+              </div>
+              <div class="internship-visual-stage">
+                <div class="internship-ring internship-ring-a"></div>
+                <div class="internship-ring internship-ring-b"></div>
+                <div class="internship-spark spark-a">✦</div>
+                <div class="internship-spark spark-b">+</div>
+                <div class="internship-spark spark-c">◆</div>
+                <div class="internship-icon-fly icon-code">&lt;/&gt;</div>
+                <div class="internship-icon-fly icon-ai">✦</div>
+                <div class="internship-icon-fly icon-team">◎</div>
+                <img src="{{ url_for('static', filename='images/internship-learners.webp') }}" alt="Three Karka AI learners gaining technology internship experience" class="internship-learners-image">
+                <div class="internship-image-glow"></div>
+              </div>
+              <div class="internship-visual-caption">
+                <strong>Learn. Build. Collaborate. Experience.</strong>
+                <span>Turn classroom learning into evidence you can take to your next opportunity.</span>
+              </div>
+            </div>
+
+            <div class="internship-copy">
+              <div class="internship-copy-kicker">FROM LEARNING TO REAL-WORLD IMPACT</div>
+              <h3>Build the kind of experience <em>employers look for.</em></h3>
+              <p class="internship-copy-lead">Gain the kind of hands-on experience that employers crave — and build a powerhouse portfolio before you even finish.</p>
+
+              <div class="internship-benefits" role="list">
+                <article class="internship-benefit" role="listitem">
+                  <div class="internship-benefit-icon">⌁</div>
+                  <div><span>01</span><h4>Work on real client projects</h4><p>Practice solving practical technology problems with mentor guidance.</p></div>
+                </article>
+                <article class="internship-benefit" role="listitem">
+                  <div class="internship-benefit-icon">◈</div>
+                  <div><span>02</span><h4>Build your project portfolio</h4><p>Collect tangible work that shows what you can actually create.</p></div>
+                </article>
+                <article class="internship-benefit" role="listitem">
+                  <div class="internship-benefit-icon">↗</div>
+                  <div><span>03</span><h4>Learn collaboration</h4><p>Experience communication, teamwork and professional delivery.</p></div>
+                </article>
+                <article class="internship-benefit" role="listitem">
+                  <div class="internship-benefit-icon">✓</div>
+                  <div><span>04</span><h4>Receive internship certificate</h4><p>Finish with documented experience that completes your learning story.</p></div>
+                </article>
+              </div>
+
+              <div class="internship-bottom-row">
+                <div class="internship-proof"><b>REAL</b><span>projects</span><i></i><b>GUIDED</b><span>mentorship</span><i></i><b>READY</b><span>portfolio</span></div>
+                <a class="internship-cta" href="{{ url_for('enroll') }}">EXPLORE INTERNSHIP <b>→</b></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <!-- =====================================================
+           LEARNER FEEDBACK — final section
+           ===================================================== -->
+      <section class="feedback-section" id="learner-feedback" aria-labelledby="feedback-title">
+        <div class="feedback-shell">
+          <header class="feedback-heading">
+            <div class="feedback-eyebrow"><i></i> REAL LEARNER EXPERIENCES · NAGERCOIL</div>
+            <h2 id="feedback-title">What Learners in <span>Nagercoil Say</span></h2>
+            <p>Listen to the inspiring stories of our students as they share their experiences and achievements.</p>
+          </header>
+
+          <div class="feedback-trust-row" aria-label="Learner feedback highlights">
+            <div class="feedback-trust-pill"><b>★</b> 4.8 / 5 learner rating</div>
+            <div class="feedback-trust-pill"><b>↗</b> Project-based learning</div>
+            <div class="feedback-trust-pill"><b>✦</b> Industry-focused mentorship</div>
+          </div>
+
+          <div class="feedback-marquee" tabindex="0" aria-label="Moving learner testimonials. Hover or focus to pause.">
+            <div class="feedback-track">
+              <article class="feedback-card">
+                <div class="feedback-stars" aria-label="5 out of 5 stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                <p class="feedback-quote">“Karka's hands-on approach completely changed my career path. The mentors are incredibly supportive and the curriculum is up-to-date with industry standards.”</p>
+                <div class="feedback-person"><div class="feedback-avatar">P</div><div><strong>Priya</strong><small>Karka learner · Nagercoil</small></div></div>
+                <span class="feedback-accent"></span>
+              </article>
+              <article class="feedback-card">
+                <div class="feedback-stars" aria-label="5 out of 5 stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                <p class="feedback-quote">“I loved the ReactJS training! The live projects were challenging but very rewarding. A huge shoutout to the placement team.”</p>
+                <div class="feedback-person"><div class="feedback-avatar">A</div><div><strong>Arun</strong><small>Karka learner · Nagercoil</small></div></div>
+                <span class="feedback-accent"></span>
+              </article>
+              <article class="feedback-card">
+                <div class="feedback-stars" aria-label="5 out of 5 stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                <p class="feedback-quote">“Hands down the best decision I made for my career. The project-based learning really helped me build confidence.”</p>
+                <div class="feedback-person"><div class="feedback-avatar">V</div><div><strong>Vikram</strong><small>Karka learner · Nagercoil</small></div></div>
+                <span class="feedback-accent"></span>
+              </article>
+
+              <!-- Duplicate set for a seamless infinite loop -->
+              <article class="feedback-card" aria-hidden="true">
+                <div class="feedback-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                <p class="feedback-quote">“Karka's hands-on approach completely changed my career path. The mentors are incredibly supportive and the curriculum is up-to-date with industry standards.”</p>
+                <div class="feedback-person"><div class="feedback-avatar">P</div><div><strong>Priya</strong><small>Karka learner · Nagercoil</small></div></div>
+                <span class="feedback-accent"></span>
+              </article>
+              <article class="feedback-card" aria-hidden="true">
+                <div class="feedback-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                <p class="feedback-quote">“I loved the ReactJS training! The live projects were challenging but very rewarding. A huge shoutout to the placement team.”</p>
+                <div class="feedback-person"><div class="feedback-avatar">A</div><div><strong>Arun</strong><small>Karka learner · Nagercoil</small></div></div>
+                <span class="feedback-accent"></span>
+              </article>
+              <article class="feedback-card" aria-hidden="true">
+                <div class="feedback-stars"><span>★</span><span>★</span><span>★</span><span>★</span><span>★</span></div>
+                <p class="feedback-quote">“Hands down the best decision I made for my career. The project-based learning really helped me build confidence.”</p>
+                <div class="feedback-person"><div class="feedback-avatar">V</div><div><strong>Vikram</strong><small>Karka learner · Nagercoil</small></div></div>
+                <span class="feedback-accent"></span>
+              </article>
+            </div>
+          </div>
+          <div class="feedback-loop-note">Continuous learner stories · smooth &amp; seamless</div>
+        </div>
+      </section>
+
+      <!-- CHOOSE YOUR CAREER TRACK -->
+      <section class="career-track-section" id="career-tracks" aria-labelledby="career-tracks-title">
+        <div class="career-track-orb career-track-orb-a"></div>
+        <div class="career-track-orb career-track-orb-b"></div>
+        <div class="career-track-shell">
+          <header class="career-track-heading">
+            <span class="career-track-eyebrow"><i></i> CHOOSE YOUR CAREER TRACK</span>
+            <h2 id="career-tracks-title">Choose your <span>career track.</span></h2>
+            <p>Pick the direction that fits your ambition. Explore every track, see what you will learn, and enroll directly into the Karka AI registration journey.</p>
+          </header>
+
+          <div class="career-track-grid">
+            <article class="career-track-card" style="--card-index:0">
+              <span class="career-track-number">01</span><div class="career-track-icon">&lt;/&gt;</div>
+              <h3>Full Stack Courses</h3><p>Build complete web applications from responsive interfaces to production-ready APIs and databases.</p>
+              <div class="career-track-meta"><span>6 MONTHS</span><span>PROJECT BASED</span></div>
+              <div class="career-track-actions"><button class="career-track-btn career-track-btn-details" data-track="fullstack">Course Details ↗</button><a class="career-track-btn career-track-btn-enroll" href="{{ url_for('enroll', track='Full Stack Development') }}">Enroll Now →</a></div>
+            </article>
+
+            <article class="career-track-card" style="--card-index:1">
+              <span class="career-track-number">02</span><div class="career-track-icon">✦</div>
+              <h3>GenAI Courses</h3><p>Learn generative AI, prompt engineering, AI tools and practical automation for modern careers.</p>
+              <div class="career-track-meta"><span>3 MONTHS</span><span>AI WORKFLOWS</span></div>
+              <div class="career-track-actions"><button class="career-track-btn career-track-btn-details" data-track="genai">Course Details ↗</button><a class="career-track-btn career-track-btn-enroll" href="{{ url_for('enroll', track='Generative AI') }}">Enroll Now →</a></div>
+            </article>
+
+            <article class="career-track-card" style="--card-index:2">
+              <span class="career-track-number">03</span><div class="career-track-icon">⌁</div>
+              <h3>Data Science &amp; AI</h3><p>Turn raw data into useful insights through statistics, machine learning and practical AI systems.</p>
+              <div class="career-track-meta"><span>6 MONTHS</span><span>ML PROJECTS</span></div>
+              <div class="career-track-actions"><button class="career-track-btn career-track-btn-details" data-track="data">Course Details ↗</button><a class="career-track-btn career-track-btn-enroll" href="{{ url_for('enroll', track='Data Science & Machine Learning') }}">Enroll Now →</a></div>
+            </article>
+
+            <article class="career-track-card" style="--card-index:3">
+              <span class="career-track-number">04</span><div class="career-track-icon">◇</div>
+              <h3>Design Courses</h3><p>Learn UI/UX thinking, visual systems, research and prototyping to create memorable digital products.</p>
+              <div class="career-track-meta"><span>4 MONTHS</span><span>PORTFOLIO READY</span></div>
+              <div class="career-track-actions"><button class="career-track-btn career-track-btn-details" data-track="design">Course Details ↗</button><a class="career-track-btn career-track-btn-enroll" href="{{ url_for('enroll', track='Design Courses') }}">Enroll Now →</a></div>
+            </article>
+
+            <article class="career-track-card" style="--card-index:4">
+              <span class="career-track-number">05</span><div class="career-track-icon">▶</div>
+              <h3>Digital Media</h3><p>Explore visual storytelling, graphics, video and digital content skills for creative technology careers.</p>
+              <div class="career-track-meta"><span>3 MONTHS*</span><span>CREATIVE SKILLS</span></div>
+              <div class="career-track-actions"><button class="career-track-btn career-track-btn-details" data-track="media">Track Details ↗</button><a class="career-track-btn career-track-btn-enroll" href="{{ url_for('enroll', track='Digital Media') }}">Enroll Now →</a></div>
+            </article>
+
+            <article class="career-track-card" style="--card-index:5">
+              <span class="career-track-number">06</span><div class="career-track-icon">✎</div>
+              <h3>Content &amp; Marketing</h3><p>Build content strategy, social media, SEO and AI-assisted marketing skills for modern brands.</p>
+              <div class="career-track-meta"><span>3 MONTHS*</span><span>AI + MARKETING</span></div>
+              <div class="career-track-actions"><button class="career-track-btn career-track-btn-details" data-track="marketing">Track Details ↗</button><a class="career-track-btn career-track-btn-enroll" href="{{ url_for('enroll', track='Content & Marketing') }}">Enroll Now →</a></div>
+            </article>
+
+            <article class="career-track-card" style="--card-index:6">
+              <span class="career-track-number">07</span><div class="career-track-icon">⚙</div>
+              <h3>Other Tech</h3><p>Explore additional technology pathways and choose the right skill combination for your goals.</p>
+              <div class="career-track-meta"><span>3–6 MONTHS*</span><span>FLEXIBLE PATH</span></div>
+              <div class="career-track-actions"><button class="career-track-btn career-track-btn-details" data-track="othertech">Track Details ↗</button><a class="career-track-btn career-track-btn-enroll" href="{{ url_for('enroll', track='Other Tech') }}">Enroll Now →</a></div>
+            </article>
+
+            <article class="career-track-card" style="--card-index:7">
+              <span class="career-track-number">08</span><div class="career-track-icon">◎</div>
+              <h3>Non Tech</h3><p>Develop career-ready communication, workplace, business and professional skills beyond coding.</p>
+              <div class="career-track-meta"><span>3 MONTHS*</span><span>CAREER READY</span></div>
+              <div class="career-track-actions"><button class="career-track-btn career-track-btn-details" data-track="nontech">Track Details ↗</button><a class="career-track-btn career-track-btn-enroll" href="{{ url_for('enroll', track='Non Tech') }}">Enroll Now →</a></div>
+            </article>
+          </div>
+          <div class="career-track-foot"><b>*</b> Duration shown for the additional career categories is a suggested pathway; final batch duration is confirmed during counseling. Every <b>Enroll Now</b> button opens the existing Karka AI registration form.</div>
+        </div>
+      </section>
+
+      <div class="career-modal" id="careerModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="careerModalTitle">
+        <div class="career-modal-dialog">
+          <button class="career-modal-close" id="careerModalClose" aria-label="Close course details">×</button>
+          <span class="career-modal-kicker" id="careerModalKicker">COURSE DETAILS</span>
+          <h3 id="careerModalTitle">Your career track</h3>
+          <p class="career-modal-summary" id="careerModalSummary"></p>
+          <div class="career-modal-info">
+            <div><b>Duration</b><span id="careerModalDuration"></span></div>
+            <div><b>Learning</b><span id="careerModalMode"></span></div>
+            <div><b>Outcome</b><span id="careerModalOutcome"></span></div>
+          </div>
+          <h4>What you will learn</h4>
+          <ul class="career-modal-list" id="careerModalList"></ul>
+          <div class="career-modal-cta">
+            <button class="career-track-btn career-track-btn-details" id="careerModalBack">Keep Exploring</button>
+            <a class="career-track-btn career-track-btn-enroll" id="careerModalEnroll" href="{{ url_for('enroll') }}">Enroll Now →</a>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- FAQ: Avengers-style assemble -->
+      <section class="faq-section" id="faq" aria-labelledby="faq-title">
+        <div class="faq-orb faq-orb-a"></div><div class="faq-orb faq-orb-b"></div>
+        <div class="faq-particle faq-particle-a">✦</div><div class="faq-particle faq-particle-b">◆</div><div class="faq-particle faq-particle-c">+</div>
+        <div class="faq-shell">
+          <header class="faq-heading">
+            <div class="faq-eyebrow"><i></i> KARKA AI · YOUR QUESTIONS, ANSWERED</div>
+            <h2 id="faq-title">Frequently <span>Asked Questions</span></h2>
+            <p>Still have questions? Assemble the answers below and get the clarity you need before starting your career journey.</p>
+          </header>
+          <div class="faq-assembly" aria-label="Frequently asked questions">
+            <div class="faq-line faq-line-left"></div><div class="faq-line faq-line-right"></div>
+            <div class="faq-list">
+              <article class="faq-item is-open">
+                <button class="faq-question" type="button" aria-expanded="true"><span class="faq-index">01</span><span>What is Pay After Placement?</span><b>+</b></button>
+                <div class="faq-answer"><div><p>You can focus on learning without worrying about the full course cost upfront. Under Karka AI’s Pay After Placement model, applicable fees are shared only after you secure a qualifying tech job, subject to the program’s eligibility, salary and payment terms.</p></div></div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false"><span class="faq-index">02</span><span>Is placement guaranteed?</span><b>+</b></button>
+                <div class="faq-answer"><div><p>No ethical training provider can promise every learner a job. Karka AI focuses on making you job-ready through practical projects, mentoring, interview preparation and career support, with the Pay After Placement model aligning our incentives with your progress.</p></div></div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false"><span class="faq-index">03</span><span>Who are the mentors at Karka?</span><b>+</b></button>
+                <div class="faq-answer"><div><p>Our learning experience is designed around practical, industry-relevant mentorship. Mentors bring real-world perspective into projects, tools, workflows and career preparation so you learn skills that connect with modern workplace expectations.</p></div></div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false"><span class="faq-index">04</span><span>Do I need a background in coding or CSE?</span><b>+</b></button>
+                <div class="faq-answer"><div><p>Absolutely not. Our pathways are designed to take motivated beginners from fundamentals to practical skills. Whether you come from arts, science, another degree or a career-switching background, you can start with the right foundation and build step by step.</p></div></div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false"><span class="faq-index">05</span><span>How long does the course take?</span><b>+</b></button>
+                <div class="faq-answer"><div><p>Duration depends on the career track. Most intensive pathways are structured around several months of training, project work and career preparation. Your exact schedule and batch duration are confirmed during counseling for the selected course.</p></div></div>
+              </article>
+              <article class="faq-item">
+                <button class="faq-question" type="button" aria-expanded="false"><span class="faq-index">06</span><span>Will I get internship or project experience?</span><b>+</b></button>
+                <div class="faq-answer"><div><p>Yes. Practical experience is a core part of the learning journey. You work through real-world style projects, collaboration and internship-oriented activities that help you build evidence of your skills and a stronger portfolio.</p></div></div>
+              </article>
+            </div>
+          </div>
+          <div class="faq-footer-card">
+            <div class="faq-footer-icon">?</div>
+            <div><strong>Have a different question?</strong><span>Tell our team what you want to know and we’ll guide you to the right course or next step.</span></div>
+            <a href="{{ url_for('enroll') }}" class="faq-footer-cta">ASK / ENQUIRE <b>→</b></a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Career Call: premium mentor conversation -->
+      <section class="career-call-section" id="career-call" aria-labelledby="career-call-title">
+        <div class="career-call-energy career-call-energy-a"></div>
+        <div class="career-call-energy career-call-energy-b"></div>
+        <div class="career-call-grid-lines"></div>
+        <div class="career-call-orbit orbit-one"></div><div class="career-call-orbit orbit-two"></div>
+        <span class="career-call-spark spark-one">✦</span><span class="career-call-spark spark-two">◆</span><span class="career-call-spark spark-three">+</span>
+        <div class="career-call-shell">
+          <div class="career-call-copy">
+            <div class="career-call-eyebrow"><i></i> YOUR NEXT MOVE STARTS HERE</div>
+            <h2 id="career-call-title">Let's Talk About <span>Your Future.</span></h2>
+            <p class="career-call-lead">Schedule a free career call with our mentors. Get clear answers, understand the right path for you, and leave with a practical next step.</p>
+            <div class="career-call-points">
+              <div class="career-call-point"><span>01</span><div><b>Personal guidance</b><small>Talk through your goals, background and career direction.</small></div></div>
+              <div class="career-call-point"><span>02</span><div><b>Course clarity</b><small>Compare programs, learning paths and what you will build.</small></div></div>
+              <div class="career-call-point"><span>03</span><div><b>Zero-pressure conversation</b><small>Ask anything. Our mentors help you decide with confidence.</small></div></div>
+            </div>
+            <div class="career-call-trust"><span>✦</span> Free career guidance <i></i><span>⚡</span> Quick response <i></i><span>◈</span> Nagercoil mentors</div>
+          </div>
+
+          <div class="career-call-card">
+            <div class="career-call-card-glow"></div>
+            <div class="career-call-card-head">
+              <div><span class="career-call-mini">FREE MENTOR SESSION</span><h3>Book My Free Career Call</h3><p>Tell us a little about yourself. We'll take it from there.</p></div>
+              <div class="career-call-icon" aria-hidden="true"><span>↗</span></div>
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}{% for category, message in messages %}<div class="career-call-error" role="alert"><b>!</b><span>{{ message }}</span></div>{% endfor %}{% endwith %}
+            {% if career_call_success %}<div class="career-call-success" role="status"><b>✓ Request received!</b><span>Our team will get in touch with you shortly.</span></div>{% endif %}
+            <form class="career-call-form" method="post" action="{{ url_for('career_call') }}">
+              <div class="career-call-field full"><label for="careerName">Name</label><div class="career-input-wrap"><span>◉</span><input id="careerName" name="name" type="text" placeholder="Your full name" maxlength="100" required autocomplete="name"></div></div>
+              <div class="career-call-field"><label for="careerEmail">Email</label><div class="career-input-wrap"><span>@</span><input id="careerEmail" name="email" type="email" placeholder="you@example.com" required autocomplete="email"></div></div>
+              <div class="career-call-field"><label for="careerPhone">Phone Number</label><div class="career-input-wrap"><span>⌕</span><input id="careerPhone" name="phone" type="tel" placeholder="+91 98765 43210" required autocomplete="tel"></div></div>
+              <div class="career-call-field full"><label for="careerProgram">Preferred Program</label><div class="career-input-wrap select"><span>✦</span><select id="careerProgram" name="program" required><option value="" disabled selected>Choose your career path</option>{% for track in career_tracks %}<option value="{{ track }}">{{ track }}</option>{% endfor %}</select><b>⌄</b></div></div>
+              <div class="career-call-field full"><label for="careerMessage">Message <small>Optional</small></label><div class="career-input-wrap textarea"><span>✎</span><textarea id="careerMessage" name="message" rows="4" maxlength="1000" placeholder="Tell us what you want to achieve or what you are unsure about..."></textarea></div></div>
+              <button class="career-call-submit" type="submit"><span>Book My Free Career Call</span><b>→</b></button>
+              <p class="career-call-note">🔒 Your details are used only to help with your career enquiry.</p>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- =====================================================
+           FIND US — Karka AI location (Google Maps)
+           ===================================================== -->
+      <section class="location-section" id="contact" aria-labelledby="location-title">
+        <div class="location-shell">
+          <header class="location-heading">
+            <span class="location-eyebrow"><i></i> VISIT KARKA AI · NAGERCOIL</span>
+            <h2 id="location-title">Find us on <span>the map.</span></h2>
+            <p>Drop in for a campus visit, meet our mentors and see how learning at Karka AI works in person.</p>
+          </header>
+          <div class="location-grid">
+            <div class="location-map-card">
+              <a class="location-map-fallback" href="{{ maps_url }}" target="_blank" rel="noopener noreferrer" aria-hidden="true" tabindex="-1"><span>📍</span><b>Karka AI · Nagercoil</b><small>Tap to open in Google Maps ↗</small></a>
+              <iframe class="location-map" title="Karka AI location on Google Maps" src="{{ maps_embed_url }}" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
+            </div>
+            <aside class="location-info-card">
+              <span class="location-mini">KARKA AI HQ</span>
+              <h3>Karka AI</h3>
+              <p class="location-address">Nagercoil, Tamil Nadu, India</p>
+              <div class="location-rows">
+                <div><span>Phone</span><a href="tel:{{ phone_tel }}">{{ phone_display }}</a></div>
+                <div><span>Walk-ins</span><b>Campus visits welcome — call ahead to meet a mentor</b></div>
+              </div>
+              <a class="location-btn" href="{{ maps_url }}" target="_blank" rel="noopener noreferrer"><span>Open in Google Maps</span><b>↗</b></a>
+              <a class="location-btn location-btn-ghost" href="{{ url_for('home') }}#career-call"><span>Book a free career call</span><b>→</b></a>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section class="future-cta-section" aria-labelledby="future-cta-title">
+        <div class="future-cta-noise"></div><div class="future-cta-orb orb-a"></div><div class="future-cta-orb orb-b"></div><div class="future-cta-orb orb-c"></div>
+        <div class="future-cta-shell">
+          <div class="future-cta-copy"><span class="future-cta-kicker"><i></i> YOUR NEXT CHAPTER <i></i></span><h2 id="future-cta-title">Ready to <span>Future-Proof</span> Your Career?</h2><p>Join the AI revolution with Karka AI today and start your journey with industry mentors.</p><div class="future-cta-meta"><span>✦ Mentor-led</span><span>⚡ Industry-focused</span><span>◈ Career-ready</span></div></div>
+          <div class="future-cta-actions"><a class="future-btn future-btn-primary" href="{{ url_for('enroll') }}"><span>Apply for Admission</span><b>↗</b></a><a class="future-btn future-btn-secondary" href="{{ url_for('courses_page') }}"><span>Explore Courses</span><b>→</b></a></div>
+        </div>
+      </section>
+
+    </main>
+
+      <footer class="site-footer" aria-label="Karka AI footer">
+        <div class="footer-glow footer-glow-a"></div><div class="footer-glow footer-glow-b"></div>
+        <div class="footer-shell">
+          <div class="footer-brand-col"><a class="footer-brand" href="{{ url_for('home') }}"><img src="{{ url_for('static', filename='images/logo.webp') }}" alt="Karka AI"><span>KARKA <em>AI</em></span></a><p>Empowering the next generation of developers with GenAI Infused education and placement-focused mentorship.</p><div class="footer-socials"><a href="#" aria-label="Facebook">f</a><a href="#" aria-label="Instagram">◎</a><a href="#" aria-label="LinkedIn">in</a></div></div>
+          <div class="footer-links-col"><h3>Our Programs</h3><a href="{{ url_for('home') }}">Home</a><a href="{{ url_for('courses_page') }}">All Courses</a><a href="{{ url_for('home') }}#job-ready-pillars">Placement</a><a href="{{ url_for('home') }}#career-call">Free Roadmap</a></div>
+          <div class="footer-links-col"><h3>Karka AI</h3><a href="{{ url_for('home') }}#about">About Us</a><a href="{{ url_for('home') }}#career-call">Our Mentors</a><a href="{{ url_for('home') }}#voices">Success Stories</a><a href="{{ url_for('home') }}#contact">Contact</a></div>
+          <div class="footer-contact-col"><h3>Stay Updated</h3><form class="footer-newsletter" onsubmit="return false"><input type="email" placeholder="Enter your email" aria-label="Enter your email"><button type="submit" aria-label="Subscribe">→</button></form><div class="footer-contact"><div><span>Karka AI HQ</span><strong><a href="{{ maps_url }}" target="_blank" rel="noopener noreferrer">Nagercoil, Tamil Nadu, India ↗</a></strong></div><div><span>Phone</span><strong><a href="tel:{{ phone_tel }}">{{ phone_display }}</a></strong></div></div></div>
+        </div><div class="footer-bottom"><span>© 2026 Karka AI. Built for the next generation.</span><span>Learn · Build · Lead</span></div>
+      </footer>
+
+  </div>
+  <script>
+    (() => {
+      const line = document.getElementById('whyTypingLine');
+      if (!line) return;
+      const messages = [
+        'Think bigger. Learn smarter. Build with AI.',
+        'From first skill to real-world project.',
+        'Turn curiosity into capability.',
+        'Build skills that move you forward.'
+      ];
+      let messageIndex = 0, charIndex = 0, deleting = false;
+      const type = () => {
+        const message = messages[messageIndex];
+        line.textContent = message.slice(0, charIndex);
+        if (!deleting) {
+          charIndex++;
+          if (charIndex > message.length) { deleting = true; setTimeout(type, 1500); return; }
+        } else {
+          charIndex--;
+          if (charIndex < 0) { deleting = false; charIndex = 0; messageIndex = (messageIndex + 1) % messages.length; }
+        }
+        setTimeout(type, deleting ? 32 : 55);
+      };
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) line.textContent = messages[0];
+      else type();
+    })();
+  </script>
+
+  <script>
+    (() => {
+      const marquee = document.getElementById('partnersMarquee');
+      if (!marquee) return;
+      const pause = () => marquee.classList.add('is-paused');
+      const resume = () => marquee.classList.remove('is-paused');
+      marquee.addEventListener('pointerdown', (event) => {
+        pause();
+        try { marquee.setPointerCapture(event.pointerId); } catch (_) {}
+      });
+      marquee.addEventListener('pointerup', (event) => {
+        resume();
+        try { marquee.releasePointerCapture(event.pointerId); } catch (_) {}
+      });
+      marquee.addEventListener('pointercancel', resume);
+      marquee.addEventListener('lostpointercapture', resume);
+      marquee.addEventListener('keydown', (event) => {
+        if (event.code === 'Space' || event.code === 'Enter') {
+          event.preventDefault();
+          marquee.classList.toggle('is-paused');
+        }
+      });
+    })();
+  </script>
+
+
+
+  <script>
+    (() => {
+      const video = document.getElementById('voiceVideo');
+      const playOverlay = document.getElementById('voicePlayOverlay');
+      const nextButton = document.getElementById('voiceNext');
+      const count = document.getElementById('voiceStoryCount');
+      const progress = document.getElementById('voiceProgress');
+      const name = document.getElementById('voiceName');
+      const role = document.getElementById('voiceRole');
+      const quote = document.getElementById('voiceQuote');
+      const avatar = document.getElementById('voiceAvatar');
+      const metaName = document.getElementById('voiceMetaName');
+      const dots = [...document.querySelectorAll('.voice-dot')];
+      if (!video || !nextButton || !dots.length) return;
+
+      const stories = [
+        {
+          name:'Gabriel Samraj', role:'Frontend Developer', initials:'GS', short:'Gabriel',
+          video:'{{ url_for('static', filename='videos/learner-gabriel-samraj.mp4') }}',
+          poster:'{{ url_for('static', filename='images/voice-gabriel.jpg') }}',
+          quote:"Karka's UI/UX design course was a game-changer for me. The instructors are passionate and the curriculum is up-to-date with the latest design trends. I now feel confident in my ability to create stunning visuals that stand out."
+        },
+        {
+          name:'Prabin Raj', role:'Full Stack Developer', initials:'PR', short:'Prabin',
+          video:'{{ url_for('static', filename='videos/learner-prabin-raj.mp4') }}',
+          poster:'{{ url_for('static', filename='images/voice-prabin.jpg') }}',
+          quote:'I learned to build scalable applications from scratch. The environment at Karka is incredibly supportive and pushed me to be a better developer every day.'
+        },
+        {
+          name:'Shiju Mon', role:'Graphic Designer', initials:'SM', short:'Shiju Mon',
+          video:'{{ url_for('static', filename='videos/learner-shiju-mon.mp4') }}',
+          poster:'{{ url_for('static', filename='images/voice-shiju.jpg') }}',
+          quote:"Karka's graphic design course was a game-changer for me. The instructors are passionate and the curriculum is up-to-date with the latest design trends. I now feel confident in my ability to create stunning visuals that stand out."
+        },
+        {
+          name:'Kishore', role:'UI/UX Designer', initials:'K', short:'Kishore',
+          video:'{{ url_for('static', filename='videos/learner-kishore.mp4') }}',
+          poster:'{{ url_for('static', filename='images/voice-kishore.jpg') }}',
+          quote:"Karka's UI/UX design course was a game-changer for me. The instructors are passionate and the curriculum is up-to-date with the latest design trends. I now feel confident in my ability to create stunning visuals that stand out."
+        },
+        {
+          name:'Sridevi', role:'UI/UX Designer', initials:'S', short:'Sridevi',
+          video:'{{ url_for('static', filename='videos/learner-sridevi.mp4') }}',
+          poster:'{{ url_for('static', filename='images/voice-sridevi.jpg') }}',
+          quote:"Karka's UI/UX design course was a game-changer for me. The instructors are passionate and the curriculum is up-to-date with the latest design trends. I now feel confident in my ability to create stunning visuals that stand out."
+        }
+      ];
+      const card = document.querySelector('.voice-story-card');
+      let current = 0;
+      let loadToken = 0;
+
+      const setActiveDot = (index) => {
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+          dot.setAttribute('aria-current', i === index ? 'true' : 'false');
+        });
+        const selector = document.getElementById('voicesSelector');
+        const activeDot = dots[index];
+        if (selector && activeDot) {
+          const targetLeft = activeDot.offsetLeft - (selector.clientWidth - activeDot.offsetWidth) / 2;
+          selector.scrollTo({left: Math.max(0, targetLeft), behavior: 'smooth'});
+        }
+      };
+
+      const loadStory = (index, shouldPlay = false) => {
+        current = (index + stories.length) % stories.length;
+        const story = stories[current];
+        const token = ++loadToken;               // the latest click always wins
+        video.pause();
+        video.onloadedmetadata = () => {
+          if (token !== loadToken) return;
+          if (shouldPlay) video.play().catch(() => {});
+        };
+        video.src = story.video;
+        video.poster = story.poster;
+        video.load();
+        count.textContent = `${String(current + 1).padStart(2,'0')} / ${String(stories.length).padStart(2,'0')}`;
+        progress.style.width = '0%';
+        playOverlay.classList.remove('is-hidden');
+        setActiveDot(current);
+        card?.classList.add('is-swapping');
+        setTimeout(() => {
+          if (token !== loadToken) return;
+          name.textContent = story.name;
+          role.textContent = story.role;
+          quote.textContent = story.quote;
+          avatar.textContent = story.initials;
+          metaName.textContent = story.short;
+          card?.classList.remove('is-swapping');
+        }, 260);
+      };
+
+      playOverlay.addEventListener('click', () => video.play().catch(() => {}));
+      video.addEventListener('play', () => playOverlay.classList.add('is-hidden'));
+      video.addEventListener('pause', () => {
+        if (Number.isFinite(video.duration) && video.currentTime < video.duration - 0.3) playOverlay.classList.remove('is-hidden');
+      });
+      video.addEventListener('timeupdate', () => {
+        if (Number.isFinite(video.duration) && video.duration > 0) progress.style.width = `${(video.currentTime / video.duration) * 100}%`;
+      });
+      video.addEventListener('ended', () => loadStory(current + 1, true));
+      nextButton.addEventListener('click', () => loadStory(current + 1, true));
+      dots.forEach(dot => dot.addEventListener('click', () => loadStory(Number(dot.dataset.voice), false)));
+    })();
+  </script>
+
+
+  <script>
+    (() => {
+      const modal = document.getElementById('careerModal');
+      const close = document.getElementById('careerModalClose');
+      const back = document.getElementById('careerModalBack');
+      const title = document.getElementById('careerModalTitle');
+      const kicker = document.getElementById('careerModalKicker');
+      const summary = document.getElementById('careerModalSummary');
+      const duration = document.getElementById('careerModalDuration');
+      const mode = document.getElementById('careerModalMode');
+      const outcome = document.getElementById('careerModalOutcome');
+      const list = document.getElementById('careerModalList');
+      const enroll = document.getElementById('careerModalEnroll');
+      const trackNames = {fullstack:'Full Stack Development',genai:'Generative AI',data:'Data Science & Machine Learning',design:'Design Courses',media:'Digital Media',marketing:'Content & Marketing',othertech:'Other Tech',nontech:'Non Tech'};
+      let lastFocus = null;
+      const data = {
+        fullstack:{title:'Full Stack Courses',summary:'A practical software-development pathway built around complete web applications, real projects and production thinking.',duration:'6 Months',mode:'Offline + Online',outcome:'Job-ready portfolio',items:['HTML, CSS & responsive interfaces','JavaScript and React development','Node.js, Express APIs & authentication','MongoDB and database design','Git, deployment, Docker & CI/CD','Real-world full-stack projects'],track:'Full Stack Development'},
+        genai:{title:'GenAI Courses',summary:'A hands-on generative AI pathway for students, creators and professionals who want to use AI confidently and productively.',duration:'3 Months',mode:'Offline + Online',outcome:'AI workflow skills',items:['Generative AI foundations','Prompt engineering frameworks','ChatGPT and modern AI tools','Image and content generation workflows','AI automation and productivity','Responsible and ethical AI practices'],track:'Generative AI'},
+        data:{title:'Data Science & AI',summary:'Learn how to transform data into decisions through statistics, machine learning and practical AI engineering.',duration:'6 Months',mode:'Offline + Online',outcome:'ML project portfolio',items:['Python for data work','Statistics and data preparation','Supervised & unsupervised learning','Deep learning foundations','NLP and computer vision concepts','Predictive analytics projects'],track:'Data Science & Machine Learning'},
+        design:{title:'Design Courses',summary:'A portfolio-focused creative technology pathway covering user research, visual design and high-fidelity digital experiences.',duration:'4 Months',mode:'Offline + Online',outcome:'Portfolio-ready case studies',items:['Design thinking and user research','Personas and information architecture','Wireframing and prototyping','Figma workflows and components','Typography, color and visual hierarchy','Usability testing and case studies'],track:'Design Courses'},
+        media:{title:'Digital Media',summary:'A creative pathway for learners who want to communicate ideas through digital visuals, video and modern media workflows.',duration:'3 Months*',mode:'Guided + Practical',outcome:'Creative portfolio',items:['Digital visual storytelling','Graphic design fundamentals','Video editing workflow','Motion and presentation basics','AI-assisted creative production','Portfolio and content showcase'],track:'Digital Media'},
+        marketing:{title:'Content & Marketing',summary:'Build modern marketing skills that combine strategy, storytelling, social media and AI-assisted content production.',duration:'3 Months*',mode:'Guided + Practical',outcome:'Campaign portfolio',items:['Content strategy and planning','Social media fundamentals','SEO and discoverability','AI-assisted content workflows','Campaign thinking and analytics','Brand communication projects'],track:'Content & Marketing'},
+        othertech:{title:'Other Tech',summary:'A flexible technology track for learners who want to explore complementary technical skills and choose a focused path.',duration:'3–6 Months*',mode:'Guided pathway',outcome:'Focused tech skills',items:['Programming foundations','Python and automation concepts','Developer tools and Git','Problem-solving practice','Project-based learning','Career pathway counseling'],track:'Other Tech'},
+        nontech:{title:'Non Tech',summary:'Career-ready learning beyond coding, designed to strengthen communication, workplace confidence and professional effectiveness.',duration:'3 Months*',mode:'Guided + Practical',outcome:'Professional confidence',items:['Communication and presentation','Aptitude and problem solving','Professional etiquette','Resume and profile building','Interview preparation','Workplace collaboration skills'],track:'Non Tech'}
+      };
+      const openModal = (key) => {
+        const item = data[key]; if (!item) return;
+        kicker.textContent = item.title.toUpperCase() + ' · COURSE DETAILS';
+        title.innerHTML = item.title.replace(/&/g,'&amp;').replace(/(Courses|AI|Media|Marketing|Tech|Non Tech|Data Science)/gi, '<span>$1</span>');
+        summary.textContent = item.summary;
+        duration.textContent = item.duration;
+        mode.textContent = item.mode;
+        outcome.textContent = item.outcome;
+        list.innerHTML = item.items.map(x => `<li>${x}</li>`).join('');
+        enroll.href = `{{ url_for('enroll') }}?track=${encodeURIComponent(trackNames[key] || '')}`;
+        lastFocus = document.activeElement;
+        modal.classList.add('is-open'); modal.setAttribute('aria-hidden','false'); document.body.classList.add('career-modal-lock'); close.focus();
+      };
+      const closeModal = () => { modal.classList.remove('is-open'); modal.setAttribute('aria-hidden','true'); document.body.classList.remove('career-modal-lock'); if (lastFocus && lastFocus.focus) lastFocus.focus(); };
+      document.querySelectorAll('[data-track]').forEach(btn => btn.addEventListener('click', () => openModal(btn.dataset.track)));
+      close.addEventListener('click', closeModal); back.addEventListener('click', closeModal);
+      modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+      document.addEventListener('keydown', e => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
+    })();
+  </script>
+
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+<script>
+  (() => {
+    const items = [...document.querySelectorAll('.faq-item')];
+    if (!items.length) return;
+    items.forEach((item) => {
+      const btn = item.querySelector('.faq-question');
+      btn.addEventListener('click', () => {
+        const wasOpen = item.classList.contains('is-open');
+        items.forEach((other) => {
+          other.classList.remove('is-open');
+          other.querySelector('.faq-question').setAttribute('aria-expanded','false');
+        });
+        if (!wasOpen) {
+          item.classList.add('is-open');
+          btn.setAttribute('aria-expanded','true');
+        }
+      });
+    });
+  })();
+</script>
+{% include "_chatbot.html" %}
+</body>
+</html>
