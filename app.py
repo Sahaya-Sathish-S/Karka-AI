@@ -10,8 +10,16 @@ import urllib.request
 import urllib.error
 from collections import OrderedDict, defaultdict, deque
 from flask import send_from_directory, abort
+from google_sync import notify
 
-
+# Load a local .env file (if present) without needing python-dotenv.
+_env_file = Path(__file__).resolve().parent / ".env"
+if _env_file.exists():
+    for _line in _env_file.read_text(encoding="utf-8").splitlines():
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _k, _v = _line.split("=", 1)
+            os.environ.setdefault(_k.strip(), _v.strip().strip('"').strip("'"))
 os.environ["GOOGLE_SCRIPT_URL"] = "https://script.google.com/macros/s/AKfycbxJZk-1oSM_yNzBaGAZFtwBbL43_7Drpm7JAr1chFecG0cazOrttNgp-U5cDUDUC0ngvg/exec"
 os.environ["GOOGLE_SCRIPT_SECRET"] = "CHANGE_ME_TO_A_LONG_RANDOM_STRING"
 app = Flask(__name__, static_folder=None)
@@ -540,6 +548,7 @@ def career_call():
                 "INSERT INTO career_call_requests (full_name, email, program, phone, message) VALUES (?, ?, ?, ?, ?)",
                 (name, email, program, phone, message)
             )
+        notify("career_call", name=name, email=email, program=program, phone=phone, message=message)
         return redirect(url_for("home", career_call="success") + "#career-call")
 
     return redirect(url_for("home") + "#career-call")
@@ -577,6 +586,7 @@ def enroll():
                     "INSERT INTO enrollments (full_name, whatsapp, email, career_track) VALUES (?, ?, ?, ?)",
                     (name, whatsapp, email, track)
                 )
+            notify("enrollment", name=name, whatsapp=whatsapp, email=email, track=track)
             # Post/Redirect/Get: refreshing the thank-you page can no longer submit the form twice.
             return redirect(url_for("enroll_success", name=name))
         # Validation failed: keep what the person typed so they do not have to start over.
@@ -612,6 +622,7 @@ def request_callback():
                 "INSERT INTO callback_requests (full_name, whatsapp, course, preferred_time) VALUES (?, ?, ?, ?)",
                 (name, whatsapp, course["title"], preferred_time)
             )
+        notify("callback", name=name, whatsapp=whatsapp, course=course["title"], preferred_time=preferred_time)
         return redirect(url_for("course_detail", slug=course_slug, callback="success"))
 
     if course:
