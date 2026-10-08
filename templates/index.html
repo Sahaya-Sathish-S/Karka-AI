@@ -426,6 +426,8 @@
           <button class="drawer-close" id="drawerClose" aria-label="Close navigation">×</button>
         </div>
         <a href="{{ url_for('home') }}#courses">Explore Courses</a>
+        <a href="{{ url_for('home') }}#skills">Skills</a>
+        <a href="{{ url_for('home') }}#platforms">Karka Platforms</a>
         <a href="{{ url_for('enroll') }}">School Student</a>
         <a href="{{ url_for('enroll') }}">College Student</a>
         <a href="{{ url_for('enroll') }}">Graduates</a>
@@ -447,7 +449,7 @@
         <div class="hero-art" aria-hidden="true">
           <div class="hero-art-glow"></div>
           <img class="hero-art-image active" data-art="0"
-               src="{{ url_for('static', filename='images/learner-study.jpg') }}"
+               src="{{ url_for('static', filename='images/learner-study.png') }}"
                alt="">
           <img class="hero-art-image" data-art="1"
                src="{{ url_for('static', filename='images/ai-robot.webp') }}"
@@ -468,7 +470,7 @@
               <div class="impact">
                 <div class="impact-copy"><span class="impact-line"></span><span>Where our learners<br><b>are making an impact</b></span></div>
                 <div class="impact-images one">
-                  <img src="{{ url_for('static', filename='images/learner-study.jpg') }}" alt="Learner studying and building skills">
+                  <img src="{{ url_for('static', filename='images/learner-study.png') }}" alt="Learner studying and building skills">
                 </div>
               </div>
             </article>
@@ -534,6 +536,38 @@
       </section>
 
       
+
+      <!-- =====================================================
+           SKILLS THAT BUILD YOUR FUTURE
+           ===================================================== -->
+      <section class="skills-future-section" id="skills" aria-labelledby="skills-future-title">
+        <div class="skills-future-bg skills-future-bg-a"></div>
+        <div class="skills-future-bg skills-future-bg-b"></div>
+        <div class="skills-future-shell">
+          <div class="skills-future-copy">
+            <span class="platform-kicker"><i></i> KARKA AI ACADEMY</span>
+            <h2 id="skills-future-title">Skills That <span>Build Your Future.</span></h2>
+            <p>Learn practical skills that move from classroom projects to real opportunities — with AI at your side, mentors behind you and a portfolio you can show.</p>
+            <div class="skills-future-actions">
+              <a href="{{ url_for('courses_page') }}" class="platform-primary">Explore Courses <b>↗</b></a>
+              <a href="#career-call" class="platform-secondary">Talk to a Mentor <b>→</b></a>
+            </div>
+          </div>
+          <div class="skills-future-grid">
+            <article class="skill-orbit-card"><div class="skill-icon">⌘</div><span>01</span><h3>Build</h3><p>Real projects, portfolios and developer workflows.</p></article>
+            <article class="skill-orbit-card"><div class="skill-icon">✦</div><span>02</span><h3>Create</h3><p>AI-powered design, media and creative production.</p></article>
+            <article class="skill-orbit-card"><div class="skill-icon">◈</div><span>03</span><h3>Think</h3><p>Problem-solving, technical confidence and innovation.</p></article>
+            <article class="skill-orbit-card"><div class="skill-icon">↗</div><span>04</span><h3>Launch</h3><p>Internships, mentorship and career-ready outcomes.</p></article>
+            <div class="skill-developer-art" aria-hidden="true">
+              <div class="dev-ring dev-ring-one"></div><div class="dev-ring dev-ring-two"></div>
+              <div class="dev-head"></div><div class="dev-body"></div><div class="dev-screen"><span>&lt;/&gt;</span></div>
+              <div class="dev-code c1"></div><div class="dev-code c2"></div><div class="dev-code c3"></div>
+              <div class="dev-spark ds1">✦</div><div class="dev-spark ds2">◆</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       <!-- =====================================================
            EXPLORE OUR COURSES — automatic course showcase
            ===================================================== -->
@@ -547,11 +581,13 @@
               <h2 id="courses-title">Explore our <span>courses.</span></h2>
               <p>Industry-focused bootcamps. Practical skills. Career-ready confidence.</p>
             </div>
-            <a class="courses-view-all" href="#courses" aria-label="View all courses">ALL COURSES <span>↗</span></a>
+            <a class="courses-view-all" href="{{ url_for('courses_page') }}" aria-label="View all courses">ALL COURSES <span>↗</span></a>
           </div>
 
-          <div class="courses-marquee" aria-label="Course showcase">
-            <div class="courses-track">
+          <div class="courses-carousel-wrap">
+            <button class="course-nav-arrow course-nav-prev" type="button" aria-label="Previous course">‹</button>
+            <div class="courses-marquee" id="homeCourseCarousel" aria-label="Course showcase">
+              <div class="courses-track">
               {% for copy in [0, 1] %}
                 {% for course in courses %}
                 <article class="course-card" {% if copy == 1 %}aria-hidden="true"{% endif %}>
@@ -592,7 +628,9 @@
                 </article>
                 {% endfor %}
               {% endfor %}
+              </div>
             </div>
+            <button class="course-nav-arrow course-nav-next" type="button" aria-label="Next course">›</button>
           </div>
 
           <div class="courses-bottom">
@@ -606,7 +644,7 @@
         <div class="why-karka-shell">
           <div class="why-karka-visual" aria-label="Why Karka AI visual">
             <img class="why-karka-badge" src="{{ url_for('static', filename='images/why-karka-ai.png') }}" alt="Why Karka AI?">
-            <img class="why-karka-learner" src="{{ url_for('static', filename='images/learner-study.jpg') }}" alt="Student learning and building skills">
+            <img class="why-karka-learner" src="{{ url_for('static', filename='images/learner-study.png') }}" alt="Student learning and building skills">
           </div>
 
           <div class="why-karka-copy">
@@ -1067,6 +1105,47 @@
 
 
       <!-- FAQ: Avengers-style assemble -->
+
+      <!-- =====================================================
+           BEYOND THE CLASSROOM — KARKA PLATFORMS
+           ===================================================== -->
+      <section class="karka-platforms-section" id="platforms" aria-labelledby="platforms-title">
+        <div class="platforms-grid-glow"></div>
+        <div class="platforms-shell">
+          <div class="platforms-heading">
+            <span class="platform-kicker"><i></i> BEYOND THE CLASSROOM</span>
+            <h2 id="platforms-title">Explore <span>Karka Platforms.</span></h2>
+            <p>Compete with students across the district or level up with AI-powered learning.</p>
+          </div>
+          <div class="platform-cards">
+            <article class="platform-card infini-card">
+              <div class="platform-card-top"><div><span class="platform-mini">KARKA INFINI AI</span><h3>Karka Infini AI</h3><p>Inter-college student competition</p></div><div class="platform-symbol">∞</div></div>
+              <div class="prize-chip"><strong>₹1,00,000</strong><span>Total prize pool</span></div>
+              <h4>Showcase Your Skills. Compete. Get Recognized. Win Big!</h4>
+              <div class="contest-grid">
+                <div><b>PaperPulse</b><span>Idea Presentation</span></div><div><b>TechRush</b><span>Technical Quiz</span></div>
+                <div><b>Bug Hunt</b><span>Debugging</span></div><div><b>SiteSprint</b><span>Website Building</span></div>
+                <div><b>Graphix</b><span>Poster Design</span></div><div><b>VibeCut</b><span>Video Creation</span></div>
+              </div>
+              <div class="rounds-row"><div><span>Round 1</span><b>Campus arena at your college</b></div><div><span>Round 2</span><b>District-level grand finale for the top 3 teams</b></div></div>
+              <div class="rewards-row"><span>🏆 Rewards</span><b>Cash prizes, Karka Rolling Trophy & certificates</b></div>
+              <a href="#career-call" class="platform-primary">Register for Infini <b>↗</b></a>
+              <small class="platform-note">Free entry · Join multiple contests · Teams of 1–4</small>
+            </article>
+            <article class="platform-card spike-card">
+              <div class="platform-card-top"><div><span class="platform-mini">SPIKE AI</span><h3>Spike AI</h3><p>Learning platform</p></div><div class="platform-symbol">✦</div></div>
+              <div class="spike-hero"><div class="spike-glow"></div><div class="spike-input"><span>⌕</span> Ask Spike anything you're learning… <b>↗</b></div><div class="spike-ai-badge">AI</div></div>
+              <p class="spike-lead">The AI-powered learning platform by Karka Academy</p>
+              <div class="spike-features">
+                <div><span>✦</span><b>AI-Guided</b><small>Learn with AI at your side</small></div><div><span>⌘</span><b>Hands-On</b><small>Practise as you learn</small></div>
+                <div><span>↗</span><b>Progress</b><small>Track your growth</small></div><div><span>◈</span><b>Mentor-Backed</b><small>Paired with Karka mentors</small></div>
+              </div>
+              <a href="#career-call" class="platform-primary">Open Spike <b>↗</b></a>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section class="faq-section" id="faq" aria-labelledby="faq-title">
         <div class="faq-orb faq-orb-a"></div><div class="faq-orb faq-orb-b"></div>
         <div class="faq-particle faq-particle-a">✦</div><div class="faq-particle faq-particle-b">◆</div><div class="faq-particle faq-particle-c">+</div>
@@ -1435,6 +1514,31 @@
     });
   })();
 </script>
+
+<script>
+(() => {
+  const wrap = document.getElementById('homeCourseCarousel');
+  const track = wrap?.querySelector('.courses-track');
+  const cards = track ? [...track.querySelectorAll('.course-card:not([aria-hidden="true"])')] : [];
+  const prev = document.querySelector('.course-nav-prev'), next = document.querySelector('.course-nav-next');
+  if (!wrap || !track || cards.length < 2) return;
+  let index=0, timer=null, paused=false;
+  const step=()=>cards[0].getBoundingClientRect().width+(parseFloat(getComputedStyle(track).gap)||22);
+  const render=(animate=true)=>{
+    track.style.animation='none';
+    track.style.transition=animate?'transform .72s cubic-bezier(.16,1,.3,1)':'none';
+    track.style.transform=`translateX(${-index*step()}px)`;
+  };
+  const go=(dir)=>{index=(index+dir+cards.length)%cards.length;render(true);};
+  const start=()=>{clearInterval(timer);timer=setInterval(()=>{if(!paused)go(1)},5200)};
+  prev?.addEventListener('click',()=>{go(-1);start()});
+  next?.addEventListener('click',()=>{go(1);start()});
+  wrap.addEventListener('mouseenter',()=>paused=true);wrap.addEventListener('mouseleave',()=>paused=false);
+  wrap.addEventListener('touchstart',()=>paused=true,{passive:true});wrap.addEventListener('touchend',()=>paused=false,{passive:true});
+  window.addEventListener('resize',()=>render(false));render(false);start();
+})();
+</script>
+
 {% include "_chatbot.html" %}
 </body>
 </html>
