@@ -675,11 +675,13 @@ def karka_chat():
 def health():
     return {"status": "ok"}
 
-@app.route("/school-students")
+@app.route("/school_students")
 def school_students():
     return render_template("student.html")
 
-
+@app.route("/college_students")
+def college_students():
+    return render_template("college.html")
 init_db()
 
 if __name__ == "__main__":
