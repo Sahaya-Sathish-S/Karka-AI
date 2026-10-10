@@ -681,7 +681,7 @@ def school_students():
 
 @app.route("/professionals")
 def professionals():
-    return render_template("professionals.html")
+    return render_template("professional.html")
 
 @app.route("/college_students")
 def college_students():
