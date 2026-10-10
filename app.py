@@ -10,7 +10,8 @@ import urllib.request
 import urllib.error
 from collections import OrderedDict, defaultdict, deque
 from flask import send_from_directory, abort
-from google_sync import notify
+def notify(*args, **kwargs):
+    return None
 
 # Load a local .env file (if present) without needing python-dotenv.
 _env_file = Path(__file__).resolve().parent / ".env"
