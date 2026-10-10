@@ -409,6 +409,397 @@
       .pay-after-orb,.pay-after-section::after{animation:none}
       .pay-point,.pay-after-cta a{transition:none}
     }
+    
+/* =========================================================
+   KARKA AI — SKILLS THAT BUILD YOUR FUTURE
+   White background + colorful professional glow
+   ========================================================= */
+
+.skills-future-section {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    padding: clamp(70px, 8vw, 110px) 0;
+    color: #171934 !important;
+    background:
+        radial-gradient(ellipse at 8% 15%, rgba(0, 195, 255, .14), transparent 30%),
+        radial-gradient(ellipse at 92% 20%, rgba(183, 91, 255, .15), transparent 32%),
+        radial-gradient(ellipse at 50% 100%, rgba(255, 91, 174, .10), transparent 38%),
+        linear-gradient(135deg, #ffffff 0%, #f5f8ff 50%, #fff8fd 100%) !important;
+    border-top: 1px solid rgba(105, 119, 200, .16);
+    border-bottom: 1px solid rgba(105, 119, 200, .16);
+}
+
+.skills-future-section::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: .45;
+    background-image:
+        radial-gradient(circle, rgba(104, 104, 205, .23) 1px, transparent 1.5px);
+    background-size: 27px 27px;
+    mask-image: linear-gradient(to bottom, transparent, black 20%, black 80%, transparent);
+}
+
+.skills-future-bg {
+    position: absolute;
+    z-index: -1;
+    width: 260px;
+    height: 260px;
+    border-radius: 50%;
+    pointer-events: none;
+    filter: blur(65px);
+    opacity: .35;
+    animation: skillsGlowFloat 8s ease-in-out infinite;
+}
+
+.skills-future-bg-a {
+    top: 5%;
+    left: -100px;
+    background: #44dfff;
+}
+
+.skills-future-bg-b {
+    right: -100px;
+    bottom: 0;
+    background: #e879ff;
+    animation-delay: -4s;
+}
+
+.skills-future-shell {
+    position: relative;
+    z-index: 1;
+}
+
+.skills-future-copy {
+    color: #202344 !important;
+}
+
+.skills-future-copy h2 {
+    color: #171934 !important;
+    line-height: 1.08;
+    letter-spacing: -.045em;
+}
+
+.skills-future-copy h2 span {
+    background: linear-gradient(100deg, #087cf5, #7954ff 48%, #ee3ca7);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+}
+
+.skills-future-copy p {
+    color: #626b87 !important;
+    line-height: 1.8;
+}
+
+.skills-future-section .platform-kicker {
+    color: #56639a !important;
+}
+
+.skills-future-section .platform-kicker i {
+    background: #20cfff;
+    box-shadow: 0 0 12px rgba(32, 207, 255, .85);
+}
+
+.skills-future-grid {
+    position: relative;
+    isolation: isolate;
+}
+
+.skill-orbit-card {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(105, 119, 200, .20) !important;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, .82) !important;
+    color: #202344 !important;
+    box-shadow:
+        0 14px 36px rgba(54, 70, 140, .09),
+        inset 0 1px 0 rgba(255, 255, 255, .95);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    transition:
+        transform .3s ease,
+        border-color .3s ease,
+        box-shadow .3s ease;
+}
+
+.skill-orbit-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(
+        135deg,
+        rgba(0, 205, 255, .5),
+        transparent 35%,
+        rgba(188, 91, 255, .35),
+        rgba(255, 73, 176, .3)
+    );
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    opacity: .65;
+}
+
+.skill-orbit-card:hover {
+    transform: translateY(-7px);
+    border-color: rgba(102, 104, 240, .4) !important;
+    box-shadow:
+        0 22px 45px rgba(60, 72, 150, .14),
+        0 0 28px rgba(66, 207, 255, .15),
+        0 0 28px rgba(220, 83, 255, .10);
+}
+
+.skill-orbit-card > span {
+    color: #8490b1 !important;
+}
+
+.skill-orbit-card h3 {
+    color: #1c2041 !important;
+}
+
+.skill-orbit-card p {
+    color: #68718e !important;
+    line-height: 1.65;
+}
+
+.skill-icon {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #08cfff, #7155ff 55%, #f044ad) !important;
+    box-shadow:
+        0 8px 22px rgba(105, 83, 255, .23),
+        0 0 22px rgba(0, 207, 255, .18);
+    transition: transform .3s ease;
+}
+
+.skill-orbit-card:hover .skill-icon {
+    transform: scale(1.08) rotate(-5deg);
+}
+
+.skill-developer-art {
+    filter: drop-shadow(0 15px 24px rgba(86, 83, 190, .14));
+}
+
+.skills-future-section .platform-primary {
+    box-shadow:
+        0 12px 27px rgba(91, 83, 220, .22),
+        0 0 20px rgba(0, 199, 255, .12);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.skills-future-section .platform-primary:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 16px 32px rgba(91, 83, 220, .27),
+        0 0 28px rgba(0, 199, 255, .20);
+}
+
+.skills-future-section .platform-secondary {
+    color: #4c5590 !important;
+    border-color: rgba(106, 113, 190, .28) !important;
+    background: rgba(255, 255, 255, .8) !important;
+}
+
+.skills-future-section .platform-secondary:hover {
+    color: #5542c8 !important;
+    border-color: rgba(120, 86, 255, .48) !important;
+    box-shadow: 0 0 22px rgba(120, 86, 255, .12);
+}
+
+@keyframes skillsGlowFloat {
+    0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+    50% { transform: translate3d(12px, -18px, 0) scale(1.08); }
+}
+
+
+/* =========================================================
+   KARKA INFINI AI — COMPETITION / ANNOUNCEMENT CARD
+   ========================================================= */
+
+.platform-card.infini-card {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: #202344 !important;
+    border: 1px solid rgba(117, 112, 224, .24) !important;
+    border-radius: 28px;
+    background:
+        radial-gradient(ellipse at 5% 0%, rgba(0, 207, 255, .15), transparent 34%),
+        radial-gradient(ellipse at 100% 15%, rgba(235, 72, 177, .13), transparent 34%),
+        linear-gradient(145deg, #ffffff 0%, #f6f8ff 55%, #fff7fc 100%) !important;
+    box-shadow:
+        0 22px 55px rgba(55, 67, 140, .13),
+        0 0 30px rgba(80, 175, 255, .09);
+    transition: transform .35s ease, box-shadow .35s ease;
+}
+
+.platform-card.infini-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background:
+        radial-gradient(circle at 85% 75%, rgba(139, 92, 246, .10), transparent 28%),
+        radial-gradient(circle at 10% 85%, rgba(0, 210, 255, .09), transparent 28%);
+}
+
+.platform-card.infini-card:hover {
+    transform: translateY(-6px);
+    box-shadow:
+        0 28px 65px rgba(55, 67, 140, .17),
+        0 0 34px rgba(0, 201, 255, .14),
+        0 0 28px rgba(230, 75, 184, .10);
+}
+
+.infini-card .platform-card-top h3 {
+    color: #171934 !important;
+}
+
+.infini-card .platform-card-top p {
+    color: #68718d !important;
+}
+
+.infini-card .platform-mini {
+    color: #6854ce !important;
+    letter-spacing: .13em;
+}
+
+.infini-card .platform-symbol {
+    color: #ffffff !important;
+    background: linear-gradient(135deg, #0bcfff, #7955ff 55%, #f044ad) !important;
+    box-shadow:
+        0 10px 25px rgba(100, 83, 230, .24),
+        0 0 25px rgba(0, 205, 255, .18);
+}
+
+.infini-card .prize-chip {
+    border: 1px solid rgba(123, 91, 231, .2) !important;
+    border-radius: 18px;
+    background: linear-gradient(
+        110deg,
+        rgba(226, 246, 255, .95),
+        rgba(242, 235, 255, .95),
+        rgba(255, 236, 248, .95)
+    ) !important;
+    box-shadow: 0 10px 26px rgba(94, 83, 180, .10);
+}
+
+.infini-card .prize-chip strong {
+    background: linear-gradient(100deg, #087cf5, #7954ff 50%, #ec3ba8);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent !important;
+}
+
+.infini-card .prize-chip span {
+    color: #66708d !important;
+}
+
+.infini-card h4 {
+    color: #25274b !important;
+    line-height: 1.55;
+}
+
+.infini-card .contest-grid > div {
+    border: 1px solid rgba(107, 119, 195, .16) !important;
+    border-radius: 15px;
+    background: rgba(255, 255, 255, .82) !important;
+    box-shadow: 0 8px 22px rgba(56, 69, 135, .06);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.infini-card .contest-grid > div:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 12px 26px rgba(56, 69, 135, .10),
+        0 0 18px rgba(54, 201, 255, .12);
+}
+
+.infini-card .contest-grid b {
+    color: #29284f !important;
+}
+
+.infini-card .contest-grid span {
+    color: #707994 !important;
+}
+
+.infini-card .rounds-row > div,
+.infini-card .rewards-row {
+    border-color: rgba(107, 119, 195, .18) !important;
+    background: rgba(255, 255, 255, .72) !important;
+}
+
+.infini-card .rounds-row span,
+.infini-card .rewards-row span {
+    color: #6555b5 !important;
+}
+
+.infini-card .rounds-row b,
+.infini-card .rewards-row b {
+    color: #333657 !important;
+}
+
+.infini-card .platform-note {
+    color: #777f99 !important;
+}
+
+.infini-card .platform-primary {
+    box-shadow:
+        0 12px 26px rgba(91, 83, 220, .22),
+        0 0 20px rgba(0, 199, 255, .12);
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.infini-card .platform-primary:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 16px 32px rgba(91, 83, 220, .27),
+        0 0 25px rgba(0, 199, 255, .18);
+}
+
+
+/* Responsive polish — only these two target areas */
+
+@media (max-width: 650px) {
+    .skills-future-section {
+        padding: 62px 0 72px;
+    }
+
+    .skills-future-copy h2 {
+        font-size: clamp(32px, 8vw, 40px);
+    }
+
+    .skill-orbit-card {
+        border-radius: 18px;
+    }
+
+    .platform-card.infini-card {
+        border-radius: 22px;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .skills-future-bg {
+        animation: none;
+    }
+
+    .skill-orbit-card,
+    .skill-icon,
+    .platform-card.infini-card,
+    .infini-card .contest-grid > div,
+    .skills-future-section .platform-primary,
+    .infini-card .platform-primary {
+        transition: none;
+    }
+}
+
 </style>
 </head>
 <body>
