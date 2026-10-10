@@ -679,6 +679,10 @@ def health():
 def school_students():
     return render_template("student.html")
 
+@app.route("/professionals")
+def professionals():
+    return render_template("professionals.html")
+
 @app.route("/college_students")
 def college_students():
     return render_template("college.html")
