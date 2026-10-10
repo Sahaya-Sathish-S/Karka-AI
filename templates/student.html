@@ -1,0 +1,1278 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Discover coding classes for school students at Karka AI Academy. Learn Python, Java, HTML, CSS and JavaScript through practical projects.">
+  <title>Coding Classes for School Students | Karka AI Academy</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style/main.css') }}">
+
+  <style>
+    :root {
+      --ink: #17213b;
+      --muted: #68738b;
+      --purple: #7857f5;
+      --blue: #3997f5;
+      --cyan: #35cbd5;
+      --pink: #f06caf;
+      --green: #18b99a;
+      --line: #e8ebf5;
+      --surface: #ffffff;
+      --soft: #f7f8ff;
+      --radius: 25px;
+      --shadow: 0 18px 55px rgba(52, 67, 125, .09);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 95px; }
+    body.school-page {
+      margin: 0;
+      background: #fff;
+      color: var(--ink);
+      font-family: "DM Sans", sans-serif;
+      overflow-x: hidden;
+    }
+    body.school-page a { color: inherit; text-decoration: none; }
+    body.school-page button,
+    body.school-page input,
+    body.school-page select { font: inherit; }
+    body.school-page button { cursor: pointer; }
+    .school-container { width: min(1160px, 91%); margin: auto; }
+    .school-section { padding: 92px 0; position: relative; }
+    .school-section.soft { background: linear-gradient(145deg,#fafbff,#f5f7ff 58%,#fff9fd); }
+    .school-eyebrow {
+      display: inline-flex; align-items: center; gap: 9px;
+      color: #7254e9; font-size: 11px; font-weight: 800;
+      letter-spacing: .16em; text-transform: uppercase;
+    }
+    .school-eyebrow::before {
+      content: ""; width: 23px; height: 3px; border-radius: 5px;
+      background: linear-gradient(90deg,var(--purple),var(--cyan));
+    }
+    .school-heading {
+      font: 700 clamp(30px,4.5vw,49px)/1.13 "Space Grotesk",sans-serif;
+      letter-spacing: -.045em; margin: 13px 0 15px;
+    }
+    .school-gradient {
+      background: linear-gradient(100deg,#7654f5 5%,#398cf3 52%,#16b9ad 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    .school-lead { color: var(--muted); line-height: 1.8; max-width: 650px; font-size: 15px; }
+    .school-center { text-align: center; }
+    .school-center .school-lead { margin-left: auto; margin-right: auto; }
+    .school-btn {
+      display: inline-flex; align-items: center; justify-content: center; gap: 10px;
+      min-height: 49px; padding: 13px 22px; border: 1px solid transparent;
+      border-radius: 14px; font-weight: 800; font-size: 13px;
+      transition: transform .28s, box-shadow .28s, background .28s, border-color .28s;
+    }
+    .school-btn:hover { transform: translateY(-4px); }
+    .school-btn-primary {
+      color: #fff !important; background: linear-gradient(105deg,#7857f5,#438cf8);
+      box-shadow: 0 10px 25px rgba(104,83,242,.25);
+    }
+    .school-btn-primary:hover { box-shadow: 0 15px 35px rgba(104,83,242,.38); }
+    .school-btn-outline { border-color: #dfe3f2; background: #fff; color: var(--ink); }
+    .school-btn-outline:hover { border-color: #9b8af7; box-shadow: 0 10px 28px #7860f51c; }
+    .school-btn-light { background: #fff; color: #674ce1 !important; box-shadow: 0 8px 25px #16113d16; }
+    .school-btn:focus-visible, .school-nav a:focus-visible,
+    .school-menu-toggle:focus-visible { outline: 3px solid #a99aff; outline-offset: 4px; }
+
+    /* Navigation */
+    .school-nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(255,255,255,.88); backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(223,228,244,.85);
+    }
+    .school-nav-inner {
+      width: min(1220px,93%); margin: auto; min-height: 76px;
+      display: flex; align-items: center; justify-content: space-between; gap: 25px;
+    }
+    .school-brand { display: inline-flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .school-brand img { width: 43px; height: 43px; object-fit: contain; }
+    .school-brand-text { display: flex; flex-direction: column; line-height: 1.12; }
+    .school-brand-text strong { font: 800 17px "Space Grotesk",sans-serif; letter-spacing: -.05em; }
+    .school-brand-text small { margin-top: 4px; color: #748099; font-size: 9px; letter-spacing: .13em; font-weight: 800; }
+    .school-nav-links { display: flex; align-items: center; gap: 26px; }
+    .school-nav-links a { font-size: 12px; font-weight: 700; color: #59647d; transition: color .2s; }
+    .school-nav-links a:hover, .school-nav-links a.active { color: var(--purple); }
+    .school-nav-actions { display: flex; align-items: center; gap: 10px; }
+    .school-nav-actions .school-btn { min-height: 42px; padding: 10px 16px; font-size: 12px; }
+    .school-menu-toggle {
+      display: none; width: 43px; height: 43px; border-radius: 13px;
+      border: 1px solid var(--line); background: #fff; color: var(--ink); font-size: 23px;
+    }
+
+    /* Hero */
+    .school-hero {
+      position: relative; overflow: hidden; isolation: isolate;
+      padding: 78px 0 62px;
+      background:
+        radial-gradient(ellipse at 10% 5%,#e7eaff 0,transparent 33%),
+        radial-gradient(ellipse at 95% 12%,#e2faff 0,transparent 31%),
+        radial-gradient(ellipse at 70% 100%,#fff0fa 0,transparent 35%),#fff;
+    }
+    .school-hero::before, .school-hero::after {
+      content: ""; position: absolute; border-radius: 50%; filter: blur(2px);
+      z-index: -1; pointer-events: none;
+      animation: school-float 8s ease-in-out infinite;
+    }
+    .school-hero::before {
+      width: 180px; height: 180px; top: 60px; left: -95px;
+      border: 1px solid #9b8aff35; box-shadow: 0 0 65px #a694ff20;
+    }
+    .school-hero::after {
+      width: 125px; height: 125px; bottom: 15px; right: -40px;
+      background: #c3f6f330; animation-delay: -3s;
+    }
+    .school-hero-grid {
+      display: grid; grid-template-columns: 1.03fr .97fr; align-items: center; gap: 45px;
+    }
+    .school-hero-copy { position: relative; z-index: 2; }
+    .school-live-label {
+      display: inline-flex; align-items: center; gap: 9px; padding: 9px 13px;
+      border: 1px solid #e6e1ff; background: #fff; border-radius: 100px;
+      color: #6750dc; font-size: 10px; font-weight: 800; letter-spacing: .06em;
+      box-shadow: 0 6px 25px #7860f50c;
+    }
+    .school-live-dot { width: 7px; height: 7px; border-radius: 50%; background: #1fc7a6; box-shadow: 0 0 0 4px #1fc7a61b; }
+    .school-hero h1 {
+      margin: 23px 0 20px; max-width: 680px;
+      font: 700 clamp(40px,5.4vw,65px)/1.05 "Space Grotesk",sans-serif;
+      letter-spacing: -.065em;
+    }
+    .school-hero h1 .typing-line { display: block; min-height: 1.1em; }
+    .school-typed { color: #7857f5; }
+    .school-cursor { display: inline-block; width: 3px; height: .82em; margin-left: 3px; background: #7857f5; animation: school-blink .8s step-end infinite; }
+    .school-hero-copy > p { max-width: 540px; color: var(--muted); font-size: 15px; line-height: 1.85; }
+    .school-hero-buttons { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 27px; }
+    .school-trust-row { display: flex; flex-wrap: wrap; gap: 17px; margin-top: 27px; }
+    .school-trust-item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: #66718b; font-weight: 700; }
+    .school-trust-item span { display: grid; place-items: center; width: 21px; height: 21px; border-radius: 7px; background: #e8fbf5; color: #0caa8d; font-size: 12px; }
+
+    .school-hero-art { position: relative; min-height: 430px; display: grid; place-items: center; }
+    .school-art-orbit {
+      width: min(390px,92%); aspect-ratio: 1; position: relative; border-radius: 50%;
+      background: radial-gradient(circle at 50% 50%,#fff 0,#f5f3ff 43%,#e8f6ff 68%,#fff 71%);
+      border: 1px solid #e8e9fb; box-shadow: inset 0 0 45px #9d8cff15,0 30px 80px #7885d51c;
+      animation: school-float 7s ease-in-out infinite;
+    }
+    .school-art-orbit::before, .school-art-orbit::after {
+      content: ""; position: absolute; inset: 12%; border: 1px dashed #a9a1ed70; border-radius: 50%;
+    }
+    .school-art-orbit::after { inset: 23%; border-style: solid; border-color: #7bdce95c; }
+    .school-art-center {
+      position: absolute; inset: 25%; display: grid; place-items: center;
+      border-radius: 33%; background: linear-gradient(145deg,#fff,#f4f1ff);
+      box-shadow: 0 20px 55px #7961e51e, inset 0 0 0 1px #fff;
+      transform: rotate(-5deg);
+    }
+    .school-art-center-inner {
+      width: 82%; height: 82%; border-radius: 29%; display: grid; place-items: center;
+      background: linear-gradient(145deg,#8a6bff,#489cf8); color: white;
+      box-shadow: 0 12px 30px #7758ed49; transform: rotate(5deg);
+    }
+    .school-art-center-inner span { font-size: clamp(53px,7vw,80px); font-weight: 800; font-family: "Space Grotesk",sans-serif; }
+    .school-art-center-inner small { font-size: 10px; letter-spacing: .16em; font-weight: 800; margin-top: -12px; }
+    .school-float-card {
+      position: absolute; z-index: 3; display: flex; align-items: center; gap: 10px;
+      padding: 12px 14px; border: 1px solid #e9eaf5; border-radius: 17px;
+      background: rgba(255,255,255,.93); box-shadow: 0 15px 40px #35426b16;
+      animation: school-float 5s ease-in-out infinite;
+    }
+    .school-float-card strong { display: block; font-size: 11px; }
+    .school-float-card small { display: block; margin-top: 4px; color: var(--muted); font-size: 9px; }
+    .school-float-icon { width: 38px; height: 38px; display: grid; place-items: center; border-radius: 12px; font-size: 20px; }
+    .school-float-card.one { top: 10%; right: -1%; }
+    .school-float-card.two { bottom: 12%; left: -2%; animation-delay: -2s; }
+    .school-float-card.three { top: 48%; right: -7%; animation-delay: -3.5s; }
+    .school-float-card.one .school-float-icon { background: #f0ebff; }
+    .school-float-card.two .school-float-icon { background: #e3fbf4; }
+    .school-float-card.three .school-float-icon { background: #fff0f7; }
+
+    .school-hero-bottom { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-top: 42px; }
+    .school-hero-stat {
+      display: flex; align-items: center; gap: 13px; padding: 17px;
+      border: 1px solid #e9ebf5; border-radius: 18px; background: #ffffffc9;
+      transition: transform .25s,box-shadow .25s,border-color .25s;
+    }
+    .school-hero-stat:hover { transform: translateY(-4px); box-shadow: var(--shadow); border-color: #d4ccff; }
+    .school-stat-icon { width: 43px; height: 43px; flex-shrink: 0; display: grid; place-items: center; border-radius: 14px; font-size: 21px; }
+    .school-hero-stat:nth-child(1) .school-stat-icon { background: #f0ebff; }
+    .school-hero-stat:nth-child(2) .school-stat-icon { background: #e2f9ff; }
+    .school-hero-stat:nth-child(3) .school-stat-icon { background: #e5fbf2; }
+    .school-hero-stat strong { display: block; font-size: 12px; }
+    .school-hero-stat small { display: block; margin-top: 4px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+
+    /* Journey cards */
+    .school-benefits-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; margin-top: 40px; }
+    .school-benefit-card {
+      padding: 26px 24px; border: 1px solid #e9ebf5; border-radius: 23px;
+      background: #fff; position: relative; overflow: hidden;
+      transition: transform .3s,box-shadow .3s,border-color .3s;
+    }
+    .school-benefit-card::after {
+      content: ""; position: absolute; width: 115px; height: 115px; border-radius: 50%;
+      top: -70px; right: -55px; background: var(--glow,#eee8ff);
+      filter: blur(5px); opacity: .8; transition: transform .4s;
+    }
+    .school-benefit-card:hover { transform: translateY(-7px); box-shadow: 0 22px 48px #3e477b13; border-color: #d8d0ff; }
+    .school-benefit-card:hover::after { transform: scale(1.6); }
+    .school-benefit-icon { width: 52px; height: 52px; border-radius: 17px; display: grid; place-items: center; font-size: 24px; background: var(--glow,#eee8ff); }
+    .school-benefit-card h3 { font: 700 18px "Space Grotesk",sans-serif; margin: 20px 0 10px; }
+    .school-benefit-card p { font-size: 13px; line-height: 1.8; color: var(--muted); margin: 0; }
+
+    /* Courses */
+    .school-courses-top { display: flex; justify-content: space-between; align-items: end; gap: 24px; }
+    .school-courses-top .school-lead { max-width: 580px; }
+    .school-course-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; margin: 28px 0 25px; }
+    .school-filter {
+      border: 1px solid #e5e7f2; background: #fff; color: #66718b; padding: 10px 15px;
+      border-radius: 100px; font-size: 11px; font-weight: 800; transition: .25s;
+    }
+    .school-filter:hover,.school-filter.active { background: #eeeaff; border-color: #d1c7ff; color: #6b4ee4; box-shadow: 0 5px 18px #7857f514; }
+    .school-course-count { margin-left: auto; color: var(--muted); font-size: 11px; }
+    .school-course-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 22px; }
+    .school-course-card {
+      position: relative; overflow: hidden; display: flex; flex-direction: column;
+      border: 1px solid #e7eaf5; border-radius: 25px; background: #fff;
+      box-shadow: 0 9px 30px #34416b08; transition: transform .3s,box-shadow .3s,border-color .3s;
+    }
+    .school-course-card:hover { transform: translateY(-7px); border-color: #cfc4ff; box-shadow: 0 24px 55px #5d5ba01b,0 0 0 3px #f3efff; }
+    .school-course-card[hidden] { display: none !important; }
+    .school-course-visual {
+      position: relative; min-height: 155px; overflow: hidden; display: flex;
+      align-items: center; justify-content: space-between; padding: 25px 28px;
+      background: var(--course-bg,linear-gradient(120deg,#f0edff,#e7f6ff));
+    }
+    .school-course-visual::before,.school-course-visual::after {
+      content: ""; position: absolute; border-radius: 50%; border: 1px solid #ffffffb5;
+      width: 170px; height: 170px; right: 5%; top: -75px;
+    }
+    .school-course-visual::after { width: 120px; height: 120px; right: 17%; top: 15px; }
+    .school-course-symbol {
+      z-index: 1; display: grid; place-items: center; width: 78px; height: 78px;
+      border-radius: 24px; background: #ffffffd9; box-shadow: 0 12px 30px #3e4e7b14;
+      font: 800 30px "Space Grotesk",sans-serif; color: var(--course-color,#7657ed);
+      transform: rotate(-4deg); transition: transform .35s;
+    }
+    .school-course-card:hover .school-course-symbol { transform: rotate(0) scale(1.08); }
+    .school-course-level { z-index: 1; align-self: start; background: #ffffffd9; color: #4e5a74; border: 1px solid #ffffff; padding: 8px 11px; border-radius: 100px; font-size: 9px; font-weight: 800; letter-spacing: .06em; }
+    .school-course-body { padding: 24px; display: flex; flex-direction: column; flex: 1; }
+    .school-course-meta { display: flex; flex-wrap: wrap; gap: 8px; }
+    .school-course-meta span { background: #f5f5fc; color: #65708a; padding: 7px 10px; border-radius: 8px; font-size: 10px; font-weight: 700; }
+    .school-course-body h3 { font: 700 21px "Space Grotesk",sans-serif; letter-spacing: -.035em; margin: 17px 0 9px; }
+    .school-course-body p { margin: 0; color: var(--muted); font-size: 12px; line-height: 1.8; }
+    .school-course-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 23px; padding-top: 18px; border-top: 1px solid #edf0f7; }
+    .school-start { display: flex; align-items: center; gap: 7px; font-size: 10px; color: #65708a; font-weight: 700; }
+    .school-start i { width: 7px; height: 7px; border-radius: 50%; background: #17bd99; box-shadow: 0 0 0 4px #17bd991a; }
+    .school-course-bottom .school-btn { min-height: 40px; padding: 9px 13px; font-size: 11px; }
+    .school-course-empty { display: none; padding: 30px; text-align: center; color: var(--muted); }
+
+    /* Try it mini playground */
+    .school-playground {
+      display: grid; grid-template-columns: .95fr 1.05fr; gap: 28px; align-items: center;
+      padding: 34px; border: 1px solid #e5e7f5; border-radius: 30px;
+      background: linear-gradient(130deg,#fff 0%,#f8f7ff 55%,#f0fcff 100%);
+      box-shadow: var(--shadow); margin-top: 42px;
+    }
+    .school-playground h3 { font: 700 25px/1.2 "Space Grotesk",sans-serif; margin: 13px 0; }
+    .school-playground p { color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .school-playground-editor { border-radius: 20px; overflow: hidden; background: #17213b; color: #e8edff; box-shadow: 0 15px 35px #1b234327; }
+    .school-editor-bar { display: flex; align-items: center; gap: 6px; padding: 13px 16px; background: #222c49; font-size: 10px; color: #b7c0df; }
+    .school-editor-bar i { width: 7px; height: 7px; border-radius: 50%; background: #ff8b98; }
+    .school-editor-bar i:nth-child(2) { background: #ffd16f; }
+    .school-editor-bar i:nth-child(3) { background: #64d9b3; }
+    .school-editor-bar span { margin-left: 8px; }
+    .school-editor-code { padding: 22px 20px 12px; min-height: 155px; font: 13px/1.95 monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+    .school-code-purple { color: #c3a5ff; }
+    .school-code-green { color: #8ce8c8; }
+    .school-code-yellow { color: #ffdf91; }
+    .school-editor-actions { display: flex; gap: 10px; padding: 0 18px 18px; }
+    .school-editor-actions button { border: 0; border-radius: 10px; padding: 10px 14px; font-size: 11px; font-weight: 800; }
+    .school-run-btn { color: #fff; background: linear-gradient(100deg,#7857f5,#438cf8); }
+    .school-reset-btn { background: #ffffff17; color: #e0e6ff; }
+    .school-play-output { margin: 0 18px 18px; padding: 12px; min-height: 42px; border: 1px solid #ffffff1c; border-radius: 10px; color: #9be8d0; font: 12px monospace; }
+
+    /* Why learn */
+    .school-why-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 55px; align-items: center; }
+    .school-why-visual {
+      position: relative; min-height: 365px; display: grid; place-items: center;
+      border-radius: 30px; background: radial-gradient(circle at 50% 45%,#fff 0,#f0edff 52%,#e6faff 100%);
+      border: 1px solid #e7e6fa; overflow: hidden;
+    }
+    .school-why-visual::before { content: ""; width: 230px; height: 230px; border: 1px dashed #9887ee80; border-radius: 50%; position: absolute; animation: school-spin 30s linear infinite; }
+    .school-why-main-icon { font-size: 100px; filter: drop-shadow(0 15px 15px #6653a52a); animation: school-float 5s ease-in-out infinite; }
+    .school-why-chip { position: absolute; padding: 11px 14px; background: #fff; border: 1px solid #e8e8f5; border-radius: 14px; box-shadow: 0 10px 25px #303f6b10; font-size: 11px; font-weight: 800; }
+    .school-why-chip.a { top: 14%; left: 8%; color: #6e53e9; }
+    .school-why-chip.b { top: 25%; right: 7%; color: #0c9f9a; }
+    .school-why-chip.c { bottom: 15%; left: 10%; color: #d95d9f; }
+    .school-why-chip.d { bottom: 12%; right: 8%; color: #3c88d8; }
+    .school-why-points { display: grid; gap: 17px; margin-top: 25px; }
+    .school-why-point { display: flex; gap: 14px; align-items: flex-start; }
+    .school-check { width: 29px; height: 29px; flex-shrink: 0; display: grid; place-items: center; border-radius: 10px; background: #e8fbf4; color: #0aa78b; font-weight: 900; }
+    .school-why-point strong { font-size: 13px; }
+    .school-why-point p { margin: 5px 0 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+
+    /* How it works */
+    .school-steps { display: grid; grid-template-columns: repeat(4,1fr); gap: 15px; margin-top: 42px; }
+    .school-step { position: relative; padding: 25px 20px; background: #fff; border: 1px solid #e8eaf5; border-radius: 21px; transition: .3s; }
+    .school-step:hover { transform: translateY(-5px); border-color: #d3c8ff; box-shadow: var(--shadow); }
+    .school-step-number { width: 38px; height: 38px; border-radius: 13px; display: grid; place-items: center; background: #eeeaff; color: #6d50e8; font-weight: 900; font-size: 13px; }
+    .school-step:nth-child(2) .school-step-number { background: #e3f8ff; color: #188ecb; }
+    .school-step:nth-child(3) .school-step-number { background: #fff0f7; color: #d34e96; }
+    .school-step:nth-child(4) .school-step-number { background: #e4fbf3; color: #0b9e80; }
+    .school-step h3 { font: 700 15px "Space Grotesk",sans-serif; margin: 18px 0 8px; }
+    .school-step p { font-size: 11px; color: var(--muted); line-height: 1.8; margin: 0; }
+
+    /* Parent section */
+    .school-parent-card {
+      display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: center;
+      padding: 36px 38px; border-radius: 27px; border: 1px solid #e6e6f6;
+      background: radial-gradient(circle at 90% 10%,#e5faff,transparent 32%),linear-gradient(120deg,#f8f6ff,#fff);
+    }
+    .school-parent-card h2 { font: 700 clamp(25px,3vw,35px)/1.2 "Space Grotesk",sans-serif; margin: 12px 0; }
+    .school-parent-card p { max-width: 690px; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .school-parent-icon { width: 95px; height: 95px; display: grid; place-items: center; border-radius: 28px; background: #fff; box-shadow: 0 12px 35px #6257a01a; font-size: 42px; }
+
+    /* FAQ */
+    .school-faq-list { max-width: 850px; margin: 36px auto 0; display: grid; gap: 12px; }
+    .school-faq-item { border: 1px solid #e6e9f4; border-radius: 17px; background: #fff; overflow: hidden; transition: border-color .25s,box-shadow .25s; }
+    .school-faq-item[open] { border-color: #d4caff; box-shadow: 0 10px 30px #5f52a00b; }
+    .school-faq-item summary { cursor: pointer; list-style: none; display: flex; align-items: center; justify-content: space-between; gap: 15px; padding: 20px 22px; font-size: 13px; font-weight: 800; }
+    .school-faq-item summary::-webkit-details-marker { display: none; }
+    .school-faq-item summary::after { content: "+"; color: #7757ef; font-size: 23px; font-weight: 400; }
+    .school-faq-item[open] summary::after { content: "−"; }
+    .school-faq-answer { padding: 0 22px 20px; color: var(--muted); font-size: 12px; line-height: 1.85; }
+
+    /* Final CTA and footer */
+    .school-final-cta { padding: 30px 0 90px; }
+    .school-cta-box {
+      position: relative; overflow: hidden; isolation: isolate; text-align: center;
+      padding: 57px 28px; border-radius: 32px;
+      background: linear-gradient(115deg,#6c53e9,#4e79ef 55%,#36b7d2);
+      color: #fff; box-shadow: 0 25px 65px #6d64d22c;
+    }
+    .school-cta-box::before,.school-cta-box::after {
+      content: ""; position: absolute; z-index: -1; border: 1px solid #ffffff2e;
+      border-radius: 50%; width: 280px; height: 280px; top: -180px; left: -50px;
+    }
+    .school-cta-box::after { width: 350px; height: 350px; top: auto; left: auto; right: -120px; bottom: -240px; }
+    .school-cta-box h2 { font: 700 clamp(30px,4vw,46px)/1.12 "Space Grotesk",sans-serif; letter-spacing: -.04em; margin: 13px 0; }
+    .school-cta-box p { max-width: 620px; margin: 0 auto; color: #ffffffdb; font-size: 13px; line-height: 1.85; }
+    .school-cta-buttons { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px; margin-top: 25px; }
+    .school-cta-box .school-btn-outline { background: #ffffff12; color: #fff !important; border-color: #ffffff70; }
+    .school-cta-box .school-btn-outline:hover { background: #ffffff24; }
+    .school-footer { border-top: 1px solid #e8eaf4; padding: 52px 0 20px; background: #fbfcff; }
+    .school-footer-grid { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.2fr; gap: 35px; }
+    .school-footer-about p { max-width: 300px; color: var(--muted); font-size: 12px; line-height: 1.85; }
+    .school-socials { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 17px; }
+    .school-socials a { padding: 9px 11px; border: 1px solid #e7e9f3; border-radius: 10px; font-size: 10px; font-weight: 800; color: #65708a; transition: .2s; }
+    .school-socials a:hover { border-color: #c9bfff; color: #7355ec; transform: translateY(-2px); }
+    .school-footer h4 { font: 700 13px "Space Grotesk",sans-serif; margin: 4px 0 17px; }
+    .school-footer-links { display: grid; gap: 12px; }
+    .school-footer-links a { font-size: 11px; color: var(--muted); transition: color .2s; }
+    .school-footer-links a:hover { color: var(--purple); }
+    .school-newsletter p { color: var(--muted); font-size: 11px; line-height: 1.7; }
+    .school-newsletter-form { display: flex; gap: 6px; padding: 5px; border: 1px solid #e3e6f2; background: #fff; border-radius: 12px; }
+    .school-newsletter-form input { width: 100%; min-width: 0; border: 0; outline: none; padding: 8px; font-size: 11px; color: var(--ink); background: transparent; }
+    .school-newsletter-form button { border: 0; border-radius: 9px; padding: 9px 12px; background: #7657ef; color: #fff; font-size: 11px; font-weight: 800; }
+    .school-footer-contact { margin-top: 15px; font-size: 11px; color: var(--muted); line-height: 1.9; }
+    .school-footer-bottom { margin-top: 40px; padding-top: 19px; border-top: 1px solid #e9ebf4; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 12px; color: #8a93a7; font-size: 10px; }
+    .school-footer-legal { display: flex; flex-wrap: wrap; gap: 18px; }
+
+    /* Modals */
+    .school-modal {
+      display: none; position: fixed; inset: 0; z-index: 300;
+      padding: 20px; align-items: center; justify-content: center;
+      background: rgba(24,29,57,.48); backdrop-filter: blur(9px);
+    }
+    .school-modal.open { display: flex; animation: school-fade .2s ease both; }
+    .school-modal-card {
+      position: relative; width: min(510px,100%); max-height: 88vh; overflow-y: auto;
+      padding: 30px; border-radius: 25px; background: #fff;
+      border: 1px solid #ffffff; box-shadow: 0 30px 100px #15193640;
+      animation: school-pop .35s cubic-bezier(.2,.8,.2,1) both;
+    }
+    .school-modal-close {
+      position: absolute; top: 15px; right: 15px; width: 37px; height: 37px;
+      display: grid; place-items: center; border: 1px solid #e8eaf3;
+      border-radius: 12px; background: #fff; color: #5c6680; font-size: 20px;
+    }
+    .school-modal-icon { width: 57px; height: 57px; display: grid; place-items: center; border-radius: 18px; background: #f0edff; font-size: 28px; }
+    .school-modal-card h2 { font: 700 27px/1.15 "Space Grotesk",sans-serif; margin: 18px 45px 10px 0; letter-spacing: -.04em; }
+    .school-modal-card > p { color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .school-modal-details { display: grid; grid-template-columns: repeat(2,1fr); gap: 10px; margin: 20px 0; }
+    .school-modal-detail { padding: 13px; border-radius: 13px; background: #f7f8ff; }
+    .school-modal-detail small { display: block; color: #7b849a; font-size: 10px; margin-bottom: 6px; }
+    .school-modal-detail strong { font-size: 12px; }
+    .school-modal-list { color: #5e6982; font-size: 12px; line-height: 2; padding-left: 19px; }
+    .school-modal-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 20px; }
+    .school-toast {
+      position: fixed; z-index: 400; left: 50%; bottom: 25px; transform: translate(-50%,20px);
+      padding: 13px 18px; border-radius: 13px; background: #19233d; color: #fff;
+      font-size: 12px; box-shadow: 0 12px 35px #11172e30; opacity: 0; pointer-events: none;
+      transition: .25s; max-width: 90%; text-align: center;
+    }
+    .school-toast.show { opacity: 1; transform: translate(-50%,0); }
+
+    /* Scroll reveal */
+    .school-reveal { opacity: 1; transform: none; }
+    .js .school-reveal { opacity: 0; transform: translateY(22px); transition: opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1); }
+    .js .school-reveal.visible { opacity: 1; transform: translateY(0); }
+    .school-back-top {
+      position: fixed; right: 19px; bottom: 20px; z-index: 90; width: 43px; height: 43px;
+      display: grid; place-items: center; border-radius: 14px; background: #fff;
+      border: 1px solid #e6e8f4; color: #7555eb; box-shadow: 0 8px 25px #34416b15;
+      opacity: 0; pointer-events: none; transform: translateY(8px); transition: .25s;
+    }
+    .school-back-top.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
+    @keyframes school-float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes school-blink { 50% { opacity: 0; } }
+    @keyframes school-spin { to { transform: rotate(360deg); } }
+    @keyframes school-fade { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes school-pop { from { opacity: 0; transform: translateY(15px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+
+    @media (max-width: 1000px) {
+      .school-nav-links { gap: 15px; }
+      .school-nav-links a { font-size: 11px; }
+      .school-hero-grid { gap: 22px; }
+      .school-hero-art { min-height: 370px; }
+      .school-float-card.three { right: -2%; }
+      .school-footer-grid { grid-template-columns: 1.3fr 1fr 1fr; }
+      .school-newsletter { grid-column: 1/-1; }
+      .school-newsletter-form { max-width: 420px; }
+    }
+    @media (max-width: 760px) {
+      .school-section { padding: 67px 0; }
+      .school-nav-inner { min-height: 68px; }
+      .school-menu-toggle { display: grid; place-items: center; }
+      .school-nav-actions > .school-btn { display: none; }
+      .school-nav-links {
+        display: none; position: absolute; top: 68px; left: 0; right: 0;
+        padding: 18px 5% 22px; background: #fffffffa; border-bottom: 1px solid var(--line);
+        box-shadow: 0 20px 30px #1b28500c; align-items: stretch; gap: 0;
+      }
+      .school-nav-links.open { display: flex; flex-direction: column; }
+      .school-nav-links a { padding: 13px 4px; font-size: 13px; border-bottom: 1px solid #f0f1f7; }
+      .school-nav-links a:last-child { border-bottom: 0; }
+      .school-hero { padding-top: 53px; }
+      .school-hero-grid { grid-template-columns: 1fr; gap: 15px; }
+      .school-hero-copy { text-align: center; }
+      .school-hero-copy > p { margin-left: auto; margin-right: auto; }
+      .school-hero-buttons,.school-trust-row { justify-content: center; }
+      .school-hero-art { min-height: 340px; margin: 0 auto; width: min(440px,100%); }
+      .school-art-orbit { width: 300px; max-width: 77vw; }
+      .school-float-card.one { right: 0; top: 7%; }
+      .school-float-card.two { left: 0; bottom: 8%; }
+      .school-float-card.three { right: -1%; top: 45%; }
+      .school-float-card { padding: 9px 11px; }
+      .school-float-icon { width: 31px; height: 31px; font-size: 16px; }
+      .school-float-card strong { font-size: 10px; }
+      .school-float-card small { font-size: 8px; }
+      .school-hero-bottom { grid-template-columns: 1fr; gap: 9px; margin-top: 25px; }
+      .school-hero-stat { padding: 13px 16px; }
+      .school-benefits-grid { grid-template-columns: 1fr; gap: 13px; }
+      .school-benefit-card { padding: 22px; }
+      .school-courses-top { display: block; }
+      .school-course-grid { grid-template-columns: 1fr; }
+      .school-course-visual { min-height: 135px; }
+      .school-playground { grid-template-columns: 1fr; padding: 22px; gap: 20px; }
+      .school-why-grid { grid-template-columns: 1fr; gap: 30px; }
+      .school-why-visual { min-height: 310px; }
+      .school-steps { grid-template-columns: repeat(2,1fr); }
+      .school-parent-card { grid-template-columns: 1fr; padding: 27px; }
+      .school-parent-icon { width: 70px; height: 70px; font-size: 32px; border-radius: 22px; }
+      .school-footer-grid { grid-template-columns: repeat(2,1fr); gap: 28px 20px; }
+      .school-footer-about { grid-column: 1/-1; }
+      .school-newsletter { grid-column: 1/-1; }
+      .school-footer-bottom { margin-top: 28px; }
+    }
+    @media (max-width: 420px) {
+      .school-container { width: 92%; }
+      .school-brand img { width: 37px; height: 37px; }
+      .school-brand-text strong { font-size: 15px; }
+      .school-hero h1 { font-size: 39px; }
+      .school-hero-art { min-height: 295px; }
+      .school-art-orbit { width: 255px; }
+      .school-float-card.three { right: -3%; }
+      .school-hero-buttons { flex-direction: column; }
+      .school-hero-buttons .school-btn { width: 100%; }
+      .school-trust-row { gap: 10px; }
+      .school-trust-item { font-size: 10px; }
+      .school-steps { grid-template-columns: 1fr; }
+      .school-course-bottom { align-items: flex-start; flex-direction: column; }
+      .school-course-bottom .school-btn { width: 100%; }
+      .school-course-count { width: 100%; margin: 0; }
+      .school-footer-grid { grid-template-columns: 1fr 1fr; }
+      .school-footer-links a { font-size: 10px; }
+      .school-modal-card { padding: 23px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *,*::before,*::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+      .js .school-reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+
+<body class="school-page">
+
+<header class="school-nav">
+  <div class="school-nav-inner">
+    <a class="school-brand" href="{{ url_for('home') }}" aria-label="Karka AI Academy home">
+      <img src="{{ url_for('static', filename='images/logo.webp') }}" alt="Karka AI Academy Logo">
+      <span class="school-brand-text">
+        <strong>KARKA <span class="school-gradient">AI</span></strong>
+        <small>ACADEMY</small>
+      </span>
+    </a>
+
+    <nav class="school-nav-links" id="schoolNavLinks" aria-label="Main navigation">
+      <a href="{{ url_for('home') }}">Home</a>
+      <a href="{{ url_for('courses_page') }}">Courses</a>
+      <a class="active" href="#school-courses">For School Students</a>
+      <a href="#why-school-coding">Why Coding?</a>
+      <a href="#school-faq">FAQs</a>
+    </nav>
+
+    <div class="school-nav-actions">
+      <a class="school-btn school-btn-primary" href="#school-courses">Find Your Course <span>↗</span></a>
+      <button class="school-menu-toggle" id="schoolMenuToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="schoolNavLinks">☰</button>
+    </div>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="school-hero">
+    <div class="school-container">
+      <div class="school-hero-grid">
+        <div class="school-hero-copy">
+          <div class="school-live-label"><span class="school-live-dot"></span> A SMARTER START TO YOUR FUTURE</div>
+
+          <h1>
+            Your ideas deserve to
+            <span class="typing-line"><span class="school-typed" id="schoolTyped">come alive.</span><span class="school-cursor"></span></span>
+          </h1>
+
+          <p>
+            Don't just use technology. Learn how to create it. Discover coding through
+            fun challenges, guided practice and projects designed for school students
+            — one exciting step at a time.
+          </p>
+
+          <div class="school-hero-buttons">
+            <a class="school-btn school-btn-primary" href="#school-courses">Explore Student Courses <span>→</span></a>
+            <a class="school-btn school-btn-outline" href="#coding-playground"><span>⌘</span> Try a Coding Challenge</a>
+          </div>
+
+          <div class="school-trust-row">
+            <div class="school-trust-item"><span>✓</span> Beginner-friendly</div>
+            <div class="school-trust-item"><span>✓</span> Practical projects</div>
+            <div class="school-trust-item"><span>✓</span> Learn at your pace</div>
+          </div>
+        </div>
+
+        <div class="school-hero-art" aria-label="Illustration representing young coders">
+          <div class="school-art-orbit">
+            <div class="school-art-center">
+              <div class="school-art-center-inner">
+                <span>&lt;/&gt;</span>
+                <small>CREATE YOUR FUTURE</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="school-float-card one">
+            <div class="school-float-icon">🐍</div>
+            <div><strong>Python Explorer</strong><small>Think. Code. Create.</small></div>
+          </div>
+          <div class="school-float-card two">
+            <div class="school-float-icon">🎨</div>
+            <div><strong>Creative Builder</strong><small>Turn ideas into projects</small></div>
+          </div>
+          <div class="school-float-card three">
+            <div class="school-float-icon">🚀</div>
+            <div><strong>Future Ready</strong><small>Skills that grow with you</small></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="school-hero-bottom">
+        <div class="school-hero-stat">
+          <div class="school-stat-icon">🧩</div>
+          <div><strong>Learn by Doing</strong><small>Build small projects as you learn</small></div>
+        </div>
+        <div class="school-hero-stat">
+          <div class="school-stat-icon">🌱</div>
+          <div><strong>Beginner Friendly</strong><small>Start with the basics, step by step</small></div>
+        </div>
+        <div class="school-hero-stat">
+          <div class="school-stat-icon">🏆</div>
+          <div><strong>Celebrate Progress</strong><small>Work towards a certificate of achievement</small></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFITS -->
+  <section class="school-section soft">
+    <div class="school-container">
+      <div class="school-center school-reveal">
+        <span class="school-eyebrow">A GREAT PLACE TO BEGIN</span>
+        <h2 class="school-heading">Big ideas can start <span class="school-gradient">at any age.</span></h2>
+        <p class="school-lead">Coding isn't only about computers. It's about curiosity, creativity and learning to solve problems in new ways.</p>
+      </div>
+
+      <div class="school-benefits-grid">
+        <article class="school-benefit-card school-reveal" style="--glow:#eee8ff">
+          <div class="school-benefit-icon">🧠</div>
+          <h3>Think Like a Problem Solver</h3>
+          <p>Break big challenges into smaller steps, recognise patterns and discover how to find solutions logically.</p>
+        </article>
+        <article class="school-benefit-card school-reveal" style="--glow:#e0f8ff">
+          <div class="school-benefit-icon">🛠️</div>
+          <h3>Create, Don't Just Consume</h3>
+          <p>Move beyond using apps and websites. Learn the building blocks behind games, webpages and simple programs.</p>
+        </article>
+        <article class="school-benefit-card school-reveal" style="--glow:#ffedf7">
+          <div class="school-benefit-icon">✨</div>
+          <h3>Build Confidence Early</h3>
+          <p>Celebrate small wins, experiment with ideas and develop a foundation for future learning in technology.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- COURSES -->
+  <section class="school-section" id="school-courses">
+    <div class="school-container">
+      <div class="school-courses-top school-reveal">
+        <div>
+          <span class="school-eyebrow">YOUR LEARNING ADVENTURE</span>
+          <h2 class="school-heading">Courses for <span class="school-gradient">young creators.</span></h2>
+          <p class="school-lead">Choose a starting point, explore a new programming language and build your skills through structured learning.</p>
+        </div>
+      </div>
+
+      <div class="school-course-tools" role="group" aria-label="Filter courses">
+        <button type="button" class="school-filter active" data-course-filter="all" aria-pressed="true">All Courses</button>
+        <button type="button" class="school-filter" data-course-filter="beginner" aria-pressed="false">Start from Zero</button>
+        <button type="button" class="school-filter" data-course-filter="web" aria-pressed="false">Web Development</button>
+        <button type="button" class="school-filter" data-course-filter="programming" aria-pressed="false">Programming</button>
+        <span class="school-course-count" id="schoolCourseCount" aria-live="polite">Showing 4 courses</span>
+      </div>
+
+      <div class="school-course-grid" id="schoolCourseGrid">
+        <!-- COURSE 1 -->
+        <article class="school-course-card school-reveal" data-course-card data-category="beginner programming"
+          data-title="Python for Kids"
+          data-duration="3 Months"
+          data-description="Discover programming in a beginner-friendly way. Learn Python fundamentals and practise turning simple ideas into working programs."
+          data-icon="🐍"
+          data-learnings="Python basics and syntax|Variables, data types and simple logic|Conditions, loops and functions|Guided beginner projects">
+          <div class="school-course-visual" style="--course-bg:linear-gradient(120deg,#f0eaff,#e6f7ff);--course-color:#7456eb">
+            <div class="school-course-symbol">Py</div>
+            <span class="school-course-level">BEGINNER FRIENDLY</span>
+          </div>
+          <div class="school-course-body">
+            <div class="school-course-meta"><span>⏱ 3 Months</span><span>🌐 Online</span><span>🐣 Beginner</span></div>
+            <h3>Python for Kids</h3>
+            <p>Start coding with Python, develop logical thinking and create your first simple programs through guided practice.</p>
+            <div class="school-course-bottom">
+              <div class="school-start"><i></i> Batch starts soon</div>
+              <button class="school-btn school-btn-outline school-course-explore" type="button" aria-label="Explore Python for Kids">Explore Course ↗</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- COURSE 2 -->
+        <article class="school-course-card school-reveal" data-course-card data-category="programming"
+          data-title="Java Basics for School Students"
+          data-duration="4 Months"
+          data-description="Get introduced to Java programming and learn the concepts behind structured programs, variables, decisions and reusable code."
+          data-icon="☕"
+          data-learnings="Java setup and syntax|Variables, data types and operators|Conditions, loops and methods|Introduction to object-oriented programming">
+          <div class="school-course-visual" style="--course-bg:linear-gradient(120deg,#fff0e9,#fff8e7);--course-color:#d77b3e">
+            <div class="school-course-symbol">Jv</div>
+            <span class="school-course-level">BUILD YOUR FOUNDATION</span>
+          </div>
+          <div class="school-course-body">
+            <div class="school-course-meta"><span>⏱ 4 Months</span><span>🌐 Online</span><span>💡 Core skills</span></div>
+            <h3>Java Basics for School Students</h3>
+            <p>Understand programming fundamentals and learn how to structure instructions into clear, useful programs.</p>
+            <div class="school-course-bottom">
+              <div class="school-start"><i></i> Batch starts soon</div>
+              <button class="school-btn school-btn-outline school-course-explore" type="button" aria-label="Explore Java Basics for School Students">Explore Course ↗</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- COURSE 3 -->
+        <article class="school-course-card school-reveal" data-course-card data-category="beginner web"
+          data-title="HTML & CSS for Beginners"
+          data-duration="3 Months"
+          data-description="Learn how webpages are structured and styled. Build a foundation in HTML and CSS and create your own simple web pages."
+          data-icon="🎨"
+          data-learnings="HTML elements and page structure|Headings, images, links and forms|CSS colours, spacing and typography|Responsive webpage projects">
+          <div class="school-course-visual" style="--course-bg:linear-gradient(120deg,#e6faff,#e9edff);--course-color:#238bd1">
+            <div class="school-course-symbol">&lt;/&gt;</div>
+            <span class="school-course-level">MAKE YOUR FIRST WEBSITE</span>
+          </div>
+          <div class="school-course-body">
+            <div class="school-course-meta"><span>⏱ 3 Months</span><span>🌐 Online</span><span>🎨 Creative</span></div>
+            <h3>HTML &amp; CSS for Beginners</h3>
+            <p>Bring your ideas to the screen by creating and styling webpages with colours, layouts, images and text.</p>
+            <div class="school-course-bottom">
+              <div class="school-start"><i></i> Batch starts soon</div>
+              <button class="school-btn school-btn-outline school-course-explore" type="button" aria-label="Explore HTML and CSS for Beginners">Explore Course ↗</button>
+            </div>
+          </div>
+        </article>
+
+        <!-- COURSE 4 -->
+        <article class="school-course-card school-reveal" data-course-card data-category="web programming"
+          data-title="JavaScript for Young Coders"
+          data-duration="3 Months"
+          data-description="Make webpages interactive with JavaScript. Learn core programming concepts and experiment with buttons, events and dynamic page behaviour."
+          data-icon="⚡"
+          data-learnings="JavaScript basics and variables|Conditions, loops and functions|Events and interactive buttons|Small interactive web projects">
+          <div class="school-course-visual" style="--course-bg:linear-gradient(120deg,#fff5d9,#fff0f8);--course-color:#b98413">
+            <div class="school-course-symbol">JS</div>
+            <span class="school-course-level">MAKE WEBSITES INTERACTIVE</span>
+          </div>
+          <div class="school-course-body">
+            <div class="school-course-meta"><span>⏱ 3 Months</span><span>🌐 Online</span><span>⚡ Interactive</span></div>
+            <h3>JavaScript for Young Coders</h3>
+            <p>Take your webpages further by learning how code responds to clicks, user actions and changing content.</p>
+            <div class="school-course-bottom">
+              <div class="school-start"><i></i> Batch starts soon</div>
+              <button class="school-btn school-btn-outline school-course-explore" type="button" aria-label="Explore JavaScript for Young Coders">Explore Course ↗</button>
+            </div>
+          </div>
+        </article>
+      </div>
+      <div class="school-course-empty" id="schoolCourseEmpty">No courses in this category. Try another filter.</div>
+    </div>
+  </section>
+
+  <!-- INTERACTIVE CODING PLAYGROUND -->
+  <section class="school-section soft" id="coding-playground">
+    <div class="school-container">
+      <div class="school-playground school-reveal">
+        <div>
+          <span class="school-eyebrow">YOUR FIRST LINE OF CODE</span>
+          <h3>Curious what coding feels like?</h3>
+          <p>Try a tiny Python-style coding activity. Press the button to run the example and see how a few instructions can produce a result.</p>
+          <p><strong>Remember:</strong> this is a guided demo, not a full Python compiler. Your real learning journey goes much further.</p>
+          <a href="#school-courses" class="school-btn school-btn-primary">Find a Course <span>→</span></a>
+        </div>
+
+        <div class="school-playground-editor">
+          <div class="school-editor-bar"><i></i><i></i><i></i><span>your_first_program.py</span></div>
+          <div class="school-editor-code"><span class="school-code-purple">name</span> = <span class="school-code-green">"Future Coder"</span>
+<span class="school-code-purple">print</span>(<span class="school-code-yellow">"Hello, "</span> + name)
+<span class="school-code-purple">print</span>(<span class="school-code-green">"My coding journey starts today!"</span>)</div>
+          <div class="school-editor-actions">
+            <button class="school-run-btn" id="schoolRunCode" type="button">▶ Run Example</button>
+            <button class="school-reset-btn" id="schoolResetCode" type="button">↻ Reset</button>
+          </div>
+          <div class="school-play-output" id="schoolPlayOutput" aria-live="polite">Output will appear here...</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY CODING -->
+  <section class="school-section" id="why-school-coding">
+    <div class="school-container">
+      <div class="school-why-grid">
+        <div class="school-why-visual school-reveal">
+          <div class="school-why-main-icon">💡</div>
+          <span class="school-why-chip a">Creative Thinking</span>
+          <span class="school-why-chip b">Digital Skills</span>
+          <span class="school-why-chip c">Problem Solving</span>
+          <span class="school-why-chip d">Future Learning</span>
+        </div>
+
+        <div class="school-reveal">
+          <span class="school-eyebrow">WHY START EARLY?</span>
+          <h2 class="school-heading">More than coding.<br><span class="school-gradient">A way to think.</span></h2>
+          <p class="school-lead">Learning to code at school can help students understand technology, think systematically and gain confidence in tackling unfamiliar problems.</p>
+
+          <div class="school-why-points">
+            <div class="school-why-point">
+              <div class="school-check">✓</div>
+              <div><strong>Strengthen logical thinking</strong><p>Learn to arrange ideas into steps and understand cause and effect.</p></div>
+            </div>
+            <div class="school-why-point">
+              <div class="school-check">✓</div>
+              <div><strong>Turn imagination into projects</strong><p>Use programming and web technologies to create simple, tangible outcomes.</p></div>
+            </div>
+            <div class="school-why-point">
+              <div class="school-check">✓</div>
+              <div><strong>Build a foundation for tomorrow</strong><p>Explore skills that can support future studies in computing, AI and related fields.</p></div>
+            </div>
+            <div class="school-why-point">
+              <div class="school-check">✓</div>
+              <div><strong>Learn at a school-friendly pace</strong><p>Start with fundamentals and gradually take on more challenging concepts.</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEARNING JOURNEY -->
+  <section class="school-section soft">
+    <div class="school-container">
+      <div class="school-center school-reveal">
+        <span class="school-eyebrow">SIMPLE STEPS, REAL PROGRESS</span>
+        <h2 class="school-heading">From curious beginner to <span class="school-gradient">confident creator.</span></h2>
+        <p class="school-lead">A clear path helps students focus on learning, practising and celebrating what they can build.</p>
+      </div>
+
+      <div class="school-steps">
+        <article class="school-step school-reveal">
+          <div class="school-step-number">01</div>
+          <h3>Choose Your Path</h3>
+          <p>Explore Python, Java or web development and find a suitable starting point.</p>
+        </article>
+        <article class="school-step school-reveal">
+          <div class="school-step-number">02</div>
+          <h3>Learn the Basics</h3>
+          <p>Understand concepts through guided lessons, examples and practice.</p>
+        </article>
+        <article class="school-step school-reveal">
+          <div class="school-step-number">03</div>
+          <h3>Build Projects</h3>
+          <p>Apply what you learn to small projects and creative coding activities.</p>
+        </article>
+        <article class="school-step school-reveal">
+          <div class="school-step-number">04</div>
+          <h3>Show Your Progress</h3>
+          <p>Share completed work and work towards a certificate of achievement.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARENT SECTION -->
+  <section class="school-section">
+    <div class="school-container">
+      <div class="school-parent-card school-reveal">
+        <div>
+          <span class="school-eyebrow">FOR PARENTS & GUARDIANS</span>
+          <h2>Help your child explore a world of possibilities.</h2>
+          <p>
+            Looking for a useful activity that combines creativity and technology?
+            Karka AI Academy's school-focused learning paths are designed to introduce
+            programming concepts progressively, with practical exercises and project work.
+            You can enquire about the course structure, schedule and learning expectations
+            before choosing a program.
+          </p>
+          <a class="school-btn school-btn-primary" href="{{ url_for('enroll') }}">Enquire About Admission <span>↗</span></a>
+        </div>
+        <div class="school-parent-icon" aria-hidden="true">👨‍👩‍👧‍👦</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="school-section soft" id="school-faq">
+    <div class="school-container">
+      <div class="school-center school-reveal">
+        <span class="school-eyebrow">GOOD QUESTIONS, CLEAR ANSWERS</span>
+        <h2 class="school-heading">Frequently asked <span class="school-gradient">questions.</span></h2>
+        <p class="school-lead">Everything you need to know before starting a coding journey with Karka AI Academy.</p>
+      </div>
+
+      <div class="school-faq-list school-reveal">
+        <details class="school-faq-item">
+          <summary>Does my child need coding experience?</summary>
+          <div class="school-faq-answer">No prior coding experience is required for a beginner pathway such as Python for Kids or HTML &amp; CSS for Beginners. Students can start with the fundamentals.</div>
+        </details>
+        <details class="school-faq-item">
+          <summary>Which course should a school student choose first?</summary>
+          <div class="school-faq-answer">Python for Kids is a good option for exploring programming fundamentals. Students interested in building websites can consider HTML &amp; CSS for Beginners, followed by JavaScript. The most suitable choice depends on the student's interests and current skills.</div>
+        </details>
+        <details class="school-faq-item">
+          <summary>Are these courses available online?</summary>
+          <div class="school-faq-answer">The four courses listed on this page are marked as online. Please contact Karka AI Academy to confirm the upcoming batch schedule and delivery details.</div>
+        </details>
+        <details class="school-faq-item">
+          <summary>How long do the courses take?</summary>
+          <div class="school-faq-answer">Python for Kids, HTML &amp; CSS for Beginners and JavaScript for Young Coders are listed as three-month courses. Java Basics for School Students is listed as a four-month course.</div>
+        </details>
+        <details class="school-faq-item">
+          <summary>Will students work on practical projects?</summary>
+          <div class="school-faq-answer">The learning paths are presented around practical learning. Ask the academy about the specific projects, lesson plan and mentoring included in the upcoming batch before enrolling.</div>
+        </details>
+        <details class="school-faq-item">
+          <summary>Will students receive a certificate?</summary>
+          <div class="school-faq-answer">Students can enquire about the certificate of achievement, completion requirements and assessment process applicable to their chosen course.</div>
+        </details>
+        <details class="school-faq-item">
+          <summary>When does the next batch begin?</summary>
+          <div class="school-faq-answer">The course cards currently show “Starts Soon.” Contact the academy to confirm the actual start date, timetable and available seats.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="school-final-cta">
+    <div class="school-container">
+      <div class="school-cta-box school-reveal">
+        <span class="school-eyebrow" style="color:#fff">YOUR FIRST STEP STARTS HERE</span>
+        <h2>Ready to create something amazing?</h2>
+        <p>Start with curiosity. Learn with purpose. Build something you can proudly call your own. Explore the right course for your school years with Karka AI Academy.</p>
+        <div class="school-cta-buttons">
+          <a class="school-btn school-btn-light" href="{{ url_for('enroll') }}">Apply for Admission <span>↗</span></a>
+          <a class="school-btn school-btn-outline" href="{{ url_for('courses_page') }}">Explore All Courses <span>→</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer class="school-footer">
+  <div class="school-container">
+    <div class="school-footer-grid">
+      <div class="school-footer-about">
+        <a class="school-brand" href="{{ url_for('home') }}">
+          <img src="{{ url_for('static', filename='images/logo.webp') }}" alt="Karka AI Academy Logo">
+          <span class="school-brand-text">
+            <strong>KARKA <span class="school-gradient">AI</span></strong>
+            <small>ACADEMY</small>
+          </span>
+        </a>
+        <p>Empowering the next generation of developers with GenAI Infused education and placement-focused mentorship.</p>
+        <div class="school-socials">
+          <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer">Facebook ↗</a>
+          <a href="https://www.instagram.com/" target="_blank" rel="noopener noreferrer">Instagram ↗</a>
+          <a href="https://www.linkedin.com/" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Our Programs</h4>
+        <div class="school-footer-links">
+          <a href="{{ url_for('home') }}">Home</a>
+          <a href="{{ url_for('courses_page') }}">All Courses</a>
+          <a href="{{ url_for('courses_page') }}">Placement</a>
+          <a href="{{ url_for('courses_page') }}">Free Roadmap</a>
+        </div>
+      </div>
+
+      <div>
+        <h4>Karka Academy</h4>
+        <div class="school-footer-links">
+          <a href="{{ url_for('home') }}">About Us</a>
+          <a href="{{ url_for('home') }}#voices">Our Mentors</a>
+          <a href="{{ url_for('home') }}#voices">Success Stories</a>
+          <a href="{{ url_for('home') }}">Blog</a>
+          <a href="{{ url_for('home') }}#career-call">Hire From Us</a>
+          <a href="{{ url_for('home') }}#career-call">Contact</a>
+        </div>
+      </div>
+
+      <div class="school-newsletter">
+        <h4>Stay Updated</h4>
+        <p>Get updates about new learning opportunities and upcoming batches.</p>
+        <form class="school-newsletter-form" id="schoolNewsletterForm">
+          <input type="email" id="schoolNewsletterEmail" placeholder="Enter your email" aria-label="Email address" required>
+          <button type="submit">Join</button>
+        </form>
+        <div class="school-footer-contact">
+          <strong>Academy HQ</strong><br>
+          Nagercoil, Tamil Nadu, India<br>
+          <strong>Phone</strong><br>
+          <a href="tel:+919487530243">+91 9487530243</a>
+        </div>
+      </div>
+    </div>
+
+    <div class="school-footer-bottom">
+      <span>© 2026 Karka Academy. All rights reserved.</span>
+      <div class="school-footer-legal">
+        <a href="{{ url_for('home') }}">Privacy Policy</a>
+        <a href="{{ url_for('home') }}">Terms of Service</a>
+        <span>Built with Passion by Karka</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- COURSE DETAILS POPUP -->
+<div class="school-modal" id="schoolCourseModal" role="dialog" aria-modal="true" aria-labelledby="schoolModalTitle" aria-hidden="true">
+  <div class="school-modal-card">
+    <button class="school-modal-close" type="button" id="schoolModalClose" aria-label="Close course details">×</button>
+    <div class="school-modal-icon" id="schoolModalIcon">🐍</div>
+    <h2 id="schoolModalTitle">Course details</h2>
+    <p id="schoolModalDescription"></p>
+    <div class="school-modal-details">
+      <div class="school-modal-detail"><small>Course duration</small><strong id="schoolModalDuration"></strong></div>
+      <div class="school-modal-detail"><small>Learning mode</small><strong>Online</strong></div>
+      <div class="school-modal-detail"><small>Upcoming batch</small><strong>Starts Soon</strong></div>
+      <div class="school-modal-detail"><small>Learning style</small><strong>Practical learning</strong></div>
+    </div>
+    <strong style="font-size:13px">What you may explore</strong>
+    <ul class="school-modal-list" id="schoolModalLearnings"></ul>
+    <div class="school-modal-actions">
+      <a class="school-btn school-btn-primary" id="schoolModalEnroll" href="{{ url_for('enroll') }}">Enquire / Apply ↗</a>
+      <button class="school-btn school-btn-outline" id="schoolModalDone" type="button">Keep Exploring</button>
+    </div>
+    <p style="font-size:10px;margin-bottom:0">Contact the academy to confirm the syllabus, schedule and batch availability.</p>
+  </div>
+</div>
+
+<div class="school-toast" id="schoolToast" role="status" aria-live="polite"></div>
+<button class="school-back-top" id="schoolBackTop" type="button" aria-label="Back to top">↑</button>
+
+<script>
+(() => {
+  "use strict";
+
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+
+  // Mobile navigation
+  const menuToggle = $("#schoolMenuToggle");
+  const navLinks = $("#schoolNavLinks");
+
+  menuToggle?.addEventListener("click", () => {
+    const opened = navLinks.classList.toggle("open");
+    menuToggle.setAttribute("aria-expanded", String(opened));
+    menuToggle.setAttribute("aria-label", opened ? "Close navigation" : "Open navigation");
+    menuToggle.textContent = opened ? "×" : "☰";
+  });
+
+  $$(".school-nav-links a").forEach(link => {
+    link.addEventListener("click", () => {
+      navLinks?.classList.remove("open");
+      menuToggle?.setAttribute("aria-expanded", "false");
+      if (menuToggle) {
+        menuToggle.textContent = "☰";
+        menuToggle.setAttribute("aria-label", "Open navigation");
+      }
+    });
+  });
+
+  // Typing animation
+  const typed = $("#schoolTyped");
+  const words = ["come alive.", "become projects.", "inspire the future.", "start with you."];
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if (typed && !reducedMotion) {
+    let wordIndex = 0;
+    let charIndex = words[0].length;
+    let deleting = true;
+
+    function typeNext() {
+      const current = words[wordIndex];
+
+      if (deleting) {
+        charIndex--;
+        typed.textContent = current.slice(0, Math.max(0, charIndex));
+      } else {
+        charIndex++;
+        typed.textContent = words[wordIndex].slice(0, charIndex);
+      }
+
+      let delay = deleting ? 42 : 72;
+
+      if (deleting && charIndex <= 0) {
+        deleting = false;
+        wordIndex = (wordIndex + 1) % words.length;
+        delay = 250;
+      } else if (!deleting && charIndex >= words[wordIndex].length) {
+        deleting = true;
+        delay = 1550;
+      }
+
+      window.setTimeout(typeNext, delay);
+    }
+
+    window.setTimeout(typeNext, 1700);
+  }
+
+  // Reveal elements as they enter the viewport
+  const revealItems = $$(".school-reveal");
+  if ("IntersectionObserver" in window && !reducedMotion) {
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -35px 0px" });
+
+    revealItems.forEach((item, index) => {
+      item.style.transitionDelay = `${Math.min(index % 4, 3) * 65}ms`;
+      observer.observe(item);
+    });
+  } else {
+    revealItems.forEach(item => item.classList.add("visible"));
+  }
+
+  // Course filters
+  const filterButtons = $$(".school-filter");
+  const courseCards = $$("[data-course-card]");
+  const courseCount = $("#schoolCourseCount");
+  const courseEmpty = $("#schoolCourseEmpty");
+
+  filterButtons.forEach(button => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.courseFilter;
+
+      filterButtons.forEach(item => {
+        const active = item === button;
+        item.classList.toggle("active", active);
+        item.setAttribute("aria-pressed", String(active));
+      });
+
+      let visible = 0;
+      courseCards.forEach(card => {
+        const categories = (card.dataset.category || "").split(/\s+/);
+        const show = filter === "all" || categories.includes(filter);
+        card.hidden = !show;
+        if (show) visible++;
+      });
+
+      if (courseCount) courseCount.textContent = `Showing ${visible} course${visible === 1 ? "" : "s"}`;
+      if (courseEmpty) courseEmpty.style.display = visible ? "none" : "block";
+    });
+  });
+
+  // Course detail modal
+  const modal = $("#schoolCourseModal");
+  const modalTitle = $("#schoolModalTitle");
+  const modalIcon = $("#schoolModalIcon");
+  const modalDescription = $("#schoolModalDescription");
+  const modalDuration = $("#schoolModalDuration");
+  const modalLearnings = $("#schoolModalLearnings");
+  const modalEnroll = $("#schoolModalEnroll");
+  const modalClose = $("#schoolModalClose");
+  const modalDone = $("#schoolModalDone");
+  let previousFocus = null;
+
+  function openCourseModal(card) {
+    previousFocus = document.activeElement;
+    const title = card.dataset.title || "School course";
+    modalTitle.textContent = title;
+    modalIcon.textContent = card.dataset.icon || "💻";
+    modalDescription.textContent = card.dataset.description || "";
+    modalDuration.textContent = card.dataset.duration || "Contact academy";
+
+    modalLearnings.replaceChildren();
+    (card.dataset.learnings || "").split("|").filter(Boolean).forEach(item => {
+      const li = document.createElement("li");
+      li.textContent = item;
+      modalLearnings.appendChild(li);
+    });
+
+    // Preserve the existing Flask enrollment flow; do not imply a booking is complete.
+    modalEnroll.href = "{{ url_for('enroll') }}" + "?track=" + encodeURIComponent(title);
+
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+    modalClose.focus();
+  }
+
+  function closeCourseModal() {
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
+    previousFocus?.focus();
+  }
+
+  $$(".school-course-explore").forEach(button => {
+    button.addEventListener("click", () => openCourseModal(button.closest("[data-course-card]")));
+  });
+
+  modalClose?.addEventListener("click", closeCourseModal);
+  modalDone?.addEventListener("click", closeCourseModal);
+
+  modal?.addEventListener("click", event => {
+    if (event.target === modal) closeCourseModal();
+  });
+
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape" && modal?.classList.contains("open")) closeCourseModal();
+  });
+
+  // Guided coding example
+  const runButton = $("#schoolRunCode");
+  const resetButton = $("#schoolResetCode");
+  const output = $("#schoolPlayOutput");
+  const initialOutput = "Output will appear here...";
+
+  runButton?.addEventListener("click", () => {
+    output.textContent = 'Hello, Future Coder\nMy coding journey starts today!';
+    runButton.textContent = "✓ Example Complete";
+  });
+
+  resetButton?.addEventListener("click", () => {
+    output.textContent = initialOutput;
+    if (runButton) runButton.textContent = "▶ Run Example";
+  });
+
+  // Newsletter: front-end validation only until a backend subscription endpoint is connected.
+  const newsletterForm = $("#schoolNewsletterForm");
+  const newsletterEmail = $("#schoolNewsletterEmail");
+  const toast = $("#schoolToast");
+  let toastTimer;
+
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("show");
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(() => toast.classList.remove("show"), 3500);
+  }
+
+  newsletterForm?.addEventListener("submit", event => {
+    event.preventDefault();
+    if (!newsletterEmail.checkValidity()) {
+      newsletterEmail.reportValidity();
+      return;
+    }
+    showToast("Thanks! Newsletter signup needs to be connected to the academy's mailing service.");
+    newsletterForm.reset();
+  });
+
+  // Back to top
+  const backTop = $("#schoolBackTop");
+  window.addEventListener("scroll", () => {
+    backTop?.classList.toggle("visible", window.scrollY > 500);
+  }, { passive: true });
+
+  backTop?.addEventListener("click", () => {
+    window.scrollTo({ top: 0, behavior: reducedMotion ? "auto" : "smooth" });
+  });
+
+  // Smooth scrolling for this page's anchors
+  $$('a[href^="#"]').forEach(link => {
+    link.addEventListener("click", event => {
+      const targetId = link.getAttribute("href");
+      if (!targetId || targetId === "#") return;
+      const target = $(targetId);
+      if (!target) return;
+      event.preventDefault();
+      target.scrollIntoView({ behavior: reducedMotion ? "auto" : "smooth", block: "start" });
+    });
+  });
+})();
+</script>
+
+</body>
+</html>
