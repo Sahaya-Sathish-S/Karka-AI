@@ -6,12 +6,11 @@ import os
 import json
 import time
 import hashlib
+import logging
 import urllib.request
 import urllib.error
 from collections import OrderedDict, defaultdict, deque
 from flask import send_from_directory, abort
-def notify(*args, **kwargs):
-    return None
 
 # Load a local .env file (if present) without needing python-dotenv.
 _env_file = Path(__file__).resolve().parent / ".env"
@@ -21,13 +20,55 @@ if _env_file.exists():
         if _line and not _line.startswith("#") and "=" in _line:
             _k, _v = _line.split("=", 1)
             os.environ.setdefault(_k.strip(), _v.strip().strip('"').strip("'"))
-os.environ["GOOGLE_SCRIPT_URL"] = "https://script.google.com/macros/s/AKfycbxJZk-1oSM_yNzBaGAZFtwBbL43_7Drpm7JAr1chFecG0cazOrttNgp-U5cDUDUC0ngvg/exec"
-os.environ["GOOGLE_SCRIPT_SECRET"] = "CHANGE_ME_TO_A_LONG_RANDOM_STRING"
 app = Flask(__name__, static_folder=None)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY", "replace-this-with-a-long-random-secret-key")
 BASE_DIR = Path(__file__).resolve().parent
 DB_PATH = BASE_DIR / "instance" / "karka_ai.db"
 DB_PATH.parent.mkdir(exist_ok=True)
+
+# ---------------------------------------------------------------------------
+# REGISTRATION NOTIFICATIONS  (Google Sheet + email to sahayasathish60@gmail.com)
+# Every successful registration is first saved in SQLite, then notify() sends
+# it to the Google Apps Script web app, which (1) appends a row to the Google
+# Sheet and (2) emails sahayasathish60@gmail.com.
+# Override with environment variables on Render / in .env:
+#   GOOGLE_SCRIPT_URL, GOOGLE_SCRIPT_SECRET (must equal SECRET in Code.gs)
+# A failure here is logged but never breaks the visitor's registration.
+# ---------------------------------------------------------------------------
+logging.basicConfig(level=logging.INFO)
+log = logging.getLogger("karka")
+GOOGLE_SCRIPT_URL_DEFAULT = "https://script.google.com/macros/s/AKfycbxJZk-1oSM_yNzBaGAZFtwBbL43_7Drpm7JAr1chFecG0cazOrttNgp-U5cDUDUC0ngvg/exec"
+GOOGLE_SCRIPT_SECRET_DEFAULT = "CHANGE_ME_TO_A_LONG_RANDOM_STRING"
+
+def notify(kind, **data):
+    """Send a registration (kind = enrollment | career_call | callback) to Google Sheet + email.
+    Returns True on success, False otherwise. Never raises."""
+    url = os.getenv("GOOGLE_SCRIPT_URL", GOOGLE_SCRIPT_URL_DEFAULT).strip()
+    secret = os.getenv("GOOGLE_SCRIPT_SECRET", GOOGLE_SCRIPT_SECRET_DEFAULT).strip()
+    if not url:
+        log.warning("notify(%s): GOOGLE_SCRIPT_URL is not set; skipped.", kind)
+        return False
+    body = json.dumps({"secret": secret, "type": kind, "data": data}).encode("utf-8")
+    last_error = ""
+    for attempt in (1, 2):
+        try:
+            req = urllib.request.Request(
+                url, data=body, method="POST",
+                headers={"Content-Type": "application/json"},
+            )
+            # Apps Script answers a POST with a 302 redirect; urllib follows it.
+            with urllib.request.urlopen(req, timeout=20) as resp:
+                raw = resp.read().decode("utf-8", "replace")
+            result = json.loads(raw)
+            if result.get("ok"):
+                log.info("notify(%s): sheet=%s email=%s", kind, result.get("sheet"), result.get("email"))
+                return True
+            last_error = str(result.get("error") or raw)[:300]
+        except Exception as exc:
+            last_error = str(exc)[:300]
+        time.sleep(1)
+    log.error("notify(%s) failed: %s", kind, last_error)
+    return False
 
 # ---------------------------------------------------------------------------
 # KARKA AI LOCATION
